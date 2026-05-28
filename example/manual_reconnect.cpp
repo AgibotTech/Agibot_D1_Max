@@ -1,11 +1,12 @@
 /**
  * @file manual_reconnect.cpp
- * @brief Robot SDK 手动重连示例
+ * @brief Robot SDK Manual Reconnection Example
  *
- * 本示例展示如何在用户层实现手动重连机制：
- * - 异步命令发送，错误通过回调处理
- * - 独立重连线程，确保主控制循环不阻塞
- * - 优雅的线程退出与资源清理
+ * This example demonstrates how to implement manual reconnection mechanism at
+ * application layer:
+ * - Asynchronous command sending, errors handled through callbacks
+ * - Independent reconnection thread, ensuring main control loop is not blocked
+ * - Graceful thread exit and resource cleanup
  */
 
 #include <atomic>
@@ -22,17 +23,17 @@
 
 using namespace robot_sdk;
 
-// 全局标志，用于优雅退出
+// Global flags for graceful shutdown
 static std::atomic<bool> g_running{true};
 
-// 信号处理函数
+// Signal handler function
 void SignalHandler(int signal) {
   std::cout << "\n[INFO] Received signal " << signal << ", shutting down..."
             << std::endl;
   g_running = false;
 }
 
-// 状态字符串映射
+// Connection state string mappings
 static const std::unordered_map<ConnectionState, const char*> g_state_map = {
     {ConnectionState::DISCONNECTED, "DISCONNECTED"},
     {ConnectionState::CONNECTING, "CONNECTING"},
@@ -46,11 +47,11 @@ static const char* GetStateString(ConnectionState state) {
   return (it != g_state_map.end()) ? it->second : "UNKNOWN";
 }
 
-// 数据回调类
+// Data callback class
 class UserDataCallback : public IDataCallback {
  public:
   void OnRobotStateData(const RobotState& data) override {
-    // 可根据需要处理机器人状态数据
+    // Handle robot state data as needed
   }
 
   void OnFaultData(const FaultDatas& data) override {
@@ -65,7 +66,7 @@ class UserDataCallback : public IDataCallback {
   }
 };
 
-// 手动重连管理器
+// Manual reconnection manager
 class ManualReconnectManager {
  public:
   ManualReconnectManager(SDKClient& client, const std::string& ip,
@@ -95,7 +96,7 @@ class ManualReconnectManager {
  private:
   void ReconnectLoop() {
     while (running_) {
-      // 等待重连触发
+      // Wait for reconnection trigger
       {
         std::unique_lock<std::mutex> lock(reconnect_mtx_);
         reconnect_cv_.wait(lock);
@@ -106,10 +107,10 @@ class ManualReconnectManager {
       std::cout << "\n[RECONNECT] Starting reconnection process..."
                 << std::endl;
 
-      // 1. 先断开当前连接
+      // 1. First disconnect the current connection
       client_.Disconnect(true);
 
-      // 2. 循环尝试重连
+      // 2. Loop to retry reconnection
       int retry_count = 0;
       while (running_) {
         retry_count++;
@@ -124,10 +125,10 @@ class ManualReconnectManager {
 
         std::cerr << "[RECONNECT] × Failed: " << ec.message() << std::endl;
 
-        // 重连失败，清理连接状态
+        // Reconnection failed, clean up connection state
         client_.Disconnect(true);
 
-        // 等待后重试
+        // Wait before retrying
         std::this_thread::sleep_for(std::chrono::seconds(2));
       }
     }
@@ -143,11 +144,11 @@ class ManualReconnectManager {
 };
 
 int main(int argc, char* argv[]) {
-  // 安装信号处理器
+  // Install signal handlers
   std::signal(SIGINT, SignalHandler);
   std::signal(SIGTERM, SignalHandler);
 
-  // 解析命令行参数
+  // Parse command line arguments
   if (argc < 3) {
     std::cerr << "Usage: " << argv[0] << " <ip> <port>" << std::endl;
     std::cerr << "Example: " << argv[0] << " 192.168.1.100 8001" << std::endl;
@@ -164,19 +165,19 @@ int main(int argc, char* argv[]) {
   std::cout << "Press Ctrl+C to exit" << std::endl;
   std::cout << "========================================\n" << std::endl;
 
-  // 初始化SDK客户端
+  // Initialize SDK client
   SDKClient sdk_client;
 
   auto data_callback = std::make_shared<UserDataCallback>();
   sdk_client.SetDataCallback(data_callback);
 
-  // 初始化手动重连管理器
+  // Initialize manual reconnection manager
   ManualReconnectManager reconnect_mgr(sdk_client, ip, port);
 
-  // 启动重连管理器
+  // Start reconnection manager
   reconnect_mgr.Start();
 
-  // 执行初始连接
+  // Execute initial connection
   std::cout << "[INIT] Connecting to robot..." << std::endl;
   auto ec = sdk_client.Connect(ip, port, true);
   if (ec) {
@@ -187,22 +188,22 @@ int main(int argc, char* argv[]) {
     std::cout << "[INIT] ✓ Connected successfully\n" << std::endl;
   }
 
-  // 监控连接状态变化
+  // Monitor connection state changes
   ConnectionState last_state = sdk_client.GetConnectionState();
   std::cout << "[STATE] Initial state: " << GetStateString(last_state)
             << std::endl;
 
-  // 主循环
+  // Main loop
   while (g_running) {
     if (sdk_client.GetConnectionState() == ConnectionState::CONNECTED) {
-      // 同步方式 发送测试命令
+      // Synchronous mode: send test commands
       // if (auto ec = sdk_client.Move(0.0, 0.0, 0.0, 1000)) {
       //   std::cerr << "[ERROR] Move command failed, " << ec.message()
       //             << std::endl;
       //   reconnect_mgr.TriggerReconnect();
       // }
 
-      // 异步方式 发送测试命令
+      // Asynchronous mode: send test commands
       sdk_client.Move(0.0, 0.0, 0.0, 0,
                       [&reconnect_mgr](const std::error_code& ec, std::size_t) {
                         if (ec) {
@@ -213,7 +214,7 @@ int main(int argc, char* argv[]) {
                       });
     }
 
-    // 当状态变化时打印一下
+    // Print when state changes
     ConnectionState current_state = sdk_client.GetConnectionState();
     if (current_state != last_state) {
       std::cout << "[STATE] Connection state changed: "
@@ -221,11 +222,11 @@ int main(int argc, char* argv[]) {
                 << GetStateString(current_state) << std::endl;
       last_state = current_state;
     }
-    // 每10ms检查一次状态
+    // Check state every 10ms
     std::this_thread::sleep_for(std::chrono::milliseconds(10));
   }
 
-  // 清理退出
+  // Clean up and exit
   std::cout << "\n[SHUTDOWN] Cleaning up..." << std::endl;
   reconnect_mgr.Stop();
   sdk_client.Disconnect(true);

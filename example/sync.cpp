@@ -1,11 +1,12 @@
 /**
  * @file sync.cpp
- * @brief Robot SDK 同步模式示例
+ * @brief Robot SDK Synchronous Mode Example
  *
- * 本示例展示如何使用同步模式与机器人进行通信，包括：
- * - 连接管理（同步连接/断开）
- * - 姿态控制（站立、趴下、爬行等）
- * - 灯光控制
+ * This example demonstrates how to communicate with the robot using synchronous
+ * mode, including:
+ * - Connection management (synchronous connect/disconnect)
+ * - Posture control (stand up, lie down, crawl, etc.)
+ * - Light control
  */
 
 #include <chrono>
@@ -18,17 +19,17 @@
 
 using namespace robot_sdk;
 
-// 全局标志，用于优雅退出
+// Global flags for graceful shutdown
 static volatile bool g_running = true;
 
-// 信号处理函数
+// Signal handler function
 void SignalHandler(int signal) {
   std::cout << "\n[INFO] Received signal " << signal << ", shutting down..."
             << std::endl;
   g_running = false;
 }
 
-// 状态字符串映射
+// Connection state string mapping
 static const char* GetStateString(ConnectionState state) {
   switch (state) {
     case ConnectionState::DISCONNECTED:
@@ -48,7 +49,7 @@ static const char* GetStateString(ConnectionState state) {
   }
 }
 
-// 数据回调类 - 接收机器人传感器数据
+// Data callback class - receive robot sensor data
 class DataCallback : public IDataCallback {
  public:
   void OnRobotStateData(const RobotState& data) override {}
@@ -65,7 +66,7 @@ class DataCallback : public IDataCallback {
   }
 };
 
-// 控制回调类 - 接收控制命令的确认
+// Control callback class - receive control command confirmations
 class ControlCallback : public IControlCallback {
  public:
   void OnStandUp() override {
@@ -89,7 +90,7 @@ class ControlCallback : public IControlCallback {
   }
 };
 
-// 错误处理函数
+// Error handling function
 bool HandleError(const std::error_code& ec, const char* operation) {
   if (ec) {
     std::cerr << "[ERROR] " << operation << " failed: " << ec.message()
@@ -99,7 +100,7 @@ bool HandleError(const std::error_code& ec, const char* operation) {
   return true;
 }
 
-// 等待连接就绪
+// Wait for connection to be ready
 bool WaitForConnection(SDKClient& client, int timeout_sec = 10) {
   std::cout << "[INFO] Waiting for connection..." << std::endl;
   auto start = std::chrono::steady_clock::now();
@@ -118,7 +119,7 @@ bool WaitForConnection(SDKClient& client, int timeout_sec = 10) {
   return false;
 }
 
-// 演示姿态控制
+// Demonstrate posture control
 void DemoPoseControl(SDKClient& client) {
   std::cout << "\n=== Pose Control Demo ===" << std::endl;
 
@@ -135,7 +136,7 @@ void DemoPoseControl(SDKClient& client) {
   std::this_thread::sleep_for(std::chrono::seconds(1));
 }
 
-// 演示灯光控制
+// Demonstrate light control
 void DemoLightControl(SDKClient& client) {
   std::cout << "\n=== Light Control Demo ===" << std::endl;
 
@@ -156,7 +157,7 @@ void DemoLightControl(SDKClient& client) {
 }
 
 int main(int argc, char* argv[]) {
-  // 参数检查
+  // Parameter validation
   if (argc < 3) {
     std::cerr << "Usage: " << argv[0] << " <ip> <port>" << std::endl;
     std::cerr << "  Example: " << argv[0] << " 192.168.234.1 8081" << std::endl;
@@ -166,7 +167,7 @@ int main(int argc, char* argv[]) {
   std::string ip = argv[1];
   std::string port = argv[2];
 
-  // 注册信号处理
+  // Register signal handlers
   std::signal(SIGINT, SignalHandler);
   std::signal(SIGTERM, SignalHandler);
 
@@ -178,18 +179,18 @@ int main(int argc, char* argv[]) {
   std::cout << "========================================\n" << std::endl;
 
   try {
-    // 1. 创建 SDK 客户端
+    // 1. Create SDK client
     SDKClient client;
 
-    // 2. 设置回调
+    // 2. Set callbacks
     auto data_cb = std::make_shared<DataCallback>();
     auto ctrl_cb = std::make_shared<ControlCallback>();
     client.SetDataCallback(data_cb);
     client.SetControlCallback(ctrl_cb);
 
-    // 3. 同步连接
+    // 3. Synchronous connection
     std::cout << "[INFO] Connecting to robot..." << std::endl;
-    auto ec = client.Connect(ip, port, true);  // block = true，同步等待
+    auto ec = client.Connect(ip, port, true);  // block = true, synchronous wait
     if (!HandleError(ec, "Connect")) {
       return EXIT_FAILURE;
     }
@@ -197,13 +198,13 @@ int main(int argc, char* argv[]) {
     std::cout << "[INFO] Connection state: "
               << GetStateString(client.GetConnectionState()) << std::endl;
 
-    // 4. 等待连接完全建立（握手完成）
+    // 4. Wait for connection fully established (handshake complete)
     if (!WaitForConnection(client, 10)) {
       client.Disconnect(true);
       return EXIT_FAILURE;
     }
 
-    // 5. 执行控制演示
+    // 5. Execute control demonstrations
     // if (g_running) DemoPoseControl(client);
     if (g_running) DemoLightControl(client);
 
@@ -213,7 +214,7 @@ int main(int argc, char* argv[]) {
       std::this_thread::sleep_for(std::chrono::seconds(1));
     }
 
-    // 7. 优雅退出
+    // 7. Graceful shutdown
     std::cout << "\n[INFO] Disconnecting..." << std::endl;
     ec = client.Disconnect(true);
     HandleError(ec, "Disconnect");

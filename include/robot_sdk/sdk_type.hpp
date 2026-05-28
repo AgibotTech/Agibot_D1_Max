@@ -8,25 +8,25 @@ namespace robot_sdk {
 enum class TransportProtocol { WebSocket, Udp };
 
 enum class FaultCode {
-  Unknown,                      // 异常未知
-  ActuatorDisabled = 10,        // 执行器失能
-  ActuatorEncoderError,         // 执行器编码器错误
-  ActuatorOffline,              // 执行器掉线
-  ActuatorOverVoltage,          // 执行器过压
-  ActuatorOverheat,             // 执行器过温
-  ActuatorTempWarn,             // 执行器过温预警
-  ActuatorTimeout,              // 执行器控制超时
-  ActuatorUndervolt,            // 执行器欠压
-  PowerControlOverTemp,         // 单电池过温预警
-  PowerControlPowerEmpty,       // 单电池电量低于10%
-  PowerControlPowerLow,         // 单电池电量低于20%，高于10%
-  PowerControlOffline,          // 电源控制板MCU连接失败
-  CANBroken,                    // CAN通信异常
-  RobotRemoteKeepAliveFailure,  // 遥控器断链
-  SystemClockSanityError,       // 系统时间跳变
-  SystemRobotStatusError,       // 机器人状态异常
-  IMUConnectError,              // IMU连接异常
-  IMUDataNotUpdated,            // IMU数据不更新
+  Unknown,                      // Unknown fault
+  ActuatorDisabled = 10,        // Actuator disabled
+  ActuatorEncoderError,         // Actuator encoder error
+  ActuatorOffline,              // Actuator offline
+  ActuatorOverVoltage,          // Actuator overvoltage
+  ActuatorOverheat,             // Actuator overheating
+  ActuatorTempWarn,             // Actuator temperature warning
+  ActuatorTimeout,              // Actuator control timeout
+  ActuatorUndervolt,            // Actuator undervoltage
+  PowerControlOverTemp,         // Battery overheat warning
+  PowerControlPowerEmpty,       // Battery below 10% capacity
+  PowerControlPowerLow,         // Battery below 20%, above 10%
+  PowerControlOffline,          // Power control board MCU connection failed
+  CANBroken,                    // CAN communication error
+  RobotRemoteKeepAliveFailure,  // Remote control disconnected
+  SystemClockSanityError,       // System time jump detected
+  SystemRobotStatusError,       // Robot status abnormal
+  IMUConnectError,              // IMU connection error
+  IMUDataNotUpdated,            // IMU data not updating
 };
 
 enum class FaultLevel {
@@ -36,148 +36,148 @@ enum class FaultLevel {
   Warn,
 };
 
-/// @brief 故障数据
+/// @brief Fault data structure.
 struct FaultData {
-  /// @brief 故障码
+  /// @brief Fault code.
   FaultCode code;
-  /// @brief 等级
+  /// @brief Fault level.
   FaultLevel level;
-  /// @brief 故障信息
+  /// @brief Fault message.
   std::string message;
 };
 using FaultDatas = std::vector<FaultData>;
 
-/// @brief IMU数据
+/// @brief IMU data structure.
 struct ImuData {
-  /// @brief 加速度计
+  /// @brief Accelerometer: x, y, z axes.
   float acc_x, acc_y, acc_z;
-  /// @brief 陀螺仪
+  /// @brief Gyroscope: x, y, z axes.
   float gyro_x, gyro_y, gyro_z;
-  /// @brief 四元数
+  /// @brief Quaternion: x, y, z, w components.
   float quat_x, quat_y, quat_z, quat_w;
 };
 
 enum class PowerSupplyStatus {
-  /// @brief 电源状态未知
+  /// @brief Power supply status unknown.
   UNKNOWN = 0,
-  /// @brief 正在充电
+  /// @brief Charging.
   CHARGING = 1,
-  /// @brief 放电中
+  /// @brief Discharging.
   DISCHARGING = 2,
-  /// @brief 已满电
+  /// @brief Fully charged.
   FULL = 4,
 };
 
 struct BatteryData {
-  /// @brief 电池1 电量
+  /// @brief Battery 1 charge capacity.
   float power1;
-  /// @brief 电池2 电量
+  /// @brief Battery 2 charge capacity.
   float power2;
-  /// @brief 电池1 是否存在
+  /// @brief Battery 1 present.
   bool present1;
-  /// @brief 电池2 是否存在
+  /// @brief Battery 2 present.
   bool present2;
-  /// @brief 电池1 电压(V)
+  /// @brief Battery 1 voltage (V).
   float voltage1;
-  /// @brief 电池2 电压(V)
+  /// @brief Battery 2 voltage (V).
   float voltage2;
-  /// @brief 电池1 温度
+  /// @brief Battery 1 temperature.
   float temperature1;
-  /// @brief 电池2 温度
+  /// @brief Battery 2 temperature.
   float temperature2;
-  /// @brief 电池1 电流(A)
+  /// @brief Battery 1 current (A).
   float current1;
-  /// @brief 电池2 电流(A)
+  /// @brief Battery 2 current (A).
   float current2;
-  /// @brief 电池1 电源状态
+  /// @brief Battery 1 power supply status.
   PowerSupplyStatus power_supply_status1;
-  /// @brief 电池2 电源状态
+  /// @brief Battery 2 power supply status.
   PowerSupplyStatus power_supply_status2;
 };
 
-/// @brief 光强数据
+/// @brief Light intensity (illuminance) data.
 struct LuxData {
-  /// @brief 光强值
+  /// @brief Light intensity value (lux).
   float lux;
 };
 
-/// @brief 补光灯状态
+/// @brief Fill light status.
 enum class FillLightStatus {
-  /// @brief 异常未知
+  /// @brief Unknown status.
   FILL_LIGHT_STATUS_UNKNOWN = 0,
-  /// @brief 补光灯打开
+  /// @brief Fill light on.
   FILL_LIGHT_STATUS_ON,
-  /// @brief 补光灯关闭
+  /// @brief Fill light off.
   FILL_LIGHT_STATUS_OFF,
 };
 
-/// @brief 速度等级
+/// @brief Speed level.
 enum class SpeedLevel {
-  /// @brief 异常未知
+  /// @brief Unknown speed level.
   SPEED_LEVEL_UNKNOWN = 0,
-  /// @brief 慢速
+  /// @brief Low speed.
   SPEED_LEVEL_SLOW,
-  /// @brief 中速
+  /// @brief Medium speed.
   SPEED_LEVEL_MEDIUM,
-  /// @brief 高速
+  /// @brief High speed.
   SPEED_LEVEL_HIGH,
 };
 
-/// @brief 急停状态
+/// @brief Emergency stop status.
 enum class EmergencyStatus {
-  /// @brief 异常未知
+  /// @brief Unknown status.
   EMERGENCY_STATUS_UNKNOWN = 0,
-  /// @brief 急停解除
+  /// @brief Emergency stop released.
   EMERGENCY_STATUS_RECOVER,
-  /// @brief 急停触发
+  /// @brief Emergency stop activated.
   EMERGENCY_STATUS_STOP,
 };
 
-/// @brief 狗头方向
+/// @brief Robot head direction.
 enum class HeadDirection {
-  /// @brief 异常未知
+  /// @brief Unknown direction.
   HEAD_DIRECTION_UNKNOWN = 0,
-  /// @brief 狗头方向为头
+  /// @brief Head is at the head position.
   HEAD_DIRECTION_HEAD,
-  /// @brief 狗尾方向为头
+  /// @brief Tail is at the head position.
   HEAD_DIRECTION_TAIL,
 };
 
-/// @brief 运动模式
+/// @brief Motion mode.
 enum class SportMode {
-  /// @brief 异常未知
+  /// @brief Unknown mode.
   SPORT_MODE_UNKNOWN = 0,
-  /// @brief 通用模式
+  /// @brief General mode.
   SPORT_MODE_GENERAL,
-  /// @brief 原地模式
+  /// @brief In-place mode.
   SPORT_MODE_IN_PLACE,
-  /// @brief 登阶模式
+  /// @brief Stair-climbing mode.
   SPORT_MODE_STAIR,
 };
 
-/// @brief 运动状态
+/// @brief Motion state.
 enum class MotionStatus {
-  /// @brief 异常未知
+  /// @brief Unknown state.
   MOTION_STATUS_UNKNOWN = 0,
-  /// @brief 站立
+  /// @brief Standing.
   MOTION_STATUS_STAND_UP,
-  /// @brief 卧倒
+  /// @brief Lying down.
   MOTION_STATUS_LIE_DOWN,
-  /// @brief 匍匐
+  /// @brief Crawling.
   MOTION_STATUS_CRAWL,
-  /// @brief 锁定
+  /// @brief Locked.
   MOTION_STATUS_LOCKED,
-  /// @brief 通用状态
+  /// @brief General mode state.
   MOTION_STATUS_GENERAL,
-  /// @brief 原地状态
+  /// @brief In-place mode state.
   MOTION_STATUS_IN_PLACE,
-  /// @brief 登阶状态
+  /// @brief Stair-climbing mode state.
   MOTION_STATUS_STAIR,
-  /// @brief 爬高台状态
+  /// @brief Climbing high platform state.
   MOTION_STATUS_CLIMB,
-  /// @brief 瘦身状态
+  /// @brief Slim (body compress) state.
   MOTION_STATUS_SLIM,
-  /// @brief 步态状态
+  /// @brief Gait state.
   MOTION_STATUS_GAIT,
 };
 
@@ -188,135 +188,135 @@ enum class CtrlSource {
   CTRL_SOURCE_OTHER = 3,
 };
 
-/// @brief 速度信息
+/// @brief Velocity information.
 struct Speed {
-  /// @brief 前进/后退速度
+  /// @brief Forward/backward velocity.
   double line;
-  /// @brief 左右平移速度
+  /// @brief Left/right lateral velocity.
   double translation;
-  /// @brief 转向速度
+  /// @brief Rotation velocity (angular velocity).
   double angle;
 };
 
-/// @brief 电机温度数据
+/// @brief Motor temperature data.
 struct MotorTemp {
-  /// @brief 左前腿1号关节电机温度
+  /// @brief Left front leg joint 1 motor temperature.
   float fl1;
 
-  /// @brief 左前腿2号关节电机温度
+  /// @brief Left front leg joint 2 motor temperature.
   float fl2;
 
-  /// @brief 左前腿3号关节电机温度
+  /// @brief Left front leg joint 3 motor temperature.
   float fl3;
 
-  /// @brief 左前腿4号关节电机温度
+  /// @brief Left front leg joint 4 motor temperature.
   float fl4;
 
-  /// @brief 右前腿1号关节电机温度
+  /// @brief Right front leg joint 1 motor temperature.
   float fr1;
 
-  /// @brief 右前腿2号关节电机温度
+  /// @brief Right front leg joint 2 motor temperature.
   float fr2;
 
-  /// @brief 右前腿3号关节电机温度
+  /// @brief Right front leg joint 3 motor temperature.
   float fr3;
 
-  /// @brief 右前腿4号关节电机温度
+  /// @brief Right front leg joint 4 motor temperature.
   float fr4;
 
-  /// @brief 左后腿1号关节电机温度
+  /// @brief Left rear leg joint 1 motor temperature.
   float bl1;
 
-  /// @brief 左后腿2号关节电机温度
+  /// @brief Left rear leg joint 2 motor temperature.
   float bl2;
 
-  /// @brief 左后腿3号关节电机温度
+  /// @brief Left rear leg joint 3 motor temperature.
   float bl3;
 
-  /// @brief 左后腿4号关节电机温度
+  /// @brief Left rear leg joint 4 motor temperature.
   float bl4;
 
-  /// @brief 右后腿1号关节电机温度
+  /// @brief Right rear leg joint 1 motor temperature.
   float br1;
 
-  /// @brief 右后腿2号关节电机温度
+  /// @brief Right rear leg joint 2 motor temperature.
   float br2;
 
-  /// @brief 右后腿3号关节电机温度
+  /// @brief Right rear leg joint 3 motor temperature.
   float br3;
 
-  /// @brief 右后腿4号关节电机温度
+  /// @brief Right rear leg joint 4 motor temperature.
   float br4;
 };
 
-/// @brief 机器人状态信息
+/// @brief Robot state information.
 struct RobotState {
-  /// @brief 角度
+  /// @brief Head angle.
   double head_angle;
 
-  /// @brief 前补光灯
+  /// @brief Front fill light status.
   FillLightStatus front_fill_light;
 
-  /// @brief 后补光灯
+  /// @brief Back fill light status.
   FillLightStatus back_fill_light;
 
-  /// @brief 是否自动模式灯光
+  /// @brief Auto mode light enabled.
   bool auto_mode_light;
 
-  /// @brief 当前速度等级
+  /// @brief Current speed level.
   SpeedLevel speed_level;
 
-  /// @brief 是否发生软急停
+  /// @brief Software emergency stop status.
   EmergencyStatus software_emergency_status;
 
-  /// @brief 是否发生硬急停
+  /// @brief Hardware emergency stop status.
   EmergencyStatus hardware_emergency_status;
 
-  /// @brief 当前头方向
+  /// @brief Current head direction.
   HeadDirection head_direction;
 
-  /// @brief 运动状态
+  /// @brief Motion state.
   MotionStatus motion_status;
 
-  /// @brief 电池电量
+  /// @brief Battery data.
   BatteryData battery;
 
-  /// @brief 当前速度
+  /// @brief Current velocity.
   Speed speed;
 
-  /// @brief 里程累积数据
+  /// @brief Cumulative mileage data.
   float mile_data;
 
-  /// @brief 电机温度
+  /// @brief Motor temperature.
   MotorTemp motor_temp;
 
-  /// @brief 运动模式
+  /// @brief Motion mode.
   SportMode sport_mode;
 
-  /// @brief 控制来源
+  /// @brief Control source.
   CtrlSource control_source;
 };
 
-/// @brief 运动控制数据信息
+/// @brief Motion control data information.
 struct MotionData {
-  /// ---运动状态信息---
+  /// ---Motion state information---
 
-  /// @brief 四元数 [w, x, y, z]
+  /// @brief Quaternion [w, x, y, z].
   float quat[4];
 
-  /// @brief 世界坐标系下速度 [x, y, z] (m/s)
+  /// @brief Velocity in world coordinate system [x, y, z] (m/s).
   float v_world[3];
 
-  /// @brief 世界坐标系下位置 [x, y, z] (m)
+  /// @brief Position in world coordinate system [x, y, z] (m).
   float position[3];
 
-  /// @brief 世界坐标系角速度 [x, y, z] (rad/s)
+  /// @brief Angular velocity in world coordinate system [x, y, z] (rad/s).
   float omega_world[3];
 
-  /// @brief 自身坐标系下速度 [x, y, z] (m/s)
+  /// @brief Velocity in body coordinate system [x, y, z] (m/s).
   float v_body[3];
 
-  /// @brief 自身坐标系下角速度速度 [x, y, z] (rad/s)
+  /// @brief Angular velocity in body coordinate system [x, y, z] (rad/s).
   float omega_body[3];
 };
 
@@ -324,20 +324,38 @@ struct ControlLostInfo {};
 
 struct ControlAvailableInfo {};
 
-/// @brief 控制命令确认信息
+/// @brief Take control command acknowledgment information.
 struct TakeControlAck {
-  /// @brief 是否成功 0:成功，非0：失败
+  /// @brief Success status: 0 = success, non-zero = failure.
   uint32_t error_code;
-  /// @brief 失败原因描述
+  /// @brief Failure reason description.
   std::string reason;
 };
 
-/// @brief 释放控制命令确认信息
+/// @brief Release control command acknowledgment information.
 struct ReleaseControlAck {
-  /// @brief 是否成功 0:成功，非0：失败
+  /// @brief Success status: 0 = success, non-zero = failure.
   uint32_t error_code;
-  /// @brief 失败原因描述
+  /// @brief Failure reason description.
   std::string reason;
+};
+
+/// @brief Camera bitrate configuration command.
+struct CameraBitrateCmd {
+  /// @brief Camera name: "camera_front" for front camera, "camera_back" for
+  /// back camera.
+  std::string camera_name;
+  /// @brief Camera bitrate in bps (bit/s). Range: 50000-100000000.
+  uint32_t camera_bps;
+};
+
+/// @brief Camera bitrate configuration acknowledgment information.
+struct CameraBitrateAck {
+  /// @brief Camera name: "camera_front" for front camera, "camera_back" for
+  /// back camera.
+  std::string camera_name;
+  /// @brief Camera bitrate in bps (bit/s). Range: 50000-100000000.
+  uint32_t camera_bps;
 };
 
 }  // namespace robot_sdk

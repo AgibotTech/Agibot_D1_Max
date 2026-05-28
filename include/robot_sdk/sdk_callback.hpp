@@ -4,112 +4,127 @@
 #include "robot_sdk/sdk_type.hpp"
 namespace robot_sdk {
 
-/// @brief 用户层根据需要来进行实现
-/// 回调函数必须轻量级，不能执行耗时操作。
-/// --在回调函数中，只应该做数据复制、数据校验等快速操作。
-/// --如果需要进行数据库写入、文件I/O、复杂计算、网络发送等耗时操作，用户需要在回调函数内部将数据复制到另一个线程（例如，用户自己的工作线程池）中去处理。
+/// @brief User implementation is required as needed.
+/// Callback functions must be lightweight and cannot perform time-consuming
+/// operations.
+/// --Within the callback function, only quick operations such as data copying
+/// and data validation should be performed.
+/// --For time-consuming operations such as database writes, file I/O, complex
+/// calculations, and network transmission, users need to copy the data to
+/// another thread (e.g., user's own thread pool) within the callback function
+/// for processing.
 class ROBOT_EXPORT_API IDataCallback {
  public:
-  /// @brief IMU数据回调（配置后定频上报）
-  /// @param data
+  /// @brief IMU data callback (reported at fixed frequency after
+  /// configuration).
+  /// @param data IMU data.
   virtual void OnImuData(const ImuData& data) {}
 
-  /// @brief Lux数据回调（配置后定频1Hz上报）
-  /// @param data
+  /// @brief Lux (illuminance) data callback (reported at fixed 1Hz frequency
+  /// after configuration).
+  /// @param data Lux data.
   virtual void OnLuxData(const LuxData& data) {}
 
-  /// @brief 运动数据回调（配置后定频50Hz上报）
-  /// @param data
+  /// @brief Motion control data callback (reported at fixed 50Hz frequency
+  /// after configuration).
+  /// @param data Motion data.
   virtual void OnMcData(const MotionData& data) {}
 
-  /// @brief 机器状态数据回调（1Hz主动上报）
-  /// @param data
+  /// @brief Robot state data callback (actively reported at 1Hz frequency).
+  /// @param data Robot state data.
   virtual void OnRobotStateData(const RobotState& data) {}
 
-  /// @brief 故障信息数据回调（发生故障时主动上报）
-  /// @param data
+  /// @brief Fault information data callback (actively reported when a fault
+  /// occurs).
+  /// @param data Fault data.
   virtual void OnFaultData(const FaultDatas& data) {}
 
-  /// @brief 控制权丢失回调
+  /// @brief Control ownership lost callback.
   virtual void OnControlLost(const ControlLostInfo& info) {}
 
-  /// @brief 控制权可用回调
+  /// @brief Control ownership available callback.
   virtual void OnControlAvailable(const ControlAvailableInfo& info) {}
 
   virtual ~IDataCallback() = default;
 };
 
-/// @brief 用户层根据需要来进行实现
-///        非阻塞模式下使用：表示Robot已收到控制命令
+/// @brief User implementation is required as needed.
+///        Used in non-blocking mode: indicates that the Robot has received the
+///        control command.
 class ROBOT_EXPORT_API IControlCallback {
  public:
-  /// @brief 收到急停命令Ack
-  /// @param on true:下发的是开启急停; false:下发的是关闭急停
+  /// @brief Acknowledgment for soft emergency stop command received.
+  /// @param on true: emergency stop was activated; false: emergency stop was
+  /// deactivated.
   virtual void OnSoftEmergencyStop(bool on) {}
 
-  /// @brief 收到站立命令Ack
+  /// @brief Acknowledgment for stand up command received.
   virtual void OnStandUp() {}
 
-  /// @brief 收到卧倒命令Ack
+  /// @brief Acknowledgment for lie down command received.
   virtual void OnLieDown() {}
 
-  /// @brief 收到匍匐命令Ack
+  /// @brief Acknowledgment for crawl command received.
   virtual void OnCrawl() {}
 
-  /// @brief 收到爬高台命令Ack
+  /// @brief Acknowledgment for climb command received.
   virtual void OnClimb() {}
 
-  /// @brief 收到瘦身命令Ack
+  /// @brief Acknowledgment for slim (body compress) command received.
   virtual void OnSlim() {}
 
-  /// @brief 收到步态命令Ack
+  /// @brief Acknowledgment for gait command received.
   virtual void OnGait() {}
 
-  /// @brief 收到调转头尾命令Ack
+  /// @brief Acknowledgment for reverse head-tail command received.
   virtual void OnReverseHeadTail() {}
 
-  /// @brief 收到切换Mode命令Ack
-  /// @param mode 用户下发的Mode
+  /// @brief Acknowledgment for mode switch command received.
+  /// @param mode The mode set by the user.
   virtual void OnMode(int mode) {}
 
-  /// @brief 收到切换速度命令Ack
-  /// @param speed_level 用户下发的速度
+  /// @brief Acknowledgment for speed level switch command received.
+  /// @param speed_level The speed level set by the user.
   virtual void OnSpeed(int speed_level) {}
 
-  /// @brief 收到锁定命令Ack
+  /// @brief Acknowledgment for lock command received.
   virtual void OnLocked() {}
 
-  /// @brief 收到前补光灯命令Ack
-  /// @param on true:开启; false:关闭
+  /// @brief Acknowledgment for front fill light command received.
+  /// @param on true: enabled; false: disabled.
   virtual void OnFrontLight(bool on) {}
 
-  /// @brief 收到后补光灯命令Ack
-  /// @param on true:开启; false:关闭
+  /// @brief Acknowledgment for back fill light command received.
+  /// @param on true: enabled; false: disabled.
   virtual void OnBackLight(bool on) {}
 
-  /// @brief 收到自动模式灯光命令Ack
-  /// @param on true:开启; false:关闭
+  /// @brief Acknowledgment for auto mode light command received.
+  /// @param on true: enabled; false: disabled.
   virtual void OnAutoModeLight(bool on) {}
 
-  /// @brief 收到光强值配置命令Ack
-  /// @param on true:开启; false:关闭
+  /// @brief Acknowledgment for illuminance configuration command received.
+  /// @param on true: enabled; false: disabled.
   virtual void OnLuxConfig(bool on) {}
 
-  /// @brief 收到IMU配置命令Ack
-  /// @param freq 下发的频率
+  /// @brief Acknowledgment for IMU configuration command received.
+  /// @param freq The frequency set by the user.
   virtual void OnImuConfig(int freq) {}
 
-  /// @brief 收到运动控制配置命令Ack
-  /// @param on true:开启; false:关闭
+  /// @brief Acknowledgment for motion control configuration command received.
+  /// @param on true: enabled; false: disabled.
   virtual void OnMcConfig(bool on) {}
 
-  /// @brief 收到获取控制权命令Ack
-  /// @param ack
+  /// @brief Acknowledgment for take control command received.
+  /// @param ack Control acknowledgment information.
   virtual void OnTakeControlAck(const TakeControlAck& ack) {}
 
-  /// @brief 收到释放控制权命令Ack
-  /// @param ack
+  /// @brief Acknowledgment for release control command received.
+  /// @param ack Control acknowledgment information.
   virtual void OnReleaseControlAck(const ReleaseControlAck& ack) {}
+
+  /// @brief Acknowledgment for camera bitrate update command received.
+  /// @param ack Camera bitrate acknowledgment information.
+  virtual void OnUpdateCameraBitrateAck(const CameraBitrateAck& ack) {}
 
   virtual ~IControlCallback() = default;
 };

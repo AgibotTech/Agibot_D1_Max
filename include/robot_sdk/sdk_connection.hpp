@@ -3,24 +3,25 @@
 #include <cstdint>
 
 namespace robot_sdk {
-/// @brief 连接状态枚举
+/// @brief Connection state enumeration.
 enum class ConnectionState : uint8_t {
-  DISCONNECTING = 0,  ///< 断开连接中
-  DISCONNECTED = 1,   ///< 断开连接
-  CONNECTING = 2,     ///< 连接中
-  HANDSHAKING = 3,    ///< 握手中
-  CONNECTED = 4,      ///< 已连接
-  RECONNECTING = 5,   ///< 重连中
+  DISCONNECTING = 0,  ///< Disconnecting.
+  DISCONNECTED = 1,   ///< Disconnected.
+  CONNECTING = 2,     ///< Connecting.
+  HANDSHAKING = 3,    ///< Handshaking.
+  CONNECTED = 4,      ///< Connected.
+  RECONNECTING = 5,   ///< Reconnecting.
 };
 
 struct ConnectionConfig {
-  // 连接配置
-  int connect_timeout_ms =
-      5000;  ///< 连接超时时间，单位：毫秒，最小500ms，默认值5000ms
+  // Connection configuration.
+  int connect_timeout_ms = 5000;  ///< Connection timeout in milliseconds.
+                                  ///< Minimum: 500ms. Default: 5000ms.
 
-  // 重连配置
-  bool auto_reconnect = false;  ///< 是否自动重连，默认值false
-  int reconnect_interval_ms =
-      1000;  ///< 重连间隔时间，单位：毫秒, 最小500ms，默认值1000ms
+  // Reconnection configuration.
+  bool auto_reconnect =
+      false;  ///< Whether to enable auto-reconnection. Default: false.
+  int reconnect_interval_ms = 1000;  ///< Reconnection interval in milliseconds.
+                                     ///< Minimum: 500ms. Default: 1000ms.
 };
 }  // namespace robot_sdk
