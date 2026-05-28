@@ -1,18 +1,18 @@
 /**
  * @file example_data.cpp
- * @brief Robot SDK 传感器数据订阅示例
+ * @brief Robot SDK Sensor Data Subscription Example
  *
- * 本示例展示如何订阅和接收机器人传感器数据：
- * - IMU 数据（加速度、陀螺仪、四元数）
- * - 光强传感器数据
- * - 运动控制数据（速度、位置、姿态）
- * - 机器人状态数据（电池、灯光、模式等）
- * - 故障信息
+ * This example demonstrates how to subscribe to and receive robot sensor data:
+ * - IMU data (acceleration, gyroscope, quaternion)
+ * - Light intensity sensor data
+ * - Motion control data (velocity, position, posture)
+ * - Robot state data (battery, lights, mode, etc.)
+ * - Fault information
  *
- * 适用场景：
- * - 传感器数据采集与监控
- * - 机器人状态监测
- * - 数据记录与分析
+ * Applicable scenarios:
+ * - Sensor data collection and monitoring
+ * - Robot state monitoring
+ * - Data recording and analysis
  */
 
 #include <atomic>
@@ -29,12 +29,12 @@
 
 using namespace robot_sdk;
 
-// 全局控制标志
+// Global control flags
 static std::atomic<bool> g_running{true};
 static std::mutex g_connect_mtx;
 static std::condition_variable g_connect_cv;
 
-// 信号处理函数
+// Signal handler function
 void SignalHandler(int signal) {
   std::cout << "\n[INFO] Received signal " << signal << ", shutting down..."
             << std::endl;
@@ -42,11 +42,13 @@ void SignalHandler(int signal) {
 }
 
 /**
- * @brief 数据回调类 - 接收并显示传感器数据
+ * @brief Data callback class - receive and display sensor data
  *
- * @note 回调函数必须轻量级，不能执行耗时操作
- * - 仅执行数据复制、数据校验等快速操作
- * - 耗时操作（数据库写入、文件I/O、网络发送等）需在独立线程处理
+ * @note Callback functions must be lightweight and cannot perform
+ * time-consuming operations
+ * - Only perform fast operations such as data copying and validation
+ * - Time-consuming operations (database writes, file I/O, network transmission,
+ * etc.) must be handled in separate threads
  */
 class DataCallback : public IDataCallback {
  public:
@@ -125,7 +127,8 @@ class DataCallback : public IDataCallback {
 };
 
 /**
- * @brief 控制回调类 - 接收传感器配置命令的确认
+ * @brief Control Callback Class - Receives confirmation for sensor
+ * configuration commands
  */
 class ControlCallback : public IControlCallback {
  public:
@@ -146,7 +149,7 @@ class ControlCallback : public IControlCallback {
 };
 
 /**
- * @brief 演示传感器数据订阅流程
+ * @brief Demonstrate sensor data subscription process
  */
 void DemoSensorData(SDKClient& client) {
   std::cout << "\n========== IMU Sensor Demo ==========" << std::endl;
@@ -180,11 +183,11 @@ void DemoSensorData(SDKClient& client) {
 }
 
 int main(int argc, char* argv[]) {
-  // 安装信号处理器
+  // Install signal handlers
   std::signal(SIGINT, SignalHandler);
   std::signal(SIGTERM, SignalHandler);
 
-  // 解析命令行参数
+  // Parse command line arguments
   if (argc < 3) {
     std::cerr << "Usage: " << argv[0] << " <ip> <port>" << std::endl;
     std::cerr << "Example: " << argv[0] << " 192.168.234.1 8081" << std::endl;
@@ -200,7 +203,7 @@ int main(int argc, char* argv[]) {
   std::cout << "Target: " << ip << ":" << port << std::endl;
   std::cout << "========================================\n" << std::endl;
 
-  // 初始化 SDK 客户端
+  // Initialize SDK client
   SDKClient sdk_client;
 
   std::cout << "[INFO] SDK Version: " << sdk_client.Version() << std::endl;
@@ -208,13 +211,13 @@ int main(int argc, char* argv[]) {
             << "\n"
             << std::endl;
 
-  // 设置回调
+  // Set callbacks
   auto data_cb = std::make_shared<DataCallback>();
   auto ctrl_cb = std::make_shared<ControlCallback>();
   sdk_client.SetDataCallback(data_cb);
   sdk_client.SetControlCallback(ctrl_cb);
 
-  // 异步连接机器人
+  // Asynchronous connection to robot
   std::cout << "[INIT] Connecting to robot..." << std::endl;
   {
     std::unique_lock<std::mutex> lock(g_connect_mtx);
@@ -228,7 +231,7 @@ int main(int argc, char* argv[]) {
       g_connect_cv.notify_one();
     });
 
-    // 等待连接完成
+    // Wait for connection to complete
     auto status = g_connect_cv.wait_for(lock, std::chrono::seconds(10));
     if (status == std::cv_status::timeout) {
       std::cerr << "[ERROR] Connection timeout" << std::endl;
@@ -236,17 +239,17 @@ int main(int argc, char* argv[]) {
     }
   }
 
-  // 检查连接状态
+  // Check connection status
   if (sdk_client.GetConnectionState() != ConnectionState::CONNECTED) {
     std::cerr << "[ERROR] Not connected. State: "
               << static_cast<int>(sdk_client.GetConnectionState()) << std::endl;
     return EXIT_FAILURE;
   }
 
-  // 执行传感器数据订阅演示
+  // Execute sensor data subscription demonstration
   DemoSensorData(sdk_client);
 
-  // 清理退出
+  // Clean up and exit
   std::cout << "\n[SHUTDOWN] Disconnecting..." << std::endl;
   {
     std::unique_lock<std::mutex> lock(g_connect_mtx);

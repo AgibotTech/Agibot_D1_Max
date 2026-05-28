@@ -1,10 +1,11 @@
 /**
  * @file auto_reconnect.cpp
- * @brief Robot SDK 自动重连示例
+ * @brief Robot SDK Auto-Reconnection Example
  *
- * 本示例展示 SDK 内置的自动重连功能：
- * - 启用 auto_reconnect 配置，SDK 自动处理断线重连
- * - 应用层无需额外的重连逻辑
+ * This example demonstrates SDK's built-in auto-reconnection feature:
+ * - Enable auto_reconnect configuration, SDK automatically handles
+ * disconnection and reconnection
+ * - Application layer requires no additional reconnection logic
  */
 
 #include <atomic>
@@ -19,17 +20,17 @@
 
 using namespace robot_sdk;
 
-// 全局标志，用于优雅退出
+// Global flags for graceful shutdown
 static std::atomic<bool> g_running{true};
 
-// 信号处理函数
+// Signal handler function
 void SignalHandler(int signal) {
   std::cout << "\n[INFO] Received signal " << signal << ", shutting down..."
             << std::endl;
   g_running = false;
 }
 
-// 状态字符串辅助函数
+// Connection state string helper function
 static const char* GetStateString(ConnectionState state) {
   static const std::unordered_map<ConnectionState, const char*> state_map = {
       {ConnectionState::DISCONNECTED, "DISCONNECTED"},
@@ -42,11 +43,11 @@ static const char* GetStateString(ConnectionState state) {
   return (it != state_map.end()) ? it->second : "UNKNOWN";
 }
 
-// 数据回调类
+// Data callback class
 class DataCallback : public IDataCallback {
  public:
   void OnRobotStateData(const RobotState& data) override {
-    // 定期接收机器人状态数据（根据需要处理）
+    // Periodically receive robot state data (process as needed)
   }
 
   void OnFaultData(const FaultDatas& data) override {
@@ -61,15 +62,15 @@ class DataCallback : public IDataCallback {
   }
 };
 
-// 控制回调类（可根据需要添加回调方法）
+// Control callback class (add callback methods as needed)
 class ControlCallback : public IControlCallback {};
 
 int main(int argc, char* argv[]) {
-  // 安装信号处理器
+  // Install signal handlers
   std::signal(SIGINT, SignalHandler);
   std::signal(SIGTERM, SignalHandler);
 
-  // 解析命令行参数
+  // Parse command line arguments
   if (argc < 3) {
     std::cerr << "Usage: " << argv[0] << " <ip> <port>" << std::endl;
     std::cerr << "Example: " << argv[0] << " 192.168.1.100 8001" << std::endl;
@@ -87,20 +88,20 @@ int main(int argc, char* argv[]) {
   std::cout << "Press Ctrl+C to exit" << std::endl;
   std::cout << "========================================\n" << std::endl;
 
-  // 配置自动重连
+  // Configure auto-reconnection
   ConnectionConfig config;
-  config.auto_reconnect = true;  // 启用自动重连
+  config.auto_reconnect = true;  // Enable auto-reconnection
 
-  // 初始化 SDK 客户端
+  // Initialize SDK client
   SDKClient sdk_client([](const std::error_code& ec) {}, config);
 
-  // 设置回调
+  // Set callbacks
   auto data_cb = std::make_shared<DataCallback>();
   auto ctrl_cb = std::make_shared<ControlCallback>();
   sdk_client.SetDataCallback(data_cb);
   sdk_client.SetControlCallback(ctrl_cb);
 
-  // 使用同步模式进行连接
+  // Use synchronous mode for connection
   std::cout << "[INIT] Connecting to robot..." << std::endl;
   auto ec = sdk_client.Connect(ip, port, true);
   if (ec) {
@@ -111,29 +112,29 @@ int main(int argc, char* argv[]) {
     std::cout << "[INIT] ✓ Connected successfully\n" << std::endl;
   }
 
-  // 监控连接状态变化
+  // Monitor connection state changes
   ConnectionState last_state = sdk_client.GetConnectionState();
   std::cout << "[STATE] Initial state: " << GetStateString(last_state)
             << std::endl;
 
-  // 主循环：模拟100Hz发送命令
+  // Main loop: simulate 100Hz command sending
   while (g_running) {
     ConnectionState current_state = sdk_client.GetConnectionState();
 
-    // 状态变化时打印
+    // Print when state changes
     if (current_state != last_state) {
       std::cout << "[STATE] Connection state changed: "
                 << GetStateString(last_state) << " → "
                 << GetStateString(current_state) << std::endl;
       last_state = current_state;
     }
-    // 发送速度命令
+    // Send velocity commands
     sdk_client.Move(0.0, 0.0, 0.0);
 
     std::this_thread::sleep_for(std::chrono::milliseconds(10));
   }
 
-  // 清理退出
+  // Clean up and exit
   std::cout << "\n[SHUTDOWN] Disconnecting..." << std::endl;
   sdk_client.Disconnect(true);
   std::cout << "[SHUTDOWN] ✓ Exited cleanly" << std::endl;

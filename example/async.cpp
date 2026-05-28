@@ -1,10 +1,11 @@
 /**
  * @file async.cpp
- * @brief Robot SDK 异步模式示例
+ * @brief Robot SDK Asynchronous Mode Example
  *
- * 本示例展示如何使用异步模式与机器人进行通信，包括：
- * - 异步连接管理（非阻塞连接/断开）
- * - 异步命令发送（灯光控制）
+ * This example demonstrates how to communicate with the robot using
+ * asynchronous mode, including:
+ * - Asynchronous connection management (non-blocking connect/disconnect)
+ * - Asynchronous command sending (light control)
  */
 
 #include <atomic>
@@ -19,18 +20,18 @@
 
 using namespace robot_sdk;
 
-// 全局标志，用于优雅退出
+// Global flags for graceful shutdown
 static std::atomic<bool> g_running{true};
 static std::atomic<bool> g_connected{false};
 
-// 信号处理函数
+// Signal handler function
 void SignalHandler(int signal) {
   std::cout << "\n[INFO] Received signal " << signal << ", shutting down..."
             << std::endl;
   g_running = false;
 }
 
-// 状态字符串映射
+// Connection state string mapping
 static const char* GetStateString(ConnectionState state) {
   switch (state) {
     case ConnectionState::DISCONNECTED:
@@ -50,12 +51,12 @@ static const char* GetStateString(ConnectionState state) {
   }
 }
 
-// 数据回调类 - 异步接收机器人传感器数据
+// Data callback class - asynchronously receive robot sensor data
 class AsyncDataCallback : public IDataCallback {
  public:
   void OnRobotStateData(const RobotState& data) override {
     static int count = 0;
-    if (++count % 10 == 0) {  // 每10条打印一次，避免刷屏
+    if (++count % 10 == 0) {  // Print every 10 times to avoid screen flooding
       std::cout << "[DATA] Robot State - Front Fill Light: "
                 << static_cast<int>(data.front_fill_light) << std::endl;
     }
@@ -73,7 +74,7 @@ class AsyncDataCallback : public IDataCallback {
   }
 };
 
-// 控制回调类 - 异步接收控制命令的确认
+// Control callback class - asynchronously receive control command confirmations
 class AsyncControlCallback : public IControlCallback {
  public:
   void OnFrontLight(bool on) override {
@@ -87,7 +88,7 @@ class AsyncControlCallback : public IControlCallback {
   }
 };
 
-// 异步命令队列管理器
+// Asynchronous command queue manager
 class AsyncCommandQueue {
  public:
   AsyncCommandQueue(SDKClient& client) : client_(client) {}
@@ -113,16 +114,16 @@ class AsyncCommandQueue {
         continue;
       }
 
-      // 定期切换补光灯状态
+      // Periodically toggle the fill light state
       switch (step) {
         case 0:
-          SendLightControl(true);  // 开灯
+          SendLightControl(true);  // Turn on light
           break;
         case 10:
-          SendLightControl(false);  // 关灯
+          SendLightControl(false);  // Turn off light
           break;
         case 20:
-          step = -1;  // 重新循环
+          step = -1;  // Loop again
           break;
       }
 
@@ -154,7 +155,7 @@ class AsyncCommandQueue {
 };
 
 int main(int argc, char* argv[]) {
-  // 参数检查
+  // Parameter validation
   if (argc < 3) {
     std::cerr << "Usage: " << argv[0] << " <ip> <port>" << std::endl;
     std::cerr << "  Example: " << argv[0] << " 192.168.234.1 8081" << std::endl;
@@ -164,7 +165,7 @@ int main(int argc, char* argv[]) {
   std::string ip = argv[1];
   std::string port = argv[2];
 
-  // 注册信号处理
+  // Register signal handlers
   std::signal(SIGINT, SignalHandler);
   std::signal(SIGTERM, SignalHandler);
 
@@ -176,19 +177,19 @@ int main(int argc, char* argv[]) {
   std::cout << "========================================\n" << std::endl;
 
   try {
-    // 1. 创建 SDK 客户端
+    // 1. Create SDK client
     SDKClient client;
 
-    // 2. 设置回调
+    // 2. Set callbacks
     auto data_cb = std::make_shared<AsyncDataCallback>();
     auto ctrl_cb = std::make_shared<AsyncControlCallback>();
     client.SetDataCallback(data_cb);
     client.SetControlCallback(ctrl_cb);
 
-    // 3. 异步连接（非阻塞，立即返回）
+    // 3. Asynchronous connection (non-blocking, returns immediately)
     std::cout << "[INFO] Initiating asynchronous connection..." << std::endl;
     auto ec = client.Connect(
-        ip, port, false,  // block = false，异步连接
+        ip, port, false,  // block = false, asynchronous connection
         [](const std::error_code& ec) {
           if (!ec) {
             std::cout << "[INFO] ✓ Connection established successfully"
@@ -206,7 +207,7 @@ int main(int argc, char* argv[]) {
       return EXIT_FAILURE;
     }
 
-    // 4. 等待初始连接建立
+    // 4. Wait for initial connection establishment
     std::cout << "[INFO] Waiting for connection to establish..." << std::endl;
     int timeout = 15;
     while (timeout-- > 0 && !g_connected.load() && g_running) {
@@ -219,12 +220,12 @@ int main(int argc, char* argv[]) {
       return EXIT_FAILURE;
     }
 
-    // 5. 启动异步命令队列（定期切换补光灯）
+    // 5. Start asynchronous command queue (periodically toggle fill light)
     std::cout << "[INFO] Starting light control loop..." << std::endl;
     AsyncCommandQueue cmd_queue(client);
     cmd_queue.Start();
 
-    // 6. 主循环 - 监控连接状态
+    // 6. Main loop - monitor connection state
     std::cout << "\n[INFO] System running. Light will toggle every 10 seconds."
               << std::endl;
 
@@ -232,12 +233,13 @@ int main(int argc, char* argv[]) {
       std::this_thread::sleep_for(std::chrono::seconds(1));
     }
 
-    // 7. 优雅退出
+    // 7. Graceful shutdown
     std::cout << "\n[INFO] Shutting down..." << std::endl;
 
     cmd_queue.Stop();
     std::cout << "[INFO] Disconnecting..." << std::endl;
-    ec = client.Disconnect(true);  // 同步断开，确保干净退出
+    ec =
+        client.Disconnect(true);  // Synchronous disconnect to ensure clean exit
     if (ec) {
       std::cerr << "[ERROR] Disconnect failed: " << ec.message() << std::endl;
     }

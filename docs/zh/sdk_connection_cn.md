@@ -344,6 +344,6 @@ config.connect_timeout_ms = 5000;     // 5秒连接超时
 
 ## 相关文档
 
-- [SDKClient API 文档](sdk_client_api.md) - 客户端接口详细说明
-- [状态定义文档](sdk_state.md) - 连接状态和运动状态详解
-- [类型定义文档](sdk_type.md) - 数据类型和结构体定义
+- [SDKClient API 文档](sdk_client_api_cn.md) - 客户端接口详细说明
+- [状态定义文档](sdk_state_cn.md) - 连接状态和运动状态详解
+- [类型定义文档](sdk_type_cn.md) - 数据类型和结构体定义

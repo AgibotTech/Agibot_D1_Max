@@ -1,12 +1,12 @@
 /**
  * @file take_control.cpp
- * @brief Robot SDK 接管控制权
+ * @brief Robot SDK Control Ownership Management
  *
- * 本示例展示控制权相关操作，包括：
- * - 控制权被APP接管
- * - 控制权被APP释放后，SDK重新获取控制权
- * - 控制权被接管通知
- * - 控制权被释放通知
+ * This example demonstrates control ownership related operations, including:
+ * - Control ownership taken by APP
+ * - SDK regains control after APP releases control
+ * - Control ownership taken notification
+ * - Control ownership released notification
  */
 
 #include <atomic>
@@ -22,18 +22,18 @@
 
 using namespace robot_sdk;
 
-// 全局标志，用于优雅退出
+// Global flags for graceful shutdown
 static std::atomic<bool> g_running{true};
 static std::atomic<bool> g_connected{false};
 
-// 信号处理函数
+// Signal handler function
 void SignalHandler(int signal) {
   std::cout << "\n[INFO] Received signal " << signal << ", shutting down..."
             << std::endl;
   g_running = false;
 }
 
-// 状态字符串映射
+// Connection state string mapping
 static const char* GetStateString(ConnectionState state) {
   switch (state) {
     case ConnectionState::DISCONNECTED:
@@ -68,7 +68,7 @@ static const char* GetControlSourceString(CtrlSource source) {
   }
 }
 
-/// @brief 接管控制权管理
+/// @brief Control ownership management
 class TakeControlManager {
  public:
   TakeControlManager(SDKClient& client) : client_(client) {}
@@ -102,7 +102,8 @@ class TakeControlManager {
 
       if (!running_) break;
 
-      auto ec = client_.TakeControl(5000);  // 同步模式，5秒超时
+      auto ec =
+          client_.TakeControl(5000);  // Synchronous mode, 5 second timeout
       if (!ec) {
         std::cout << "[TAKE_CONTROL] ✓ Successfully took control" << std::endl;
         continue;
@@ -119,7 +120,7 @@ class TakeControlManager {
   std::atomic<bool> running_{false};
 };
 
-// 数据回调类 - 异步接收机器人传感器数据
+// Data Callback Class - asynchronously receive robot sensor data
 class AsyncDataCallback : public IDataCallback {
  public:
   AsyncDataCallback() = default;
@@ -162,7 +163,7 @@ class AsyncDataCallback : public IDataCallback {
   TakeControlManager* take_control_mgr_;
 };
 
-// 控制回调类 - 异步接收控制命令的确认
+// Control Callback Class - asynchronously receive control command confirmations
 class AsyncControlCallback : public IControlCallback {
  public:
   void OnTakeControlAck(const TakeControlAck& ack) override {
@@ -173,7 +174,7 @@ class AsyncControlCallback : public IControlCallback {
 };
 
 int main(int argc, char* argv[]) {
-  // 参数检查
+  // Parameter validation
   if (argc < 3) {
     std::cerr << "Usage: " << argv[0] << " <ip> <port>" << std::endl;
     std::cerr << "  Example: " << argv[0] << " 192.168.234.1 8081" << std::endl;
@@ -183,7 +184,7 @@ int main(int argc, char* argv[]) {
   std::string ip = argv[1];
   std::string port = argv[2];
 
-  // 注册信号处理
+  // Register signal handlers
   std::signal(SIGINT, SignalHandler);
   std::signal(SIGTERM, SignalHandler);
 
@@ -195,24 +196,24 @@ int main(int argc, char* argv[]) {
   std::cout << "========================================\n" << std::endl;
 
   try {
-    // 1. 创建 SDK 客户端
+    // 1. Create SDK client
     SDKClient client;
 
-    // 初始化控制权接管管理器
+    // Initialize take control manager
     TakeControlManager take_control_mgr(client);
     take_control_mgr.Start();
 
-    // 2. 设置回调
+    // 2. Set callbacks
     auto data_cb = std::make_shared<AsyncDataCallback>();
     auto ctrl_cb = std::make_shared<AsyncControlCallback>();
     data_cb->SetTakeControlManager(&take_control_mgr);
     client.SetDataCallback(data_cb);
     client.SetControlCallback(ctrl_cb);
 
-    // 3. 异步连接（非阻塞，立即返回）
+    // 3. Asynchronous connection (non-blocking, returns immediately)
     std::cout << "[INFO] Initiating asynchronous connection..." << std::endl;
     auto ec = client.Connect(
-        ip, port, false,  // block = false，异步连接
+        ip, port, false,  // block = false, asynchronous connection
         [](const std::error_code& ec) {
           if (!ec) {
             std::cout << "[INFO] ✓ Connection established successfully"
@@ -230,7 +231,7 @@ int main(int argc, char* argv[]) {
       return EXIT_FAILURE;
     }
 
-    // 4. 等待初始连接建立
+    // 4. Wait for initial connection establishment
     std::cout << "[INFO] Waiting for connection to establish..." << std::endl;
     int timeout = 15;
     while (timeout-- > 0 && !g_connected.load() && g_running) {
@@ -243,18 +244,19 @@ int main(int argc, char* argv[]) {
       return EXIT_FAILURE;
     }
 
-    // 6. 主循环 - 等待APP接管和释放控制权的通知
+    // 6. Main loop - wait for APP takeover and control release notifications
     std::cout << "\n[INFO] System running." << std::endl;
 
     while (g_running) {
       std::this_thread::sleep_for(std::chrono::seconds(1));
     }
 
-    // 7. 优雅退出
+    // 7. Graceful shutdown
     std::cout << "\n[INFO] Shutting down..." << std::endl;
 
     std::cout << "[INFO] Disconnecting..." << std::endl;
-    ec = client.Disconnect(true);  // 同步断开，确保干净退出
+    ec =
+        client.Disconnect(true);  // Synchronous disconnect to ensure clean exit
     if (ec) {
       std::cerr << "[ERROR] Disconnect failed: " << ec.message() << std::endl;
     }

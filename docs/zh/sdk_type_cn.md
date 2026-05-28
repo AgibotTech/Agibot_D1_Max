@@ -382,6 +382,38 @@ struct ReleaseControlAck
 
 ---
 
+### CameraBitrateCmd
+
+```cpp
+struct CameraBitrateCmd
+```
+
+**说明：**  
+摄像头码率配置参数。
+
+| 成员 | 类型 | 说明 |
+|:--|:--|:--|
+| `camera_name` | `std::string` | 摄像头名称:前摄 "camera_front"，后摄 "camera_back" |
+| `camera_bps` | `uint32_t` | 摄像头码率，单位bps(bit/s)，范围50000-100000000 |
+
+---
+
+### CameraBitrateAck
+
+```cpp
+struct CameraBitrateAck
+```
+
+**说明：**  
+摄像头码率配置参数。
+
+| 成员 | 类型 | 说明 |
+|:--|:--|:--|
+| `camera_name` | `std::string` | 摄像头名称:前摄 "camera_front"，后摄 "camera_back" |
+| `camera_bps` | `uint32_t` | 摄像头码率，单位bps(bit/s)，范围50000-100000000 |
+
+---
+
 ### Speed
 
 ```cpp
@@ -468,7 +500,7 @@ struct MotionData
 
 ## 相关文档
 
-- [SDKClient API 文档](sdk_client_api.md) - 客户端接口详细说明
-- [连接配置文档](sdk_connection.md) - 连接参数和状态说明
-- [Callback 回调接口](sdk_callback.md) - 回调接口定义
-- [状态定义文档](sdk_state.md) - 连接状态和运动状态详解
+- [SDKClient API 文档](sdk_client_api_cn.md) - 客户端接口详细说明
+- [连接配置文档](sdk_connection_cn.md) - 连接参数和状态说明
+- [Callback 回调接口](sdk_callback_cn.md) - 回调接口定义
+- [状态定义文档](sdk_state_cn.md) - 连接状态和运动状态详解

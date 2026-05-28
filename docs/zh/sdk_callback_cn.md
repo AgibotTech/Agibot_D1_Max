@@ -100,6 +100,7 @@ class ROBOT_EXPORT_API IControlCallback {
   virtual void OnMcConfig(bool on) {}
   virtual void OnTakeControlAck(const TakeControlAck& ack) {}
   virtual void OnReleaseControlAck(const ReleaseControlAck& ack) {}
+  virtual void OnUpdateCameraBitrateAck(const CameraBitrateAck& ack) {}
 
   virtual ~IControlCallback() = default;
 };
@@ -130,6 +131,7 @@ class ROBOT_EXPORT_API IControlCallback {
 | `OnMcConfig(bool on)` | 已收到运动数据配置命令 | `true` 开启，`false` 关闭 |
 | `OnTakeControlAck(const TakeControlAck& ack)` | 已收到获取控制权命令应答 | 应答信息 |
 | `OnReleaseControlAck(const ReleaseControlAck& ack)` | 已收到释放控制权命令应答 | 应答信息 |
+| `OnUpdateCameraBitrateAck(const CameraBitrateAck& ack)` | 已收到码率更新命令 | 应答信息，更新后的码率 |
 
 ---
 

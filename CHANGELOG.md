@@ -1,66 +1,79 @@
-# 变更日志 (Changelog)
+# Changelog
 
-本文档记录了 Robot SDK 各版本的功能更新、优化改进和问题修复。
+This document records the feature updates, improvements, and bug fixes for each version of the Robot SDK.
+
+---
+## [v0.0.8] - 2026
+
+### ✨ New Features
+- English documentation support added
+
+---
+
+## [v0.0.7] - 2026
+
+### ✨ New Features
+- Added dynamic camera bitrate adjustment interface
 
 ---
 
 ## [v0.0.6] - 2026
 
-### ✨ 新增功能
-- 新增控制权切换接口与相关示例
+### ✨ New Features
+- Added control ownership switching interface and related examples
 
-### 🐛 问题修复
-- 修复IMU acc/gyro 取反问题
+### 🐛 Bug Fixes
+- Fixed IMU accelerometer/gyroscope inversion issue
 
 ---
 
 ## [v0.0.5] - 2026
 
-### ✨ 新增功能
-- 新增步态姿态接口(Gait(...))
-- 新增瘦身姿态接口(Slim(...))
-- 新增断开后自动续连的配置接口
-- 新增获取当前连接状态接口
-- 添加一些自动续连/手动续连的示例
-- 异步接口中 添加获取发送结果的回调参数
+### ✨ New Features
+- Added gait posture interface (Gait(...))
+- Added slim (body compress) posture interface (Slim(...))
+- Added auto-reconnection configuration interface after disconnection
+- Added interface to get current connection state
+- Added auto-reconnection/manual reconnection examples
+- Added callback parameter to get send results in asynchronous interfaces
 
-### 🔧 优化改进
-- 优化SDKClient析构问题
-- 优化连接/断开机制
+### 🔧 Improvements
+- Optimized SDKClient destructor handling
+- Optimized connection/disconnection mechanism
 
 ---
 
 ## [v0.0.4] - 2025
 
-### ✨ 新增功能
-- 添加获取系统版本号的接口
-- 新增 UDP 通信方式支持
+### ✨ New Features
+- Added interface to get system version number
+- Added UDP communication protocol support
 
-### 🔧 优化改进
-- 优化连接失败时的错误信息提示
-- 内部适配新版本通信协议
+### 🔧 Improvements
+- Improved error message display on connection failure
+- Internal adaptation to new communication protocol version
 
 ---
 
 ## [v0.0.3] - 2025
 
-### ✨ 新增功能
-- 添加登阶模式接口
-- 添加运动模式下爬高台接口
-- 添加模式状态获取接口
+### ✨ New Features
+- Added stair-climbing mode interface
+- Added high platform climbing interface in motion mode
+- Added mode state query interface
 
 ---
 
 ## [v0.0.2] - 2025
 
-### ✨ 新增功能
-- 提供基础机器人控制接口
-- 支持机器人状态数据回调
-- 支持故障信息回调
+### ✨ New Features
+- Provided basic robot control interfaces
+- Supported robot state data callbacks
+- Supported fault information callbacks
 
 ---
 
 ## [v0.0.1] - 2025
 
-### 📝 说明
-- 初始预测试版本
+### 📝 Notes
+- Initial pre-release version

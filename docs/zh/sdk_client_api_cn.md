@@ -104,8 +104,8 @@ SDKClient(ErrorHandler error_callback = [](const std::error_code&) {},
 | `type` | `TransportProtocol` | `WebSocket` | 传输协议类型 |
 
 **相关类型：**
-- `ConnectionConfig`: 连接配置，详见 [连接配置文档](sdk_connection.md)
-- `TransportProtocol`: 传输协议类型，详见 [连接配置文档](sdk_connection.md)
+- `ConnectionConfig`: 连接配置，详见 [连接配置文档](sdk_connection_cn.md)
+- `TransportProtocol`: 传输协议类型，详见 [连接配置文档](sdk_connection_cn.md)
 
 ---
 
@@ -206,7 +206,7 @@ ConnectionState GetConnectionState() const
 获取当前详细的连接状态。
 
 **返回值：**  
-`ConnectionState` 枚举值，详见 [连接状态文档](sdk_connection.md)
+`ConnectionState` 枚举值，详见 [连接状态文档](sdk_connection_cn.md)
 
 ---
 
@@ -227,7 +227,7 @@ void SetControlCallback(std::shared_ptr<IControlCallback> control_callback)
 | `control_callback` | `std::shared_ptr<IControlCallback>` | 控制回调对象 |
 
 **相关文档：**  
-详见 [Callback 参考](sdk_callback.md) 中 `IControlCallback` 类的说明。
+详见 [Callback 参考](sdk_callback_cn.md) 中 `IControlCallback` 类的说明。
 
 ---
 
@@ -840,6 +840,37 @@ std::error_code ReleaseControl(int timeout_ms = 0,
 **参数：**
 | 参数名 | 类型 | 默认值 | 说明 |
 |:--|:--|:--|:--|
+| `timeout_ms` | `int` | `0` | `0`: 异步模式；`> 0`: 同步模式，最大等待时间（毫秒） |
+| `handler` | `WriteHandler` | 空回调 | 异步模式下命令发送结果回调函数；同步模式不使用 |
+
+**返回值：**  
+- `std::errc::success`: 操作成功
+- 常见失败错误码：
+  - `std::errc::timed_out`: 操作超时
+  - `std::errc::not_connected`: 未连接
+  - `std::errc::operation_canceled`: 操作已取消
+
+**注意：**  
+异步模式：函数返回仅表示命令已发送，发送结果通过回调函数通知  
+同步模式：函数返回即表示命令发送结果
+
+---
+
+### UpdateCameraBitrate - 更新摄像头码率
+
+```cpp
+  std::error_code UpdateCameraBitrate(
+      CameraBitrateCmd cmd, int timeout_ms = 0,
+      WriteHandler handler = [](const std::error_code&, std::size_t) {});
+```
+
+**说明：**  
+更新摄像头码率。
+
+**参数：**
+| 参数名 | 类型 | 默认值 | 说明 |
+|:--|:--|:--|:--|
+| `cmd` | `CameraBitrateCmd` |  | 配置具体摄像头的码率 |
 | `timeout_ms` | `int` | `0` | `0`: 异步模式；`> 0`: 同步模式，最大等待时间（毫秒） |
 | `handler` | `WriteHandler` | 空回调 | 异步模式下命令发送结果回调函数；同步模式不使用 |
 

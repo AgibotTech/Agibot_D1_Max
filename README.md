@@ -1,80 +1,82 @@
-# AgiBot D1 Max SDK
+# RobotSDK
 
-欢迎使用 智元D1 Max 二次开发 SDK！它提供了一整套全面的工具、库和文档，旨在帮助您为机器人开发高级应用程序。
+Welcome to Robot SDK! It provides a comprehensive set of tools, libraries, and documentation designed to help you develop advanced applications for robots.
+
+- **[中文文档](README_cn.md)**
+
+## 🔗 SDK Version and System Platform Version Compatibility Table
+
+| System Version | 0.0.2 | 0.0.3 | 0.0.4| 0.0.5| 0.0.6| 0.0.7
+|--------------|-------|----|----|----|----|----|
+| 0.0.5(V3)    | ✅    | ✅ | ❌ |❌  |❌  |❌  |
+| 0.0.6(V3)    | ✅    | ✅ | ❌ |❌  |❌  |❌  |
+| 0.0.7(V3)    | ✅    | ✅ | ❌ |❌  |❌  |❌  |
+| 0.1.0-B(V4)  | ✅    | ✅ | ❌ |❌  |❌  |❌  |
+| 0.1.0-C(V4)  | ❌    | ❌ | ✅ |✅  |✅  |✅  |
+| 0.1.1-A(V4)  | ❌    | ❌ | ✅ |✅  |✅  |✅  |
+| 0.1.3(V4)    | ❌    | ❌ | ✅ |✅  |✅  |✅  |
+| 0.1.4(V4)    | ❌    | ❌ | ✅ |✅  |✅  |✅  |
+| 0.1.5(V4)    | ❌    | ❌ | ✅ |✅  |✅  |✅  |
+| 0.1.6(V4)    | ❌    | ❌ | ✅ |✅  |✅  |✅  |
+| 0.1.7(V4)    | ❌    | ❌ | ✅ |✅  |✅  |✅  |
 
 
-## 🔗 SDK 版本与软件平台版本对应表
+## 🌟 Features
 
-| 系统版本 | 0.0.2 | 0.0.3 | 0.0.4| 0.0.5| 0.0.6
-|--------------|-------|----|----|----|----|
-| 0.0.5(V3)    | ✅    | ✅ | ❌ |❌  |❌  |
-| 0.0.6(V3)    | ✅    | ✅ | ❌ |❌  |❌  |
-| 0.0.7(V3)    | ✅    | ✅ | ❌ |❌  |❌  |
-| 0.1.0-B(V4)  | ✅    | ✅ | ❌ |❌  |❌  |
-| 0.1.0-C(V4)  | ❌    | ❌ | ✅ |✅  |✅  |
-| 0.1.1-A(V4)  | ❌    | ❌ | ✅ |✅  |✅  |
-| 0.1.3(V4)    | ❌    | ❌ | ✅ |✅  |✅  |
-| 0.1.4(V4)    | ❌    | ❌ | ✅ |✅  |✅  |
-| 0.1.5(V4)    | ❌    | ❌ | ✅ |✅  |✅  |
+This SDK provides high-level control interfaces that allow you to flexibly interact with robots.
 
+## 🚀 Quick Start
 
-## 🌟 功能特性
+Follow the steps below to set up your development environment and run the included demo programs.
 
-本 SDK 提供高层控制接口，让您能够灵活地与机器人互动。
+### System Requirements
 
-## 🚀 快速入门
+- **Operating System**: Ubuntu 22.04+
+- **Build Tools**: CMake 3.8+, GCC 11+
+- **Dependencies**: Boost 1.74+
+- **Programming Language**: C++
 
-请按照以下步骤设置您的开发环境并运行附带的演示程序。
+### Installation and Setup
 
-### 环境要求
+1. **Network Configuration**: Connect your computer to the robot's network. The default IP address of the robot is `192.168.234.1` (Wi-Fi).
 
-- **操作系统**: Ubuntu 22.04+
-- **构建工具**: CMake 3.8+, GCC 11+
-- **依赖库**: Boost 1.74+
-- **编程语言**: C++
+3. **SDK Libraries**: C++ libraries (`.so` files) are included in the `lib/` directory and organized by architecture (`x86_64`, `aarch64`).
 
-### 安装与设置
+### Running Demo Programs
 
-1. **网络配置**: 将您的计算机连接到机器人的网络。机器人的默认 IP 地址为 `192.168.234.1` (Wi-Fi) 。
+The `example/` directory contains C++ example code.
 
-3. **SDK 库**: C++（`.so` 文件）已包含在 `lib/` 目录中，并按架构（`x86_64`, `aarch64`）分类存放。
-
-### 运行演示程序
-
-`example/` 目录包含了 C++的示例代码。
-
-**C++ 演示:**
+**C++ Demo:**
 
 ```bash
-# 进入 C++ 演示目录
+# Enter the C++ demo directory
 cd example/
 
-# 创建构建目录
+# Create build directory
 mkdir build && cd build
 
-# 配置并编译项目
+# Configure and compile the project
 cmake ..
 make -j6
 
-# 运行演示程序
+# Run the demo program
 ./data ${ip} 8081
 ```
 
-## 📚 文档
+## 📚 Documentation
 
-有关更深入的信息，请参阅官方文档：
+For more in-depth information, please refer to the official documentation:
 
-- **[API 参考](docs/sdk_client_api.md)**: SDK 函数的详细说明。
-- **[SDK 数据结构文档](docs/sdk_type.md)**: SDK 数据结构详细说明。
-- **[SDK 状态流转](docs/sdk_state.md)**: SDK 内部一些状态流转详细说明。
+- **[API Reference](docs/en/sdk_client_api_en.md)**: Detailed descriptions of SDK functions.
+- **[SDK Data Structures Documentation](docs/en/sdk_type_en.md)**: Detailed descriptions of SDK data structures.
+- **[SDK State Transitions](docs/en/sdk_state_en.md)**: Detailed descriptions of SDK internal state transitions.
 
-## 📁 仓库结构
+## 📁 Repository Structure
 
 ```
 .
-├── example/          # 演示应用程序 (C++)
-├── docs/             # 详细的文档文件
-├── include/          # SDK 的 C++ 头文件
-└── lib/              # 针对不同架构的预编译库文件 (.so)
+├── example/          # Demo applications (C++)
+├── docs_user/        # Detailed documentation files
+├── include/          # C++ header files for the SDK
+└── lib/              # Pre-compiled library files (.so) for different architectures
 ```
-# Agibot_D1_Max
