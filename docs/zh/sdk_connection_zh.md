@@ -43,7 +43,7 @@ enum class ConnectionState : uint8_t
 using namespace robot_sdk;
 
 SDKClient client;
-client.Connect("192.168.234.1", "8081", true);
+client.Connect("192.168.234.1", "8082", true);
 
 auto state = client.GetConnectionState();
 switch (state) {
@@ -165,7 +165,7 @@ int main() {
     // 使用默认配置
     SDKClient client;
     
-    auto ec = client.Connect("192.168.234.1", "8081", true);
+    auto ec = client.Connect("192.168.234.1", "8082", true);
     if (!ec) {
         std::cout << "连接成功" << std::endl;
     }
@@ -187,7 +187,7 @@ int main() {
     
     SDKClient client([](const std::error_code& ec) {}, config);
     
-    auto ec = client.Connect("192.168.234.1", "8081", true);
+    auto ec = client.Connect("192.168.234.1", "8082", true);
     if (!ec) {
         std::cout << "连接成功" << std::endl;
     }
@@ -219,7 +219,7 @@ int main() {
     }, config);
     
     // 连接机器人
-    auto ec = client.Connect("192.168.234.1", "8081", true);
+    auto ec = client.Connect("192.168.234.1", "8082", true);
     if (ec) {
         std::cerr << "初始连接失败: " << ec.message() << std::endl;
         return -1;
@@ -251,7 +251,7 @@ int main() {
         TransportProtocol::Udp
     );
     
-    auto ec = client.Connect("192.168.234.1", "8081", true);
+    auto ec = client.Connect("192.168.234.1", "8082", true);
     if (!ec) {
         std::cout << "通过 UDP 连接成功" << std::endl;
     }
@@ -278,7 +278,7 @@ int main() {
     SDKClient client([](const std::error_code& ec) {}, config);
     
     // 异步连接
-    client.Connect("192.168.234.1", "8081", false, 
+    client.Connect("192.168.234.1", "8082", false, 
                    [](const std::error_code& ec) {
         if (!ec) {
             std::cout << "连接成功" << std::endl;
@@ -344,6 +344,6 @@ config.connect_timeout_ms = 5000;     // 5秒连接超时
 
 ## 相关文档
 
-- [SDKClient API 文档](sdk_client_api_cn.md) - 客户端接口详细说明
-- [状态定义文档](sdk_state_cn.md) - 连接状态和运动状态详解
-- [类型定义文档](sdk_type_cn.md) - 数据类型和结构体定义
+- [SDKClient API 文档](sdk_client_api_zh.md) - 客户端接口详细说明
+- [状态定义文档](sdk_state_zh.md) - 连接状态和运动状态详解
+- [类型定义文档](sdk_type_zh.md) - 数据类型和结构体定义

@@ -30,6 +30,16 @@ class ROBOT_EXPORT_API IDataCallback {
   /// @param data Motion data.
   virtual void OnMcData(const MotionData& data) {}
 
+  /// @brief Speed data callback (reported at fixed frequency after
+  /// configuration).
+  /// @param data
+  virtual void OnSpeedData(const SpeedData& data) {}
+
+  /// @brief  Joint state data callback (reported at fixed frequency after
+  /// configuration).
+  /// @param data
+  virtual void OnJointStateData(const JointStateData& data) {}
+
   /// @brief Robot state data callback (actively reported at 1Hz frequency).
   /// @param data Robot state data.
   virtual void OnRobotStateData(const RobotState& data) {}
@@ -76,6 +86,9 @@ class ROBOT_EXPORT_API IControlCallback {
   /// @brief Acknowledgment for gait command received.
   virtual void OnGait() {}
 
+  /// @brief Acknowledgment for DSB command received.
+  virtual void OnDSB() {}
+
   /// @brief Acknowledgment for reverse head-tail command received.
   virtual void OnReverseHeadTail() {}
 
@@ -113,6 +126,15 @@ class ROBOT_EXPORT_API IControlCallback {
   /// @brief Acknowledgment for motion control configuration command received.
   /// @param on true: enabled; false: disabled.
   virtual void OnMcConfig(bool on) {}
+
+  /// @brief Acknowledgment for speed report configuration command received.
+  /// @param on true: enabled; false: disabled.
+  /// @param frequency The frequency set by the user.
+  virtual void OnSpeedReportConfig(bool on, uint32_t frequency) {}
+
+  /// @brief Acknowledgment for joint state configuration command received.
+  /// @param on true: enabled; false: disabled.
+  virtual void OnJointStateConfig(bool on) {}
 
   /// @brief Acknowledgment for take control command received.
   /// @param ack Control acknowledgment information.

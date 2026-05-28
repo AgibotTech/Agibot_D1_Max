@@ -39,7 +39,7 @@ All interfaces return `std::error_code` type to indicate operation results:
 **Example:**
 
 ```cpp
-std::error_code ec = sdk.Connect("192.168.234.1", "8081", true);
+std::error_code ec = sdk.Connect("192.168.234.1", "8082", true);
 if (ec) {
     std::cerr << "Connection failed: " << ec.message() << std::endl;
 } else {
@@ -91,7 +91,7 @@ SDK Internal Extended Error Codes
 ```cpp
 SDKClient(ErrorHandler error_callback = [](const std::error_code&) {},
           ConnectionConfig connection_config = ConnectionConfig(),
-          TransportProtocol type = TransportProtocol::WebSocket)
+          TransportProtocol type = TransportProtocol::Udp)
 ```
 
 **Description:**  
@@ -102,7 +102,7 @@ Construct an SDK client object.
 |:--|:--|:--|:--|
 | `error_callback` | `ErrorHandler` | Empty callback | SDK internal communication exception callback function |
 | `connection_config` | `ConnectionConfig` | Default config | Connection configuration parameters |
-| `type` | `TransportProtocol` | `WebSocket` | Transport protocol type |
+| `type` | `TransportProtocol` | `Udp` | Transport protocol type |
 
 **Related Types:**
 - `ConnectionConfig`: Connection configuration, see [Connection Configuration Documentation](sdk_connection_en.md)
@@ -133,6 +133,12 @@ std::error_code Connect(std::string ip, std::string port,
 
 **Description:**  
 Connect to the robot at the specified IP and port.
+
+By default: when using WebSocket, you need to connect to port 8081 of the machine; when using UDP, you need to connect to port 8082 of the machine.
+
+⚠️ **Note:** 
+
+If the robot is already connected to the App, the SDK will not be able to control the robot.
 
 **Parameters:**
 | Parameter Name | Type | Default Value | Description |
@@ -397,6 +403,24 @@ Same as `SoftEmergencyStop`
 
 ---
 
+### DSB - Over the mouse barrier posture
+
+```cpp
+std::error_code DSB(int timeout_ms = 0,
+                     WriteHandler handler = [](const std::error_code&, std::size_t) {})
+```
+
+**Description:**  
+Over the mouse barrier posture, only effective in **general mode**.
+
+**Parameters:**  
+Same as `StandUp`
+
+**Return Value:**  
+Same as `SoftEmergencyStop`
+
+---
+
 ### ReverseHeadTail - Reverse Head/Tail
 
 ```cpp
@@ -591,6 +615,8 @@ std::error_code Move(float left_right, float forward_back, float yaw,
 **Description:**  
 Used in **general mode** to move the robot, unit: percentage, speed limited by **SpeedLevel**.
 
+The latest Move command will last for 1 second.
+
 **Parameters:**
 | Parameter Name | Type | Default Value | Description |
 |:--|:--|:--|:--|
@@ -777,12 +803,43 @@ std::error_code SetMcConfig(bool on, int timeout_ms = 0,
 ```
 
 **Description:**  
-Configure motion data reporting switch, disabled by default. After configuration, motion data is reported at 100Hz.
+Configure motion data reporting switch, disabled by default. After configuration, motion data is reported at 50Hz.
 
 **Parameters:**
 | Parameter Name | Type | Default Value | Description |
 |:--|:--|:--|:--|
 | `on` | `bool` | - | `true`: enable; `false`: disable |
+| `timeout_ms` | `int` | `0` | `0`: asynchronous mode; `> 0`: synchronous mode, maximum wait time (milliseconds) |
+| `handler` | `WriteHandler` | Empty callback | Command sending result callback in asynchronous mode; not used in synchronous mode |
+
+**Return Value:**  
+- `std::errc::success`: Operation successful
+- Common failure error codes:
+  - `std::errc::timed_out`: Operation timeout
+  - `std::errc::not_connected`: Not connected
+  - `std::errc::operation_canceled`: Operation canceled
+
+**Note:**  
+Asynchronous mode: Function return only indicates command sent; send result notified through callback  
+Synchronous mode: Function return indicates command send result
+
+---
+
+### SetSpeedReportConfig - Configure Speed Data
+
+```cpp
+std::error_code SetSpeedReportConfig(bool on, uint32_t frequency, int timeout_ms = 0,
+                            WriteHandler handler = [](const std::error_code&, std::size_t) {})
+```
+
+**Description:**  
+Configure speed data reporting switch, disabled by default. After configuration, speed data is reported.
+
+**Parameters:**
+| Parameter Name | Type | Default Value | Description |
+|:--|:--|:--|:--|
+| `on` | `bool` | - | `true`: enable; `false`: disable |
+| `frequency` | `uint32_t` | - | report frequency. [1hz, 50hz] |
 | `timeout_ms` | `int` | `0` | `0`: asynchronous mode; `> 0`: synchronous mode, maximum wait time (milliseconds) |
 | `handler` | `WriteHandler` | Empty callback | Command sending result callback in asynchronous mode; not used in synchronous mode |
 
@@ -807,7 +864,7 @@ std::error_code TakeControl(int timeout_ms = 0,
 ```
 
 **Description:**  
-Take control of the robot. If the APP is currently in control, you cannot forcibly take over.
+Take control of the robot. If the APP is currently in control, you cannot forcibly take over.See [sdk_control_ownership](sdk_control_ownership_en.md)
 
 **Parameters:**
 | Parameter Name | Type | Default Value | Description |
@@ -919,7 +976,7 @@ int main() {
         if (ec) std::cerr << "SDK Error: " << ec.message() << std::endl;
     });
 
-    auto ec = client.Connect("192.168.234.1", "8081", true);
+    auto ec = client.Connect("192.168.234.1", "8082", true);
     if (ec) {
         std::cerr << "Connect failed: " << ec.message() << std::endl;
         return -1;

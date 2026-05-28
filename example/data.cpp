@@ -40,7 +40,7 @@ void SignalHandler(int signal) {
             << std::endl;
   g_running = false;
 }
-
+static int count = 0;
 /**
  * @brief Data callback class - receive and display sensor data
  *
@@ -84,6 +84,7 @@ class DataCallback : public IDataCallback {
     std::cout << "  Body Omega:     X=" << data.omega_body[0]
               << " Y=" << data.omega_body[1] << " Z=" << data.omega_body[2]
               << " rad/s" << std::endl;
+    std::cout << "  Timestamp:      " << data.time_stamp << " ns" << std::endl;
   }
 
   void OnRobotStateData(const RobotState& data) override {
@@ -108,10 +109,10 @@ class DataCallback : public IDataCallback {
               << " Trans=" << data.speed.translation
               << " Angular=" << data.speed.angle << std::endl;
     std::cout << "  Odometry: " << data.mile_data << " m" << std::endl;
-    std::cout << "  Motor Temp: FL1=" << data.motor_temp.fl1
-              << "° FL2=" << data.motor_temp.fl2
-              << "° FL3=" << data.motor_temp.fl3
-              << "° FL4=" << data.motor_temp.fl4 << "°" << std::endl;
+    std::cout << "  Joint Temperatures: " << std::endl;
+    for (const auto& [joint, temp] : data.joint_temps) {
+      std::cout << "    " << joint << ": " << temp << "°C" << std::endl;
+    }
   }
 
   void OnFaultData(const FaultDatas& data) override {
@@ -122,6 +123,22 @@ class DataCallback : public IDataCallback {
       std::cout << "  └─ Level: " << static_cast<int>(fault.level)
                 << ", Code: " << static_cast<int>(fault.code)
                 << ", Message: " << fault.message << std::endl;
+    }
+  }
+
+  void OnSpeedData(const SpeedData& data) override {
+    std::cout << "\n[SPEED] Speed Data:" << std::endl;
+    std::cout << "  X: " << data.x << " m/s, Y: " << data.y
+              << " m/s, Yaw: " << data.yaw << " rad/s" << " count:" << ++count
+              << std::endl;
+  }
+
+  void OnJointStateData(const JointStateData& data) override {
+    std::cout << "\n[JOINT STATE] Joint State Data:" << std::endl;
+    for (size_t i = 0; i < data.names.size(); ++i) {
+      std::cout << "  " << data.names[i] << ": Position=" << data.positions[i]
+                << " rad, Velocity=" << data.velocities[i]
+                << " rad/s, Effort=" << data.efforts[i] << " Nm" << std::endl;
     }
   }
 };
@@ -144,6 +161,16 @@ class ControlCallback : public IControlCallback {
 
   void OnMcConfig(bool on) override {
     std::cout << "[CTRL] ✓ Motion control data: " << (on ? "ON" : "OFF")
+              << std::endl;
+  }
+
+  void OnSpeedReportConfig(bool on, uint32_t frequency) override {
+    std::cout << "[CTRL] ✓ Speed report config: " << (on ? "ON" : "OFF")
+              << ", Frequency: " << frequency << " Hz" << std::endl;
+  }
+
+  void OnJointStateConfig(bool on) override {
+    std::cout << "[CTRL] ✓ Joint state data config: " << (on ? "ON" : "OFF")
               << std::endl;
   }
 };
@@ -179,6 +206,24 @@ void DemoSensorData(SDKClient& client) {
   client.SetMcConfig(false);
   std::this_thread::sleep_for(std::chrono::seconds(1));
 
+  std::cout << "\n========== Speed Data Demo ==========" << std::endl;
+  std::cout << "[CMD] Enabling speed data @ 20Hz..." << std::endl;
+  client.SetSpeedReportConfig(true, 20);
+  std::this_thread::sleep_for(std::chrono::seconds(2));
+
+  std::cout << "[CMD] Disabling speed data..." << std::endl;
+  client.SetSpeedReportConfig(false, 0);
+  std::this_thread::sleep_for(std::chrono::seconds(2));
+
+  std::cout << "\n========== Joint State Data Demo ==========" << std::endl;
+  std::cout << "[CMD] Enabling joint state data..." << std::endl;
+  client.SetJointStateConfig(true);
+  std::this_thread::sleep_for(std::chrono::seconds(2));
+
+  std::cout << "[CMD] Disabling joint state data..." << std::endl;
+  client.SetJointStateConfig(false);
+  std::this_thread::sleep_for(std::chrono::seconds(3));
+
   std::cout << "\n[INFO] All sensor demos completed" << std::endl;
 }
 
@@ -190,7 +235,7 @@ int main(int argc, char* argv[]) {
   // Parse command line arguments
   if (argc < 3) {
     std::cerr << "Usage: " << argv[0] << " <ip> <port>" << std::endl;
-    std::cerr << "Example: " << argv[0] << " 192.168.234.1 8081" << std::endl;
+    std::cerr << "Example: " << argv[0] << " 192.168.234.1 8082" << std::endl;
     return EXIT_FAILURE;
   }
 

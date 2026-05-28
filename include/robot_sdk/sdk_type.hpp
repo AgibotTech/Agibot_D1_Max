@@ -2,6 +2,7 @@
 
 #include <cstdint>
 #include <string>
+#include <unordered_map>
 #include <vector>
 namespace robot_sdk {
 
@@ -198,57 +199,6 @@ struct Speed {
   double angle;
 };
 
-/// @brief Motor temperature data.
-struct MotorTemp {
-  /// @brief Left front leg joint 1 motor temperature.
-  float fl1;
-
-  /// @brief Left front leg joint 2 motor temperature.
-  float fl2;
-
-  /// @brief Left front leg joint 3 motor temperature.
-  float fl3;
-
-  /// @brief Left front leg joint 4 motor temperature.
-  float fl4;
-
-  /// @brief Right front leg joint 1 motor temperature.
-  float fr1;
-
-  /// @brief Right front leg joint 2 motor temperature.
-  float fr2;
-
-  /// @brief Right front leg joint 3 motor temperature.
-  float fr3;
-
-  /// @brief Right front leg joint 4 motor temperature.
-  float fr4;
-
-  /// @brief Left rear leg joint 1 motor temperature.
-  float bl1;
-
-  /// @brief Left rear leg joint 2 motor temperature.
-  float bl2;
-
-  /// @brief Left rear leg joint 3 motor temperature.
-  float bl3;
-
-  /// @brief Left rear leg joint 4 motor temperature.
-  float bl4;
-
-  /// @brief Right rear leg joint 1 motor temperature.
-  float br1;
-
-  /// @brief Right rear leg joint 2 motor temperature.
-  float br2;
-
-  /// @brief Right rear leg joint 3 motor temperature.
-  float br3;
-
-  /// @brief Right rear leg joint 4 motor temperature.
-  float br4;
-};
-
 /// @brief Robot state information.
 struct RobotState {
   /// @brief Head angle.
@@ -287,8 +237,8 @@ struct RobotState {
   /// @brief Cumulative mileage data.
   float mile_data;
 
-  /// @brief Motor temperature.
-  MotorTemp motor_temp;
+  /// @brief Joint temperature map (joint name to temperature).
+  std::unordered_map<std::string, double> joint_temps;
 
   /// @brief Motion mode.
   SportMode sport_mode;
@@ -318,6 +268,33 @@ struct MotionData {
 
   /// @brief Angular velocity in body coordinate system [x, y, z] (rad/s).
   float omega_body[3];
+
+  /// @brief Timestamp of the motion data. Unit: nanoseconds (ns).
+  uint64_t time_stamp;
+};
+
+/// @brief Speed report data information.
+struct SpeedData {
+  /// @brief Forward/backward velocity (m/s)
+  float x;
+
+  /// @brief Left/right lateral velocity (m/s)
+  float y;
+
+  /// @brief Rotation velocity (angular velocity) (rad/s)
+  float yaw;
+};
+
+/// @brief Joint state data information.
+struct JointStateData {
+  /// @brief Joint names.
+  std::vector<std::string> names;
+  /// @brief Joint positions.
+  std::vector<double> positions;
+  /// @brief Joint velocities.
+  std::vector<double> velocities;
+  /// @brief Joint efforts.
+  std::vector<double> efforts;
 };
 
 struct ControlLostInfo {};

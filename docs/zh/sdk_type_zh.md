@@ -431,21 +431,23 @@ struct Speed
 
 ---
 
-### MotorTemp
+### 关节温度说明
 
 ```cpp
-struct MotorTemp
+std::unordered_map<std::string, double>
 ```
 
 **说明：**  
-16个关节电机温度信息（单位：°C）。
+机器人关节名字与关节温度信息映射表。
 
-| 成员 | 类型 | 说明 |
-|:--|:--|:--|
-| `fl1`, `fl2`, `fl3`, `fl4` | `float` | 左前腿 1-4 号关节电机温度 |
-| `fr1`, `fr2`, `fr3`, `fr4` | `float` | 右前腿 1-4 号关节电机温度 |
-| `bl1`, `bl2`, `bl3`, `bl4` | `float` | 左后腿 1-4 号关节电机温度 |
-| `br1`, `br2`, `br3`, `br4` | `float` | 右后腿 1-4 号关节电机温度 |
+轮足关节名字如下表
+
+| 名字 | 说明 |
+|:--|:--|
+| `fl1`, `fl2`, `fl3`, `fl4` |  左前腿 1-4 号关节 |
+| `fr1`, `fr2`, `fr3`, `fr4` |  右前腿 1-4 号关节 |
+| `bl1`, `bl2`, `bl3`, `bl4` |  左后腿 1-4 号关节 |
+| `br1`, `br2`, `br3`, `br4` |  右后腿 1-4 号关节 |
 
 ---
 
@@ -472,7 +474,7 @@ struct RobotState
 | `battery` | `BatteryData` | 电池信息 |
 | `speed` | `Speed` | 当前速度 |
 | `mile_data` | `float` | 里程累积数据 (m) |
-| `motor_temp` | `MotorTemp` | 电机温度 |
+| `joint_temps` | `std::unordered_map<std::string, double>` | 关节温度<关节名称,关节温度> 单位：°C|
 | `sport_mode` | `SportMode` | 运动模式 |
 | `control_source` | `CtrlSource` | 控制来源 |
 
@@ -495,12 +497,28 @@ struct MotionData
 | `omega_world[3]` | `float` | 世界坐标系角速度 [x, y, z] (rad/s) |
 | `v_body[3]` | `float` | 自身坐标系下速度 [x, y, z] (m/s) |
 | `omega_body[3]` | `float` | 自身坐标系下角速度 [x, y, z] (rad/s) |
+| `time_stamp` | `uint64_t` | 时间戳 (ns) |
+
+### SpeedData
+
+```cpp
+struct SpeedData
+```
+
+**说明：**  
+速度信息说明。
+
+| 成员 | 类型 | 说明 |
+|:--|:--|:--|
+| `x` | `float` | 前后速度 (m/s) |
+| `y` | `float` | 左右平移速度 (m/s) |
+| `yaw` | `float` | 旋转角速度 (rad/s)|
 
 ---
 
 ## 相关文档
 
-- [SDKClient API 文档](sdk_client_api_cn.md) - 客户端接口详细说明
-- [连接配置文档](sdk_connection_cn.md) - 连接参数和状态说明
-- [Callback 回调接口](sdk_callback_cn.md) - 回调接口定义
-- [状态定义文档](sdk_state_cn.md) - 连接状态和运动状态详解
+- [SDKClient API 文档](sdk_client_api_zh.md) - 客户端接口详细说明
+- [连接配置文档](sdk_connection_zh.md) - 连接参数和状态说明
+- [Callback 回调接口](sdk_callback_zh.md) - 回调接口定义
+- [状态定义文档](sdk_state_zh.md) - 连接状态和运动状态详解
