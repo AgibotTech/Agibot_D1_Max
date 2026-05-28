@@ -431,21 +431,23 @@ Robot current velocity information.
 
 ---
 
-### MotorTemp
+### Joint temperature description
 
 ```cpp
-struct MotorTemp
+std::unordered_map<std::string, double>
 ```
 
-**Description:**  
-16 joint motor temperature information (unit: °C).
+**说明：**  
+A mapping table between robot joint names and joint temperature information.
 
-| Member | Type | Description |
-|:--|:--|:--|
-| `fl1`, `fl2`, `fl3`, `fl4` | `float` | Left front leg joints 1-4 motor temperature |
-| `fr1`, `fr2`, `fr3`, `fr4` | `float` | Right front leg joints 1-4 motor temperature |
-| `bl1`, `bl2`, `bl3`, `bl4` | `float` | Left rear leg joints 1-4 motor temperature |
-| `br1`, `br2`, `br3`, `br4` | `float` | Right rear leg joints 1-4 motor temperature |
+The names of the joints of the wheeled robot are shown in the table below.
+
+| Name | Description |
+|:--|:--|
+| `fl1`, `fl2`, `fl3`, `fl4` |  FL Joints 1–4 (Front Left)|
+| `fr1`, `fr2`, `fr3`, `fr4` |  FR Joints 1–4 (Front Right)|
+| `bl1`, `bl2`, `bl3`, `bl4` |  BL Joints 1–4 (Back Left) |
+| `br1`, `br2`, `br3`, `br4` |  BR Joints 1–4 (Back Right) |
 
 ---
 
@@ -472,7 +474,7 @@ Robot comprehensive state information.
 | `battery` | `BatteryData` | Battery information |
 | `speed` | `Speed` | Current velocity |
 | `mile_data` | `float` | Cumulative mileage data (m) |
-| `motor_temp` | `MotorTemp` | Motor temperature |
+| `joint_temps` | `std::unordered_map<std::string, double>` | Joint temperature<Joint name, Joint temperature> unit: °C |
 | `sport_mode` | `SportMode` | Motion mode |
 | `control_source` | `CtrlSource` | Control source |
 
@@ -495,6 +497,24 @@ Motion control detailed data information.
 | `omega_world[3]` | `float` | Angular velocity in world coordinate system [x, y, z] (rad/s) |
 | `v_body[3]` | `float` | Velocity in body coordinate system [x, y, z] (m/s) |
 | `omega_body[3]` | `float` | Angular velocity in body coordinate system [x, y, z] (rad/s) |
+| `time_stamp` | `uint64_t` | time stamp (ns) |
+
+### SpeedData
+
+```cpp
+struct SpeedData
+```
+
+**Description:**  
+Speed ​​description information.
+
+| Member | Type | Description |
+|:--|:--|:--|
+| `x` | `float` | Forward/backward velocity (m/s) |
+| `y` | `float` | Left/right lateral velocity (m/s) |
+| `yaw` | `float` | Rotation velocity (angular velocity) (rad/s)|
+
+---
 
 ---
 

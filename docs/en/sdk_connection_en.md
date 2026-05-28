@@ -43,7 +43,7 @@ Describes the connection state between the SDK client and the robot.
 using namespace robot_sdk;
 
 SDKClient client;
-client.Connect("192.168.234.1", "8081", true);
+client.Connect("192.168.234.1", "8082", true);
 
 auto state = client.GetConnectionState();
 switch (state) {
@@ -165,7 +165,7 @@ int main() {
     // Using default configuration
     SDKClient client;
     
-    auto ec = client.Connect("192.168.234.1", "8081", true);
+    auto ec = client.Connect("192.168.234.1", "8082", true);
     if (!ec) {
         std::cout << "Connection successful" << std::endl;
     }
@@ -187,7 +187,7 @@ int main() {
     
     SDKClient client([](const std::error_code& ec) {}, config);
     
-    auto ec = client.Connect("192.168.234.1", "8081", true);
+    auto ec = client.Connect("192.168.234.1", "8082", true);
     if (!ec) {
         std::cout << "Connection successful" << std::endl;
     }
@@ -219,7 +219,7 @@ int main() {
     }, config);
     
     // Connect to robot
-    auto ec = client.Connect("192.168.234.1", "8081", true);
+    auto ec = client.Connect("192.168.234.1", "8082", true);
     if (ec) {
         std::cerr << "Initial connection failed: " << ec.message() << std::endl;
         return -1;
@@ -251,7 +251,7 @@ int main() {
         TransportProtocol::Udp
     );
     
-    auto ec = client.Connect("192.168.234.1", "8081", true);
+    auto ec = client.Connect("192.168.234.1", "8082", true);
     if (!ec) {
         std::cout << "Connected via UDP successfully" << std::endl;
     }
@@ -278,7 +278,7 @@ int main() {
     SDKClient client([](const std::error_code& ec) {}, config);
     
     // Asynchronous connection
-    client.Connect("192.168.234.1", "8081", false, 
+    client.Connect("192.168.234.1", "8082", false, 
                    [](const std::error_code& ec) {
         if (!ec) {
             std::cout << "Connection successful" << std::endl;

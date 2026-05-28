@@ -139,6 +139,8 @@ class ControlCallback : public IControlCallback {
 
   void OnSlim() override { std::cout << "[CTRL] ✓ Slim" << std::endl; }
 
+  void OnDSB() override { std::cout << "[CTRL] ✓ DSB" << std::endl; }
+
   void OnReverseHeadTail() override {
     std::cout << "[CTRL] ✓ Reverse Head/Tail" << std::endl;
   }
@@ -268,6 +270,12 @@ void PrintRobotState(const RobotState& data) {
                     : "UNKNOWN")
             << std::endl;
 
+  std::cout << "[Joint Temperature]" << std::endl;
+  std::cout << "  Joint Temperatures: " << std::endl;
+  for (const auto& [joint, temp] : data.joint_temps) {
+    std::cout << "    " << joint << ": " << temp << "°C" << std::endl;
+  }
+
   std::cout << "================================\n" << std::endl;
 }
 
@@ -355,13 +363,26 @@ std::map<char, CommandHandler> CreateCommandTable(SDKClient& sdk_client) {
        [](SDKClient& client) {  // Front fill light
          bool new_state = !g_front_light_on.load();
          g_front_light_on = new_state;
-         client.FrontLight(new_state);
+         auto err = client.FrontLight(
+             new_state, 0, [](const std::error_code& ec, std::size_t) {
+               if (ec) {
+                 std::cerr << "[ERROR] FrontLight command failed: "
+                           << ec.message() << std::endl;
+               }
+             });
+
        }},
       {'b',
        [](SDKClient& client) {  // Back fill light
          bool new_state = !g_back_light_on.load();
          g_back_light_on = new_state;
-         client.BackLight(new_state);
+         auto err = client.BackLight(
+             new_state, 0, [](const std::error_code& ec, std::size_t) {
+               if (ec) {
+                 std::cerr << "[ERROR] BackLight command failed: "
+                           << ec.message() << std::endl;
+               }
+             });
        }},
       {'n',
        [](SDKClient& client) {  // Auto mode light
@@ -414,7 +435,7 @@ int main(int argc, char* argv[]) {
   // Parse command line arguments
   if (argc < 3) {
     std::cerr << "Usage: " << argv[0] << " <ip> <port>" << std::endl;
-    std::cerr << "Example: " << argv[0] << " 192.168.234.1 8081" << std::endl;
+    std::cerr << "Example: " << argv[0] << " 192.168.234.1 8082" << std::endl;
     return EXIT_FAILURE;
   }
 

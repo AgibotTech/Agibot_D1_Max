@@ -26,7 +26,7 @@ class ROBOT_EXPORT_API SDKClient {
   SDKClient(
       ErrorHandler error_callback = [](const std::error_code&) {},
       ConnectionConfig connection_config = ConnectionConfig(),
-      TransportProtocol type = TransportProtocol::WebSocket);
+      TransportProtocol type = TransportProtocol::Udp);
   ~SDKClient();
 
   std::error_code Connect(
@@ -70,6 +70,10 @@ class ROBOT_EXPORT_API SDKClient {
       WriteHandler handler = [](const std::error_code&, std::size_t) {});
 
   std::error_code Slim(
+      int timeout_ms = 0,
+      WriteHandler handler = [](const std::error_code&, std::size_t) {});
+
+  std::error_code DSB(
       int timeout_ms = 0,
       WriteHandler handler = [](const std::error_code&, std::size_t) {});
 
@@ -126,6 +130,14 @@ class ROBOT_EXPORT_API SDKClient {
       WriteHandler handler = [](const std::error_code&, std::size_t) {});
 
   std::error_code SetMcConfig(
+      bool on, int timeout_ms = 0,
+      WriteHandler handler = [](const std::error_code&, std::size_t) {});
+
+  std::error_code SetSpeedReportConfig(
+      bool on, uint32_t frequency, int timeout_ms = 0,
+      WriteHandler handler = [](const std::error_code&, std::size_t) {});
+
+  std::error_code SetJointStateConfig(
       bool on, int timeout_ms = 0,
       WriteHandler handler = [](const std::error_code&, std::size_t) {});
 

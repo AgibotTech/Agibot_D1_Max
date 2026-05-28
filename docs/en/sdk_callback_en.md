@@ -28,6 +28,7 @@ class ROBOT_EXPORT_API IDataCallback {
   virtual void OnImuData(const ImuData& data) {}
   virtual void OnLuxData(const LuxData& data) {}
   virtual void OnMcData(const MotionData& data) {}
+  virtual void OnSpeedData(const SpeedData& data) {}
   virtual void OnRobotStateData(const RobotState& data) {}
   virtual void OnFaultData(const FaultDatas& data) {}
   virtual void OnControlLost(const ControlLostInfo& info) {}
@@ -50,6 +51,14 @@ class ROBOT_EXPORT_API IDataCallback {
 - **Description**: Light intensity data callback (reported at fixed frequency of 1Hz after configuration)  
 - **Parameter**: `const LuxData& data` — Light intensity data structure  
 
+#### 🤖 `OnMcData`
+- **Description**: Robot motion data callback (reported at fixed frequency of 50Hz after configuration)  
+- **Parameter**: `const MotionData& data` — Motion data structure  
+
+#### 🤖 `OnSpeedData`
+- **Description**: Robot speed data callback 
+- **Parameter**: `const SpeedData& data` — Speed data structure  
+
 #### 🤖 `OnRobotStateData`
 - **Description**: Robot state data callback (actively reported at 1Hz)  
 - **Parameter**: `const RobotState& data` — Robot state structure  
@@ -65,10 +74,6 @@ class ROBOT_EXPORT_API IDataCallback {
 #### 🔒 `OnControlAvailable`
 - **Description**: Control available callback  
 - **Parameter**: `const ControlAvailableInfo& info` — Control available information  
-
-#### 🤖 `OnMcData`
-- **Description**: Robot motion data callback (reported at fixed frequency of 50Hz after configuration)  
-- **Parameter**: `const MotionData& data` — Motion data structure  
 
 ---
 
@@ -99,6 +104,7 @@ class ROBOT_EXPORT_API IControlCallback {
   virtual void OnLuxConfig(bool on) {}
   virtual void OnImuConfig(int freq) {}
   virtual void OnMcConfig(bool on) {}
+  virtual void OnSpeedReportConfig(bool on, uint32_t frequency) {}
   virtual void OnTakeControlAck(const TakeControlAck& ack) {}
   virtual void OnReleaseControlAck(const ReleaseControlAck& ack) {}
   virtual void OnUpdateCameraBitrateAck(const CameraBitrateAck& ack) {}
@@ -130,6 +136,7 @@ class ROBOT_EXPORT_API IControlCallback {
 | `OnLuxConfig(bool on)` | Light intensity configuration command received | `true`: enable; `false`: disable |
 | `OnImuConfig(int freq)` | IMU configuration command received | Frequency value |
 | `OnMcConfig(bool on)` | Motion data configuration command received | `true`: enable; `false`: disable |
+| `OnSpeedReportConfig(bool on, uint32_t frequency)` | Speed data configuration command received | `true`: enable; `false`: disable; `frequency`: frequency|
 | `OnTakeControlAck(const TakeControlAck& ack)` | Take control command acknowledgment received | Acknowledgment information |
 | `OnReleaseControlAck(const ReleaseControlAck& ack)` | Release control command acknowledgment received | Acknowledgment information |
 | `OnUpdateCameraBitrateAck(const CameraBitrateAck& ack)` | Camera bitrate update command received | Acknowledgment information, updated bitrate |
