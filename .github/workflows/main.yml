@@ -35,6 +35,9 @@ jobs:
           pip install sphinx myst-parser
           pip install sphinx_tippy 
           pip install sphinx_multiversion
+          pip install sphinx_design
+          pip install sphinx_pdf_generate
+          pip install sphinxcontrib.mermaid
           
       
       # 步骤4：构建文档
