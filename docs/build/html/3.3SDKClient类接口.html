@@ -1,0 +1,1605 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="zh-CN" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>3.3 SDKClient类接口 &mdash; D1_Max V0.1.0 文档</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=5eee55e5"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="_static/translations.js?v=beaddf03"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="索引" href="genindex.html" />
+    <link rel="search" title="搜索" href="search.html" />
+    <link rel="next" title="3.4 Callback参考" href="3.4Callback%E5%8F%82%E8%80%83.html" />
+    <link rel="prev" title="3.2 数据类型" href="3.2%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            D1_Max
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="搜索文档" aria-label="搜索文档" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="导航菜单">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="%E4%B8%80%E3%80%81%E4%BA%A7%E5%93%81%E4%BB%8B%E7%BB%8D.html">一、产品介绍</a></li>
+<li class="toctree-l1"><a class="reference internal" href="%E4%BA%8C%E3%80%81SDK%E5%BC%80%E5%8F%91%E6%8C%87%E5%8D%97.html">二、SDK开发指南</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="%E4%B8%89%E3%80%81SDK%E5%87%BD%E6%95%B0%E4%BB%8B%E7%BB%8D.html">三、SDK函数介绍</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="3.1%E8%BF%9E%E6%8E%A5%E9%85%8D%E7%BD%AE.html">3.1 连接配置</a></li>
+<li class="toctree-l2"><a class="reference internal" href="3.2%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B.html">3.2 数据类型</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">3.3 SDKClient类接口</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id1">概述</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id2">命名空间</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id3">类定义</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id4">错误码机制</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#sdk">SDK 常用错误码</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#id5">类型定义</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id6">构造与析构</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id7">构造函数</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id8">析构函数</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#id9">连接管理</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#connect">Connect - 连接机器人</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#disconnect">Disconnect - 断开连接</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#isconnected">IsConnected - 判断连接状态</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#getconnectionstate">GetConnectionState - 获取连接状态</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#id10">回调设置</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#setcontrolcallback">SetControlCallback - 设置控制回调</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#setdatacallback">SetDataCallback - 设置数据回调</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#id11">基础控制接口</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#softemergencystop">SoftEmergencyStop - 急停</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#standup">StandUp - 站立</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#liedown">LieDown - 卧倒</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#crawl">Crawl - 匍匐</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#climb">Climb - 爬高台</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#slim">Slim - 瘦身</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#gait">Gait - 步态</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dsb">DSB - 过挡鼠板姿态</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#reverseheadtail">ReverseHeadTail - 调转头尾</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#setmode">SetMode - 设置模式</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#setspeed">SetSpeed - 设置速度等级</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#locked">Locked - 锁定</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#id12">灯光控制接口</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#frontlight">FrontLight - 前补光灯</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#backlight">BackLight - 后补光灯</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#automodelight">AutoModeLight - 自动补光灯模式</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#id13">运动与姿态控制</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#move">Move - 移动</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#turn">Turn - 翻滚</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#controlhead">ControlHead - 控制头部</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#highlowstance">HighLowStance - 高低站姿</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#id14">数据配置接口</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#setimuconfig-imu">SetImuConfig - 配置IMU</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#setluxconfig">SetLuxConfig - 配置光强值</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#setmcconfig">SetMcConfig - 配置运动数据</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#setspeedreportconfig">SetSpeedReportConfig - 配置速度数据</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#takecontrol">TakeControl - 获取控制权</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#releasecontrol">ReleaseControl - 释放控制权</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#updatecamerabitrate">UpdateCameraBitrate - 更新摄像头码率</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#id15">版本信息</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#const-std-string-version-const"><code class="docutils literal notranslate"><span class="pre">const</span> <span class="pre">std::string&amp;</span> <span class="pre">Version()</span> <span class="pre">const</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#const-std-string-protocolversion-const"><code class="docutils literal notranslate"><span class="pre">const</span> <span class="pre">std::string&amp;</span> <span class="pre">ProtocolVersion()</span> <span class="pre">const</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#const-std-string-systemversion-const"><code class="docutils literal notranslate"><span class="pre">const</span> <span class="pre">std::string&amp;</span> <span class="pre">SystemVersion()</span> <span class="pre">const</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#id16">示例代码</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="3.4Callback%E5%8F%82%E8%80%83.html">3.4 Callback参考</a></li>
+<li class="toctree-l2"><a class="reference internal" href="3.5SDK%E6%8E%A7%E5%88%B6%E6%9D%83%E5%BD%92%E5%B1%9E.html">3.5 SDK控制权归属</a></li>
+<li class="toctree-l2"><a class="reference internal" href="3.6SDK%E5%86%85%E9%83%A8%E8%BF%90%E5%8A%A8%E7%8A%B6%E6%80%81%E6%B5%81%E8%BD%AC.html">3.6 SDK内部运动状态流转</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="%E5%9B%9B%E3%80%81%E4%BC%A0%E6%84%9F%E8%AE%BE%E5%A4%87%E6%95%B0%E6%8D%AE%E8%8E%B7%E5%8F%96.html">四、传感设备数据获取</a></li>
+<li class="toctree-l1"><a class="reference internal" href="%E4%BA%94%E3%80%81%E8%B0%83%E8%AF%95%E6%8C%87%E5%8D%97.html">五、调试指南</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="移动版导航菜单" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">D1_Max</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="页面导航">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="%E4%B8%89%E3%80%81SDK%E5%87%BD%E6%95%B0%E4%BB%8B%E7%BB%8D.html">三、SDK函数介绍</a></li>
+      <li class="breadcrumb-item active">3.3 SDKClient类接口</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/3.3SDKClient类接口.md.txt" rel="nofollow"> 查看页面源码</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="sdkclient">
+<h1>3.3 SDKClient类接口<a class="headerlink" href="#sdkclient" title="Link to this heading"></a></h1>
+<section id="id1">
+<h2>概述<a class="headerlink" href="#id1" title="Link to this heading"></a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">SDKClient</span></code> 是机器人 SDK 的核心通信类，提供连接、断开和命令发送接口。<br />
+开发者通过该类可实现机器人运动控制、模式切换、急停、灯光控制、数据上报配置等功能。</p>
+<p><strong>工作模式：</strong></p>
+<ul class="simple">
+<li><p><strong>同步模式（阻塞）</strong>：<code class="docutils literal notranslate"><span class="pre">timeout_ms</span> <span class="pre">&gt;</span> <span class="pre">0</span></code>，函数阻塞等待操作完成或超时后返回结果</p></li>
+<li><p><strong>异步模式（非阻塞）</strong>：<code class="docutils literal notranslate"><span class="pre">timeout_ms</span> <span class="pre">=</span> <span class="pre">0</span></code>，函数立即返回，通过回调函数通知操作结果</p></li>
+</ul>
+<p><strong>注意：</strong><code class="docutils literal notranslate"><span class="pre">block</span></code> 参数仅用于 <code class="docutils literal notranslate"><span class="pre">Connect</span></code> 和 <code class="docutils literal notranslate"><span class="pre">Disconnect</span></code> 函数，其他控制函数通过 <code class="docutils literal notranslate"><span class="pre">timeout_ms</span></code> 参数区分同步/异步模式。</p>
+</section>
+<hr class="docutils" />
+<section id="id2">
+<h2>命名空间<a class="headerlink" href="#id2" title="Link to this heading"></a></h2>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="k">namespace</span><span class="w"> </span><span class="nn">robot_sdk</span>
+</pre></div>
+</div>
+</section>
+<hr class="docutils" />
+<section id="id3">
+<h2>类定义<a class="headerlink" href="#id3" title="Link to this heading"></a></h2>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">ROBOT_EXPORT_API</span><span class="w"> </span><span class="n">SDKClient</span>
+</pre></div>
+</div>
+</section>
+<hr class="docutils" />
+<section id="id4">
+<h2>错误码机制<a class="headerlink" href="#id4" title="Link to this heading"></a></h2>
+<p>所有接口均返回 <code class="docutils literal notranslate"><span class="pre">std::error_code</span></code> 类型表示操作结果：</p>
+<ul class="simple">
+<li><p><strong>成功</strong>：<code class="docutils literal notranslate"><span class="pre">ec.value()</span> <span class="pre">==</span> <span class="pre">0</span></code> 或 <code class="docutils literal notranslate"><span class="pre">!ec</span></code></p></li>
+<li><p><strong>失败</strong>：<code class="docutils literal notranslate"><span class="pre">ec.value()</span> <span class="pre">!=</span> <span class="pre">0</span></code> 或 <code class="docutils literal notranslate"><span class="pre">ec</span></code> 为 true</p></li>
+<li><p>通过 <code class="docutils literal notranslate"><span class="pre">ec.message()</span></code> 获取人类可读的错误描述</p></li>
+</ul>
+<p><strong>示例：</strong></p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">std</span><span class="o">::</span><span class="n">error_code</span><span class="w"> </span><span class="n">ec</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">sdk</span><span class="p">.</span><span class="n">Connect</span><span class="p">(</span><span class="s">&quot;192.168.234.1&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;8082&quot;</span><span class="p">,</span><span class="w"> </span><span class="nb">true</span><span class="p">);</span>
+<span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">ec</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">cerr</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;连接失败: &quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">ec</span><span class="p">.</span><span class="n">message</span><span class="p">()</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+<span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;连接成功&quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<section id="sdk">
+<h3>SDK 常用错误码<a class="headerlink" href="#sdk" title="Link to this heading"></a></h3>
+<p>标准错误码</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head text-left"><p>错误码枚举</p></th>
+<th class="head text-left"><p>整数值</p></th>
+<th class="head text-left"><p>含义</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">std::errc::success</span></code></p></td>
+<td class="text-left"><p>0</p></td>
+<td class="text-left"><p>操作成功</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">std::errc::invalid_argument</span></code></p></td>
+<td class="text-left"><p>22</p></td>
+<td class="text-left"><p>参数无效</p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">std::errc::already_connected</span></code></p></td>
+<td class="text-left"><p>106</p></td>
+<td class="text-left"><p>已连接</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">std::errc::not_connected</span></code></p></td>
+<td class="text-left"><p>107</p></td>
+<td class="text-left"><p>未连接</p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">std::errc::timed_out</span></code></p></td>
+<td class="text-left"><p>110</p></td>
+<td class="text-left"><p>操作超时</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">std::errc::connection_refused</span></code></p></td>
+<td class="text-left"><p>111</p></td>
+<td class="text-left"><p>连接被拒绝</p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">std::errc::connection_already_in_progress</span></code></p></td>
+<td class="text-left"><p>114</p></td>
+<td class="text-left"><p>连接正在进行中</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">std::errc::operation_in_progress</span></code></p></td>
+<td class="text-left"><p>115</p></td>
+<td class="text-left"><p>操作正在进行中</p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">std::errc::operation_canceled</span></code></p></td>
+<td class="text-left"><p>125</p></td>
+<td class="text-left"><p>操作被取消</p></td>
+</tr>
+</tbody>
+</table>
+<p>SDK内部扩展错误码</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head text-left"><p>错误码枚举</p></th>
+<th class="head text-left"><p>整数值</p></th>
+<th class="head text-left"><p>含义</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">robot_sdk::errc::ShakeHandFailed</span></code></p></td>
+<td class="text-left"><p>10000</p></td>
+<td class="text-left"><p>握手失败，常见于连接时内部未收到握手消息</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">robot_sdk::errc::ProtocolMismatch</span></code></p></td>
+<td class="text-left"><p>10001</p></td>
+<td class="text-left"><p>协议不匹配，常见于操作旧版本机器</p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">robot_sdk::errc::ControlledDenial</span></code></p></td>
+<td class="text-left"><p>10002</p></td>
+<td class="text-left"><p>控制拒绝，常见于多客户端连接到机器</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+</section>
+<hr class="docutils" />
+<section id="id5">
+<h2>类型定义<a class="headerlink" href="#id5" title="Link to this heading"></a></h2>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head text-left"><p>类型名</p></th>
+<th class="head text-left"><p>定义</p></th>
+<th class="head text-left"><p>说明</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">ConnectHandler</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">std::function&lt;void(const</span> <span class="pre">std::error_code&amp;)&gt;</span></code></p></td>
+<td class="text-left"><p>连接完成回调函数</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">DisConnectHandler</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">std::function&lt;void(const</span> <span class="pre">std::error_code&amp;)&gt;</span></code></p></td>
+<td class="text-left"><p>断开连接完成回调函数</p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">ErrorHandler</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">std::function&lt;void(const</span> <span class="pre">std::error_code&amp;)&gt;</span></code></p></td>
+<td class="text-left"><p>SDK 内部错误回调函数</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">WriteHandler</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">std::function&lt;void(const</span> <span class="pre">std::error_code&amp;,</span> <span class="pre">std::size_t)&gt;</span></code></p></td>
+<td class="text-left"><p>命令发送完成回调函数</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<hr class="docutils" />
+<section id="id6">
+<h2>构造与析构<a class="headerlink" href="#id6" title="Link to this heading"></a></h2>
+<section id="id7">
+<h3>构造函数<a class="headerlink" href="#id7" title="Link to this heading"></a></h3>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">SDKClient</span><span class="p">(</span><span class="n">ErrorHandler</span><span class="w"> </span><span class="n">error_callback</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[](</span><span class="k">const</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">error_code</span><span class="o">&amp;</span><span class="p">)</span><span class="w"> </span><span class="p">{},</span>
+<span class="w">          </span><span class="n">ConnectionConfig</span><span class="w"> </span><span class="n">connection_config</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ConnectionConfig</span><span class="p">(),</span>
+<span class="w">          </span><span class="n">TransportProtocol</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">TransportProtocol</span><span class="o">::</span><span class="n">Udp</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>说明：</strong><br />
+构造一个 SDK 客户端对象。</p>
+<p><strong>参数：</strong></p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head text-left"><p>参数名</p></th>
+<th class="head text-left"><p>类型</p></th>
+<th class="head text-left"><p>默认值</p></th>
+<th class="head text-left"><p>说明</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">error_callback</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">ErrorHandler</span></code></p></td>
+<td class="text-left"><p>空回调</p></td>
+<td class="text-left"><p>SDK 内部通信异常回调函数</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">connection_config</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">ConnectionConfig</span></code></p></td>
+<td class="text-left"><p>默认配置</p></td>
+<td class="text-left"><p>连接配置参数</p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">type</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">TransportProtocol</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">Udp</span></code></p></td>
+<td class="text-left"><p>传输协议类型</p></td>
+</tr>
+</tbody>
+</table>
+<p><strong>相关类型：</strong></p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">ConnectionConfig</span></code>: 连接配置，详见 <a class="reference internal" href="3.1%E8%BF%9E%E6%8E%A5%E9%85%8D%E7%BD%AE.html"><span class="std std-doc">连接配置文档</span></a></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">TransportProtocol</span></code>: 传输协议类型，详见 <a class="reference internal" href="3.1%E8%BF%9E%E6%8E%A5%E9%85%8D%E7%BD%AE.html"><span class="std std-doc">连接配置文档</span></a></p></li>
+</ul>
+</section>
+<hr class="docutils" />
+<section id="id8">
+<h3>析构函数<a class="headerlink" href="#id8" title="Link to this heading"></a></h3>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="o">~</span><span class="n">SDKClient</span><span class="p">()</span>
+</pre></div>
+</div>
+<p><strong>说明：</strong><br />
+析构函数，自动释放资源并断开连接。</p>
+</section>
+</section>
+<hr class="docutils" />
+<section id="id9">
+<h2>连接管理<a class="headerlink" href="#id9" title="Link to this heading"></a></h2>
+<section id="connect">
+<h3>Connect - 连接机器人<a class="headerlink" href="#connect" title="Link to this heading"></a></h3>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">std</span><span class="o">::</span><span class="n">error_code</span><span class="w"> </span><span class="nf">Connect</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="w"> </span><span class="n">ip</span><span class="p">,</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="w"> </span><span class="n">port</span><span class="p">,</span><span class="w"> </span>
+<span class="w">                        </span><span class="kt">bool</span><span class="w"> </span><span class="n">block</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">false</span><span class="p">,</span><span class="w"> </span>
+<span class="w">                        </span><span class="n">ConnectHandler</span><span class="w"> </span><span class="n">handler</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[](</span><span class="k">const</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">error_code</span><span class="o">&amp;</span><span class="p">)</span><span class="w"> </span><span class="p">{})</span>
+</pre></div>
+</div>
+<p><strong>说明：</strong><br />
+连接到指定 IP 和端口的机器人。</p>
+<p>默认情况下：当使用WebSocket时，需要连接机器的8081端口；当使用Udp时，需要连接机器的8082端口；</p>
+<p>⚠️ <strong>注意:</strong></p>
+<p>机器如果已连接至APP，那SDK将无法对狗进行控制。</p>
+<p><strong>参数：</strong></p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head text-left"><p>参数名</p></th>
+<th class="head text-left"><p>类型</p></th>
+<th class="head text-left"><p>默认值</p></th>
+<th class="head text-left"><p>说明</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">ip</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">std::string</span></code></p></td>
+<td class="text-left"><p>-</p></td>
+<td class="text-left"><p>目标 IP 地址</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">port</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">std::string</span></code></p></td>
+<td class="text-left"><p>-</p></td>
+<td class="text-left"><p>目标端口号</p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">block</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">bool</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">false</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">false</span></code>: 异步模式；<code class="docutils literal notranslate"><span class="pre">true</span></code>: 同步模式</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">handler</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">ConnectHandler</span></code></p></td>
+<td class="text-left"><p>空回调</p></td>
+<td class="text-left"><p>异步模式下连接完成后的回调函数；同步模式不使用</p></td>
+</tr>
+</tbody>
+</table>
+<p><strong>返回值：</strong></p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">std::errc::success</span></code>: 操作成功（异步模式表示请求已发出，同步模式表示连接已完成）</p></li>
+<li><p>常见失败错误码：</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">std::errc::operation_in_progress</span></code>: 操作正在进行中</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">std::errc::operation_canceled</span></code>: 操作已取消</p></li>
+</ul>
+</li>
+</ul>
+<p><strong>注意：</strong></p>
+<ul class="simple">
+<li><p>异步模式：函数返回仅表示连接请求已发出，实际连接结果通过回调函数通知</p></li>
+<li><p>同步模式：函数返回即表示连接结果</p></li>
+</ul>
+</section>
+<hr class="docutils" />
+<section id="disconnect">
+<h3>Disconnect - 断开连接<a class="headerlink" href="#disconnect" title="Link to this heading"></a></h3>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">std</span><span class="o">::</span><span class="n">error_code</span><span class="w"> </span><span class="nf">Disconnect</span><span class="p">(</span><span class="kt">bool</span><span class="w"> </span><span class="n">block</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">false</span><span class="p">,</span><span class="w"> </span>
+<span class="w">                           </span><span class="n">DisConnectHandler</span><span class="w"> </span><span class="n">handler</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[](</span><span class="k">const</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">error_code</span><span class="o">&amp;</span><span class="p">)</span><span class="w"> </span><span class="p">{})</span>
+</pre></div>
+</div>
+<p><strong>说明：</strong><br />
+断开与机器人的连接。</p>
+<p><strong>参数：</strong></p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head text-left"><p>参数名</p></th>
+<th class="head text-left"><p>类型</p></th>
+<th class="head text-left"><p>默认值</p></th>
+<th class="head text-left"><p>说明</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">block</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">bool</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">false</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">false</span></code>: 异步模式；<code class="docutils literal notranslate"><span class="pre">true</span></code>: 同步模式</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">handler</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">DisConnectHandler</span></code></p></td>
+<td class="text-left"><p>空回调</p></td>
+<td class="text-left"><p>异步模式下断开完成后的回调函数；同步模式不使用</p></td>
+</tr>
+</tbody>
+</table>
+<p><strong>返回值：</strong></p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">std::errc::success</span></code>: 操作成功</p></li>
+<li><p>常见失败错误码：</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">std::errc::operation_in_progress</span></code>: 操作正在进行中</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">std::errc::operation_canceled</span></code>: 操作已取消</p></li>
+</ul>
+</li>
+</ul>
+<p><strong>注意：</strong></p>
+<ul class="simple">
+<li><p>异步模式：函数返回仅表示断开请求已发出，实际断开结果通过回调函数通知</p></li>
+<li><p>同步模式：函数返回即表示断开结果</p></li>
+</ul>
+</section>
+<hr class="docutils" />
+<section id="isconnected">
+<h3>IsConnected - 判断连接状态<a class="headerlink" href="#isconnected" title="Link to this heading"></a></h3>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="kt">bool</span><span class="w"> </span><span class="n">IsConnected</span><span class="p">()</span><span class="w"> </span><span class="k">const</span>
+</pre></div>
+</div>
+<p><strong>说明：</strong><br />
+判断当前是否已连接机器人。</p>
+<p><strong>返回值：</strong></p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">true</span></code>: 已连接</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">false</span></code>: 未连接</p></li>
+</ul>
+</section>
+<hr class="docutils" />
+<section id="getconnectionstate">
+<h3>GetConnectionState - 获取连接状态<a class="headerlink" href="#getconnectionstate" title="Link to this heading"></a></h3>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">ConnectionState</span><span class="w"> </span><span class="n">GetConnectionState</span><span class="p">()</span><span class="w"> </span><span class="k">const</span>
+</pre></div>
+</div>
+<p><strong>说明：</strong><br />
+获取当前详细的连接状态。</p>
+<p><strong>返回值：</strong><br />
+<code class="docutils literal notranslate"><span class="pre">ConnectionState</span></code> 枚举值，详见 <a class="reference internal" href="3.1%E8%BF%9E%E6%8E%A5%E9%85%8D%E7%BD%AE.html"><span class="std std-doc">连接配置文档</span></a></p>
+</section>
+</section>
+<hr class="docutils" />
+<section id="id10">
+<h2>回调设置<a class="headerlink" href="#id10" title="Link to this heading"></a></h2>
+<section id="setcontrolcallback">
+<h3>SetControlCallback - 设置控制回调<a class="headerlink" href="#setcontrolcallback" title="Link to this heading"></a></h3>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="kt">void</span><span class="w"> </span><span class="n">SetControlCallback</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">shared_ptr</span><span class="o">&lt;</span><span class="n">IControlCallback</span><span class="o">&gt;</span><span class="w"> </span><span class="n">control_callback</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>说明：</strong><br />
+设置控制消息通知函数，用于接收控制命令的应答。</p>
+<p><strong>参数：</strong></p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head text-left"><p>参数名</p></th>
+<th class="head text-left"><p>类型</p></th>
+<th class="head text-left"><p>说明</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">control_callback</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">std::shared_ptr&lt;IControlCallback&gt;</span></code></p></td>
+<td class="text-left"><p>控制回调对象</p></td>
+</tr>
+</tbody>
+</table>
+<p><strong>相关文档：</strong><br />
+详见 <a class="reference internal" href="3.4Callback%E5%8F%82%E8%80%83.html"><span class="std std-doc">Callback 参考</span></a> 中 <code class="docutils literal notranslate"><span class="pre">IControlCallback</span></code> 类的说明。</p>
+</section>
+<hr class="docutils" />
+<section id="setdatacallback">
+<h3>SetDataCallback - 设置数据回调<a class="headerlink" href="#setdatacallback" title="Link to this heading"></a></h3>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="kt">void</span><span class="w"> </span><span class="n">SetDataCallback</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">shared_ptr</span><span class="o">&lt;</span><span class="n">IDataCallback</span><span class="o">&gt;</span><span class="w"> </span><span class="n">data_callback</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>说明：</strong><br />
+设置数据消息通知函数，当机器人数据上报时触发。</p>
+<p><strong>参数：</strong></p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head text-left"><p>参数名</p></th>
+<th class="head text-left"><p>类型</p></th>
+<th class="head text-left"><p>说明</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">data_callback</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">std::shared_ptr&lt;IDataCallback&gt;</span></code></p></td>
+<td class="text-left"><p>数据回调对象</p></td>
+</tr>
+</tbody>
+</table>
+<p><strong>相关文档：</strong><br />
+详见 <a class="reference internal" href="3.4Callback%E5%8F%82%E8%80%83.html"><span class="std std-doc">Callback 参考</span></a> 中 <code class="docutils literal notranslate"><span class="pre">IDataCallback</span></code> 类的说明。</p>
+</section>
+</section>
+<hr class="docutils" />
+<section id="id11">
+<h2>基础控制接口<a class="headerlink" href="#id11" title="Link to this heading"></a></h2>
+<section id="softemergencystop">
+<h3>SoftEmergencyStop - 急停<a class="headerlink" href="#softemergencystop" title="Link to this heading"></a></h3>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">std</span><span class="o">::</span><span class="n">error_code</span><span class="w"> </span><span class="nf">SoftEmergencyStop</span><span class="p">(</span><span class="kt">bool</span><span class="w"> </span><span class="n">on</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">timeout_ms</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span>
+<span class="w">                                   </span><span class="n">WriteHandler</span><span class="w"> </span><span class="n">handler</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[](</span><span class="k">const</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">error_code</span><span class="o">&amp;</span><span class="p">,</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="kt">size_t</span><span class="p">)</span><span class="w"> </span><span class="p">{})</span>
+</pre></div>
+</div>
+<p><strong>说明：</strong><br />
+急停控制。启用急停后，系统将不响应其他运动命令，并且速度设为 0。</p>
+<p><strong>参数：</strong></p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head text-left"><p>参数名</p></th>
+<th class="head text-left"><p>类型</p></th>
+<th class="head text-left"><p>默认值</p></th>
+<th class="head text-left"><p>说明</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">on</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">bool</span></code></p></td>
+<td class="text-left"><p>-</p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">true</span></code>: 急停；<code class="docutils literal notranslate"><span class="pre">false</span></code>: 解除急停</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">timeout_ms</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">int</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">0</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">0</span></code>: 异步模式；<code class="docutils literal notranslate"><span class="pre">&gt;</span> <span class="pre">0</span></code>: 同步模式，最大等待时间（毫秒）</p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">handler</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">WriteHandler</span></code></p></td>
+<td class="text-left"><p>空回调</p></td>
+<td class="text-left"><p>异步模式下命令发送结果回调函数；同步模式不使用</p></td>
+</tr>
+</tbody>
+</table>
+<p><strong>返回值：</strong></p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">std::errc::success</span></code>: 操作成功</p></li>
+<li><p>常见失败错误码：</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">std::errc::timed_out</span></code>: 操作超时</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">std::errc::not_connected</span></code>: 未连接</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">std::errc::operation_canceled</span></code>: 操作已取消</p></li>
+</ul>
+</li>
+</ul>
+<p><strong>注意：</strong></p>
+<ul class="simple">
+<li><p>异步模式：函数返回仅表示命令已发送，发送结果通过回调函数通知</p></li>
+<li><p>同步模式：函数返回即表示命令发送结果</p></li>
+</ul>
+</section>
+<hr class="docutils" />
+<section id="standup">
+<h3>StandUp - 站立<a class="headerlink" href="#standup" title="Link to this heading"></a></h3>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">std</span><span class="o">::</span><span class="n">error_code</span><span class="w"> </span><span class="nf">StandUp</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">timeout_ms</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span>
+<span class="w">                        </span><span class="n">WriteHandler</span><span class="w"> </span><span class="n">handler</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[](</span><span class="k">const</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">error_code</span><span class="o">&amp;</span><span class="p">,</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="kt">size_t</span><span class="p">)</span><span class="w"> </span><span class="p">{})</span>
+</pre></div>
+</div>
+<p><strong>说明：</strong><br />
+机器人站立动作。</p>
+<p><strong>参数：</strong></p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head text-left"><p>参数名</p></th>
+<th class="head text-left"><p>类型</p></th>
+<th class="head text-left"><p>默认值</p></th>
+<th class="head text-left"><p>说明</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">timeout_ms</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">int</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">0</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">0</span></code>: 异步模式；<code class="docutils literal notranslate"><span class="pre">&gt;</span> <span class="pre">0</span></code>: 同步模式，最大等待时间（毫秒）</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">handler</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">WriteHandler</span></code></p></td>
+<td class="text-left"><p>空回调</p></td>
+<td class="text-left"><p>异步模式下命令发送结果回调函数；同步模式不使用</p></td>
+</tr>
+</tbody>
+</table>
+<p><strong>返回值：</strong><br />
+同 <code class="docutils literal notranslate"><span class="pre">SoftEmergencyStop</span></code></p>
+<p><strong>注意：</strong><br />
+调用站立后，站立过程中会上报 <code class="docutils literal notranslate"><span class="pre">MOTION_STATUS_STAND_UP</span></code> 状态，站立完成后会根据模式自动进入 <code class="docutils literal notranslate"><span class="pre">MOTION_STATUS_GENERAL</span></code> 或 <code class="docutils literal notranslate"><span class="pre">MOTION_STATUS_IN_PLACE</span></code> 状态。</p>
+</section>
+<hr class="docutils" />
+<section id="liedown">
+<h3>LieDown - 卧倒<a class="headerlink" href="#liedown" title="Link to this heading"></a></h3>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">std</span><span class="o">::</span><span class="n">error_code</span><span class="w"> </span><span class="nf">LieDown</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">timeout_ms</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span>
+<span class="w">                        </span><span class="n">WriteHandler</span><span class="w"> </span><span class="n">handler</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[](</span><span class="k">const</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">error_code</span><span class="o">&amp;</span><span class="p">,</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="kt">size_t</span><span class="p">)</span><span class="w"> </span><span class="p">{})</span>
+</pre></div>
+</div>
+<p><strong>说明：</strong><br />
+机器人卧倒动作。</p>
+<p><strong>参数：</strong><br />
+同 <code class="docutils literal notranslate"><span class="pre">StandUp</span></code></p>
+<p><strong>返回值：</strong><br />
+同 <code class="docutils literal notranslate"><span class="pre">SoftEmergencyStop</span></code></p>
+</section>
+<hr class="docutils" />
+<section id="crawl">
+<h3>Crawl - 匍匐<a class="headerlink" href="#crawl" title="Link to this heading"></a></h3>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">std</span><span class="o">::</span><span class="n">error_code</span><span class="w"> </span><span class="nf">Crawl</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">timeout_ms</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span>
+<span class="w">                      </span><span class="n">WriteHandler</span><span class="w"> </span><span class="n">handler</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[](</span><span class="k">const</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">error_code</span><span class="o">&amp;</span><span class="p">,</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="kt">size_t</span><span class="p">)</span><span class="w"> </span><span class="p">{})</span>
+</pre></div>
+</div>
+<p><strong>说明：</strong><br />
+机器人匍匐动作。</p>
+<p><strong>参数：</strong><br />
+同 <code class="docutils literal notranslate"><span class="pre">StandUp</span></code></p>
+<p><strong>返回值：</strong><br />
+同 <code class="docutils literal notranslate"><span class="pre">SoftEmergencyStop</span></code></p>
+</section>
+<hr class="docutils" />
+<section id="climb">
+<h3>Climb - 爬高台<a class="headerlink" href="#climb" title="Link to this heading"></a></h3>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">std</span><span class="o">::</span><span class="n">error_code</span><span class="w"> </span><span class="nf">Climb</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">timeout_ms</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span>
+<span class="w">                      </span><span class="n">WriteHandler</span><span class="w"> </span><span class="n">handler</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[](</span><span class="k">const</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">error_code</span><span class="o">&amp;</span><span class="p">,</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="kt">size_t</span><span class="p">)</span><span class="w"> </span><span class="p">{})</span>
+</pre></div>
+</div>
+<p><strong>说明：</strong><br />
+爬高台动作，仅在<strong>通用模式</strong>下使用。</p>
+<p><strong>参数：</strong><br />
+同 <code class="docutils literal notranslate"><span class="pre">StandUp</span></code></p>
+<p><strong>返回值：</strong><br />
+同 <code class="docutils literal notranslate"><span class="pre">SoftEmergencyStop</span></code></p>
+</section>
+<hr class="docutils" />
+<section id="slim">
+<h3>Slim - 瘦身<a class="headerlink" href="#slim" title="Link to this heading"></a></h3>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">std</span><span class="o">::</span><span class="n">error_code</span><span class="w"> </span><span class="nf">Slim</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">timeout_ms</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span>
+<span class="w">                     </span><span class="n">WriteHandler</span><span class="w"> </span><span class="n">handler</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[](</span><span class="k">const</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">error_code</span><span class="o">&amp;</span><span class="p">,</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="kt">size_t</span><span class="p">)</span><span class="w"> </span><span class="p">{})</span>
+</pre></div>
+</div>
+<p><strong>说明：</strong><br />
+瘦身动作，仅在<strong>通用模式</strong>下使用。</p>
+<p><strong>参数：</strong><br />
+同 <code class="docutils literal notranslate"><span class="pre">StandUp</span></code></p>
+<p><strong>返回值：</strong><br />
+同 <code class="docutils literal notranslate"><span class="pre">SoftEmergencyStop</span></code></p>
+</section>
+<hr class="docutils" />
+<section id="gait">
+<h3>Gait - 步态<a class="headerlink" href="#gait" title="Link to this heading"></a></h3>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">std</span><span class="o">::</span><span class="n">error_code</span><span class="w"> </span><span class="nf">Gait</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">timeout_ms</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span>
+<span class="w">                     </span><span class="n">WriteHandler</span><span class="w"> </span><span class="n">handler</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[](</span><span class="k">const</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">error_code</span><span class="o">&amp;</span><span class="p">,</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="kt">size_t</span><span class="p">)</span><span class="w"> </span><span class="p">{})</span>
+</pre></div>
+</div>
+<p><strong>说明：</strong><br />
+步态姿态，仅在<strong>通用模式</strong>下使用。</p>
+<p><strong>参数：</strong><br />
+同 <code class="docutils literal notranslate"><span class="pre">StandUp</span></code></p>
+<p><strong>返回值：</strong><br />
+同 <code class="docutils literal notranslate"><span class="pre">SoftEmergencyStop</span></code></p>
+</section>
+<hr class="docutils" />
+<section id="dsb">
+<h3>DSB - 过挡鼠板姿态<a class="headerlink" href="#dsb" title="Link to this heading"></a></h3>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">std</span><span class="o">::</span><span class="n">error_code</span><span class="w"> </span><span class="nf">DSB</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">timeout_ms</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span>
+<span class="w">                     </span><span class="n">WriteHandler</span><span class="w"> </span><span class="n">handler</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[](</span><span class="k">const</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">error_code</span><span class="o">&amp;</span><span class="p">,</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="kt">size_t</span><span class="p">)</span><span class="w"> </span><span class="p">{})</span>
+</pre></div>
+</div>
+<p><strong>说明：</strong><br />
+过挡鼠板姿态，仅在<strong>通用模式</strong>下使用。</p>
+<p><strong>参数：</strong><br />
+同 <code class="docutils literal notranslate"><span class="pre">StandUp</span></code></p>
+<p><strong>返回值：</strong><br />
+同 <code class="docutils literal notranslate"><span class="pre">SoftEmergencyStop</span></code></p>
+</section>
+<hr class="docutils" />
+<section id="reverseheadtail">
+<h3>ReverseHeadTail - 调转头尾<a class="headerlink" href="#reverseheadtail" title="Link to this heading"></a></h3>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">std</span><span class="o">::</span><span class="n">error_code</span><span class="w"> </span><span class="nf">ReverseHeadTail</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">timeout_ms</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span>
+<span class="w">                                 </span><span class="n">WriteHandler</span><span class="w"> </span><span class="n">handler</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[](</span><span class="k">const</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">error_code</span><span class="o">&amp;</span><span class="p">,</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="kt">size_t</span><span class="p">)</span><span class="w"> </span><span class="p">{})</span>
+</pre></div>
+</div>
+<p><strong>说明：</strong><br />
+调转机器人头尾方向。</p>
+<p><strong>参数：</strong><br />
+同 <code class="docutils literal notranslate"><span class="pre">StandUp</span></code></p>
+<p><strong>返回值：</strong><br />
+同 <code class="docutils literal notranslate"><span class="pre">SoftEmergencyStop</span></code></p>
+</section>
+<hr class="docutils" />
+<section id="setmode">
+<h3>SetMode - 设置模式<a class="headerlink" href="#setmode" title="Link to this heading"></a></h3>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">std</span><span class="o">::</span><span class="n">error_code</span><span class="w"> </span><span class="nf">SetMode</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">mode</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">timeout_ms</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span>
+<span class="w">                        </span><span class="n">WriteHandler</span><span class="w"> </span><span class="n">handler</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[](</span><span class="k">const</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">error_code</span><span class="o">&amp;</span><span class="p">,</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="kt">size_t</span><span class="p">)</span><span class="w"> </span><span class="p">{})</span>
+</pre></div>
+</div>
+<p><strong>说明：</strong><br />
+设置机器人运行模式，默认为通用模式。</p>
+<p><strong>参数：</strong></p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head text-left"><p>参数名</p></th>
+<th class="head text-left"><p>类型</p></th>
+<th class="head text-left"><p>默认值</p></th>
+<th class="head text-left"><p>说明</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">mode</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">int</span></code></p></td>
+<td class="text-left"><p>-</p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">1</span></code>: 通用模式；<code class="docutils literal notranslate"><span class="pre">2</span></code>: 原地模式；<code class="docutils literal notranslate"><span class="pre">3</span></code>: 登阶模式</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">timeout_ms</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">int</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">0</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">0</span></code>: 异步模式；<code class="docutils literal notranslate"><span class="pre">&gt;</span> <span class="pre">0</span></code>: 同步模式，最大等待时间（毫秒）</p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">handler</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">WriteHandler</span></code></p></td>
+<td class="text-left"><p>空回调</p></td>
+<td class="text-left"><p>异步模式下命令发送结果回调函数；同步模式不使用</p></td>
+</tr>
+</tbody>
+</table>
+<p><strong>返回值：</strong><br />
+同 <code class="docutils literal notranslate"><span class="pre">SoftEmergencyStop</span></code></p>
+</section>
+<hr class="docutils" />
+<section id="setspeed">
+<h3>SetSpeed - 设置速度等级<a class="headerlink" href="#setspeed" title="Link to this heading"></a></h3>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">std</span><span class="o">::</span><span class="n">error_code</span><span class="w"> </span><span class="nf">SetSpeed</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">speed_level</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">timeout_ms</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span>
+<span class="w">                         </span><span class="n">WriteHandler</span><span class="w"> </span><span class="n">handler</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[](</span><span class="k">const</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">error_code</span><span class="o">&amp;</span><span class="p">,</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="kt">size_t</span><span class="p">)</span><span class="w"> </span><span class="p">{})</span>
+</pre></div>
+</div>
+<p><strong>说明：</strong><br />
+设置速度等级，主要影响通用模式下 <code class="docutils literal notranslate"><span class="pre">Move</span></code> 命令的速度，默认为低速。</p>
+<p>低速对Move接口的影响：</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>forward_back：
+    [-1.0, 1.0]对应[-1.0m/s , +1.0m/s]
+
+left_right：
+    [-1.0, 1.0]对应[-0.5m/s , +0.5m/s]
+
+yaw：
+    [-1.0, 1.0]对应[-1.5rad/s, +1.5rad/s]
+</pre></div>
+</div>
+<p>中速对Move接口的影响：</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>forward_back：
+    [-1.0, 1.0]对应[-2.0m/s , +2.0m/s]
+
+left_right：
+    当-1.0m/s &lt; forward_back &lt; 1.0m/s时，[-1.0, 1.0]对应[-0.5m/s , +0.5m/s]
+    当forward_back&gt; 1.0m/s 或者 forward_back&lt; -1.0m/s时，限制为0m/s
+
+yaw：
+    当-1.0m/s &lt; forward_back &lt; 1.0m/s时，[-1.0, 1.0]对应[-1.5rad/s, +1.5rad/s]
+    当forward_back&gt; 1.0m/s 或者forward_back&lt; -1.0m/s时，[-1.0, 1.0]对应[-1.0rad/s, +1.0rad/s]
+</pre></div>
+</div>
+<p>高速对Move接口的影响：</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>forward_back：
+    [-1.0, 1.0]对应[-3.0m/s , +3.0m/s]
+
+left_right：
+    当-1.0m/s &lt; forward_back &lt; 1.0m/s时，[-1.0, 1.0]对应[-0.5m/s , +0.5m/s]
+    当forward_back&gt; 1.0m/s 或者 forward_back&lt; -1.0m/s时，限制为0m/s
+
+yaw：
+    当-1.0m/s &lt; forward_back &lt; 1.0m/s时，[-1.0, 1.0]对应[-1.5rad/s, +1.5rad/s]
+    当forward_back&gt; 1.0m/s 或者forward_back&lt; -1.0m/s时，[-1.0, 1.0]对应[-1.0rad/s, +1.0rad/s]
+    当forward_back&gt; 2.0m/s 或者forward_back&lt; -2.0m/s时，[-1.0, 1.0]对应[-0.5rad/s, +0.5rad/s]
+</pre></div>
+</div>
+<p><strong>参数：</strong></p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head text-left"><p>参数名</p></th>
+<th class="head text-left"><p>类型</p></th>
+<th class="head text-left"><p>默认值</p></th>
+<th class="head text-left"><p>说明</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">speed_level</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">int</span></code></p></td>
+<td class="text-left"><p>-</p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">1</span></code>: 低速；<code class="docutils literal notranslate"><span class="pre">2</span></code>: 中速；<code class="docutils literal notranslate"><span class="pre">3</span></code>: 高速（范围 [1, 3]）</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">timeout_ms</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">int</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">0</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">0</span></code>: 异步模式；<code class="docutils literal notranslate"><span class="pre">&gt;</span> <span class="pre">0</span></code>: 同步模式，最大等待时间（毫秒）</p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">handler</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">WriteHandler</span></code></p></td>
+<td class="text-left"><p>空回调</p></td>
+<td class="text-left"><p>异步模式下命令发送结果回调函数；同步模式不使用</p></td>
+</tr>
+</tbody>
+</table>
+<p><strong>返回值：</strong><br />
+同 <code class="docutils literal notranslate"><span class="pre">SoftEmergencyStop</span></code></p>
+</section>
+<hr class="docutils" />
+<section id="locked">
+<h3>Locked - 锁定<a class="headerlink" href="#locked" title="Link to this heading"></a></h3>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">std</span><span class="o">::</span><span class="n">error_code</span><span class="w"> </span><span class="nf">Locked</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">timeout_ms</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span>
+<span class="w">                       </span><span class="n">WriteHandler</span><span class="w"> </span><span class="n">handler</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[](</span><span class="k">const</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">error_code</span><span class="o">&amp;</span><span class="p">,</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="kt">size_t</span><span class="p">)</span><span class="w"> </span><span class="p">{})</span>
+</pre></div>
+</div>
+<p><strong>说明：</strong><br />
+锁定机器人，各个关节保持当前位置不动。</p>
+<p><strong>参数：</strong><br />
+同 <code class="docutils literal notranslate"><span class="pre">StandUp</span></code></p>
+<p><strong>返回值：</strong><br />
+同 <code class="docutils literal notranslate"><span class="pre">SoftEmergencyStop</span></code></p>
+<p><strong>注意：</strong><br />
+当下发切换到其他运动状态（站立、匍匐、卧倒）的命令时，会自动解锁并切换到相应动作状态。</p>
+</section>
+</section>
+<hr class="docutils" />
+<section id="id12">
+<h2>灯光控制接口<a class="headerlink" href="#id12" title="Link to this heading"></a></h2>
+<section id="frontlight">
+<h3>FrontLight - 前补光灯<a class="headerlink" href="#frontlight" title="Link to this heading"></a></h3>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">std</span><span class="o">::</span><span class="n">error_code</span><span class="w"> </span><span class="nf">FrontLight</span><span class="p">(</span><span class="kt">bool</span><span class="w"> </span><span class="n">on</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">timeout_ms</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span>
+<span class="w">                           </span><span class="n">WriteHandler</span><span class="w"> </span><span class="n">handler</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[](</span><span class="k">const</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">error_code</span><span class="o">&amp;</span><span class="p">,</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="kt">size_t</span><span class="p">)</span><span class="w"> </span><span class="p">{})</span>
+</pre></div>
+</div>
+<p><strong>说明：</strong><br />
+设置前补光灯，设置后自动模式关闭。</p>
+<p><strong>参数：</strong></p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head text-left"><p>参数名</p></th>
+<th class="head text-left"><p>类型</p></th>
+<th class="head text-left"><p>默认值</p></th>
+<th class="head text-left"><p>说明</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">on</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">bool</span></code></p></td>
+<td class="text-left"><p>-</p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">true</span></code>: 开启；<code class="docutils literal notranslate"><span class="pre">false</span></code>: 关闭</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">timeout_ms</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">int</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">0</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">0</span></code>: 异步模式；<code class="docutils literal notranslate"><span class="pre">&gt;</span> <span class="pre">0</span></code>: 同步模式，最大等待时间（毫秒）</p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">handler</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">WriteHandler</span></code></p></td>
+<td class="text-left"><p>空回调</p></td>
+<td class="text-left"><p>异步模式下命令发送结果回调函数；同步模式不使用</p></td>
+</tr>
+</tbody>
+</table>
+<p><strong>返回值：</strong><br />
+同 <code class="docutils literal notranslate"><span class="pre">SoftEmergencyStop</span></code></p>
+</section>
+<hr class="docutils" />
+<section id="backlight">
+<h3>BackLight - 后补光灯<a class="headerlink" href="#backlight" title="Link to this heading"></a></h3>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">std</span><span class="o">::</span><span class="n">error_code</span><span class="w"> </span><span class="nf">BackLight</span><span class="p">(</span><span class="kt">bool</span><span class="w"> </span><span class="n">on</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">timeout_ms</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span>
+<span class="w">                          </span><span class="n">WriteHandler</span><span class="w"> </span><span class="n">handler</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[](</span><span class="k">const</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">error_code</span><span class="o">&amp;</span><span class="p">,</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="kt">size_t</span><span class="p">)</span><span class="w"> </span><span class="p">{})</span>
+</pre></div>
+</div>
+<p><strong>说明：</strong><br />
+设置后补光灯，设置后自动模式关闭。</p>
+<p><strong>参数：</strong><br />
+同 <code class="docutils literal notranslate"><span class="pre">FrontLight</span></code></p>
+<p><strong>返回值：</strong><br />
+同 <code class="docutils literal notranslate"><span class="pre">SoftEmergencyStop</span></code></p>
+</section>
+<hr class="docutils" />
+<section id="automodelight">
+<h3>AutoModeLight - 自动补光灯模式<a class="headerlink" href="#automodelight" title="Link to this heading"></a></h3>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">std</span><span class="o">::</span><span class="n">error_code</span><span class="w"> </span><span class="nf">AutoModeLight</span><span class="p">(</span><span class="kt">bool</span><span class="w"> </span><span class="n">on</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">timeout_ms</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span>
+<span class="w">                              </span><span class="n">WriteHandler</span><span class="w"> </span><span class="n">handler</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[](</span><span class="k">const</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">error_code</span><span class="o">&amp;</span><span class="p">,</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="kt">size_t</span><span class="p">)</span><span class="w"> </span><span class="p">{})</span>
+</pre></div>
+</div>
+<p><strong>说明：</strong><br />
+设置自动补光灯模式。</p>
+<p><strong>参数：</strong><br />
+同 <code class="docutils literal notranslate"><span class="pre">FrontLight</span></code></p>
+<p><strong>返回值：</strong><br />
+同 <code class="docutils literal notranslate"><span class="pre">SoftEmergencyStop</span></code></p>
+</section>
+</section>
+<hr class="docutils" />
+<section id="id13">
+<h2>运动与姿态控制<a class="headerlink" href="#id13" title="Link to this heading"></a></h2>
+<section id="move">
+<h3>Move - 移动<a class="headerlink" href="#move" title="Link to this heading"></a></h3>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">std</span><span class="o">::</span><span class="n">error_code</span><span class="w"> </span><span class="nf">Move</span><span class="p">(</span><span class="kt">float</span><span class="w"> </span><span class="n">left_right</span><span class="p">,</span><span class="w"> </span><span class="kt">float</span><span class="w"> </span><span class="n">forward_back</span><span class="p">,</span><span class="w"> </span><span class="kt">float</span><span class="w"> </span><span class="n">yaw</span><span class="p">,</span><span class="w"> </span>
+<span class="w">                     </span><span class="kt">int</span><span class="w"> </span><span class="n">timeout_ms</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span>
+<span class="w">                     </span><span class="n">WriteHandler</span><span class="w"> </span><span class="n">handler</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[](</span><span class="k">const</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">error_code</span><span class="o">&amp;</span><span class="p">,</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="kt">size_t</span><span class="p">)</span><span class="w"> </span><span class="p">{})</span>
+</pre></div>
+</div>
+<p><strong>说明：</strong><br />
+用在<strong>通用模式</strong>下进行移动，单位：百分比，根据<strong>SpeedLevel</strong>来限速。</p>
+<p>最新的Move指令会维持1s。</p>
+<p><strong>参数：</strong></p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head text-left"><p>参数名</p></th>
+<th class="head text-left"><p>类型</p></th>
+<th class="head text-left"><p>默认值</p></th>
+<th class="head text-left"><p>说明</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">left_right</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">float</span></code></p></td>
+<td class="text-left"><p>-</p></td>
+<td class="text-left"><p>左右平移速度，范围 [-1.0, 1.0]；正数左平移，负数右平移</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">forward_back</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">float</span></code></p></td>
+<td class="text-left"><p>-</p></td>
+<td class="text-left"><p>前后移动速度，范围 [-1.0, 1.0]；正数前进，负数后退</p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">yaw</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">float</span></code></p></td>
+<td class="text-left"><p>-</p></td>
+<td class="text-left"><p>旋转速度，范围 [-1.0, 1.0]；正数左旋转，负数右旋转</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">timeout_ms</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">int</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">0</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">0</span></code>: 异步模式；<code class="docutils literal notranslate"><span class="pre">&gt;</span> <span class="pre">0</span></code>: 同步模式，最大等待时间（毫秒）</p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">handler</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">WriteHandler</span></code></p></td>
+<td class="text-left"><p>空回调</p></td>
+<td class="text-left"><p>异步模式下命令发送结果回调函数；同步模式不使用</p></td>
+</tr>
+</tbody>
+</table>
+<p><strong>返回值：</strong></p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">std::errc::success</span></code>: 操作成功</p></li>
+<li><p>常见失败错误码：</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">std::errc::timed_out</span></code>: 操作超时</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">std::errc::not_connected</span></code>: 未连接</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">std::errc::operation_canceled</span></code>: 操作已取消</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">std::errc::invalid_argument</span></code>: 参数无效</p></li>
+</ul>
+</li>
+</ul>
+<p><strong>注意：</strong><br />
+异步模式：函数返回仅表示命令已发送，发送结果通过回调函数通知<br />
+同步模式：函数返回即表示命令发送结果</p>
+</section>
+<hr class="docutils" />
+<section id="turn">
+<h3>Turn - 翻滚<a class="headerlink" href="#turn" title="Link to this heading"></a></h3>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">std</span><span class="o">::</span><span class="n">error_code</span><span class="w"> </span><span class="nf">Turn</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">direction</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">timeout_ms</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span>
+<span class="w">                     </span><span class="n">WriteHandler</span><span class="w"> </span><span class="n">handler</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[](</span><span class="k">const</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">error_code</span><span class="o">&amp;</span><span class="p">,</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="kt">size_t</span><span class="p">)</span><span class="w"> </span><span class="p">{})</span>
+</pre></div>
+</div>
+<p><strong>说明：</strong><br />
+原地左右翻滚动作（仅<strong>原地模式</strong>有效）。</p>
+<p><strong>参数：</strong></p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head text-left"><p>参数名</p></th>
+<th class="head text-left"><p>类型</p></th>
+<th class="head text-left"><p>默认值</p></th>
+<th class="head text-left"><p>说明</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">direction</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">int</span></code></p></td>
+<td class="text-left"><p>-</p></td>
+<td class="text-left"><p>0: 恢复；1: 左翻滚；2: 右翻滚</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">timeout_ms</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">int</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">0</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">0</span></code>: 异步模式；<code class="docutils literal notranslate"><span class="pre">&gt;</span> <span class="pre">0</span></code>: 同步模式，最大等待时间（毫秒）</p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">handler</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">WriteHandler</span></code></p></td>
+<td class="text-left"><p>空回调</p></td>
+<td class="text-left"><p>异步模式下命令发送结果回调函数；同步模式不使用</p></td>
+</tr>
+</tbody>
+</table>
+<p><strong>返回值：</strong></p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">std::errc::success</span></code>: 操作成功</p></li>
+<li><p>常见失败错误码：</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">std::errc::timed_out</span></code>: 操作超时</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">std::errc::not_connected</span></code>: 未连接</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">std::errc::operation_canceled</span></code>: 操作已取消</p></li>
+</ul>
+</li>
+</ul>
+<p><strong>注意：</strong><br />
+异步模式：函数返回仅表示命令已发送，发送结果通过回调函数通知<br />
+同步模式：函数返回即表示命令发送结果</p>
+</section>
+<hr class="docutils" />
+<section id="controlhead">
+<h3>ControlHead - 控制头部<a class="headerlink" href="#controlhead" title="Link to this heading"></a></h3>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">std</span><span class="o">::</span><span class="n">error_code</span><span class="w"> </span><span class="nf">ControlHead</span><span class="p">(</span><span class="kt">float</span><span class="w"> </span><span class="n">left_right</span><span class="p">,</span><span class="w"> </span><span class="kt">float</span><span class="w"> </span><span class="n">up_down</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">timeout_ms</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span>
+<span class="w">                            </span><span class="n">WriteHandler</span><span class="w"> </span><span class="n">handler</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[](</span><span class="k">const</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">error_code</span><span class="o">&amp;</span><span class="p">,</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="kt">size_t</span><span class="p">)</span><span class="w"> </span><span class="p">{})</span>
+</pre></div>
+</div>
+<p><strong>说明：</strong><br />
+控制机器人&quot;左右探头&quot;与&quot;抬头/低头&quot;动作（仅<strong>原地模式</strong>有效）。</p>
+<p><strong>参数：</strong></p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head text-left"><p>参数名</p></th>
+<th class="head text-left"><p>类型</p></th>
+<th class="head text-left"><p>默认值</p></th>
+<th class="head text-left"><p>说明</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">left_right</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">float</span></code></p></td>
+<td class="text-left"><p>-</p></td>
+<td class="text-left"><p>范围 [-1.0, 1.0]；正数：左探头，负数：右探头；单位 rad/s</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">up_down</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">float</span></code></p></td>
+<td class="text-left"><p>-</p></td>
+<td class="text-left"><p>范围 [-1.0, 1.0]；正数：抬头，负数：低头；单位 rad/s</p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">timeout_ms</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">int</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">0</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">0</span></code>: 异步模式；<code class="docutils literal notranslate"><span class="pre">&gt;</span> <span class="pre">0</span></code>: 同步模式，最大等待时间（毫秒）</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">handler</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">WriteHandler</span></code></p></td>
+<td class="text-left"><p>空回调</p></td>
+<td class="text-left"><p>异步模式下命令发送结果回调函数；同步模式不使用</p></td>
+</tr>
+</tbody>
+</table>
+<p><strong>返回值：</strong></p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">std::errc::success</span></code>: 操作成功</p></li>
+<li><p>常见失败错误码：</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">std::errc::timed_out</span></code>: 操作超时</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">std::errc::not_connected</span></code>: 未连接</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">std::errc::operation_canceled</span></code>: 操作已取消</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">std::errc::invalid_argument</span></code>: 参数无效</p></li>
+</ul>
+</li>
+</ul>
+<p><strong>注意：</strong><br />
+异步模式：函数返回仅表示命令已发送，发送结果通过回调函数通知<br />
+同步模式：函数返回即表示命令发送结果</p>
+</section>
+<hr class="docutils" />
+<section id="highlowstance">
+<h3>HighLowStance - 高低站姿<a class="headerlink" href="#highlowstance" title="Link to this heading"></a></h3>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">std</span><span class="o">::</span><span class="n">error_code</span><span class="w"> </span><span class="nf">HighLowStance</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">stance</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">timeout_ms</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span>
+<span class="w">                              </span><span class="n">WriteHandler</span><span class="w"> </span><span class="n">handler</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[](</span><span class="k">const</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">error_code</span><span class="o">&amp;</span><span class="p">,</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="kt">size_t</span><span class="p">)</span><span class="w"> </span><span class="p">{})</span>
+</pre></div>
+</div>
+<p><strong>说明：</strong><br />
+设置高低站姿（仅<strong>原地模式</strong>有效）。</p>
+<p><strong>参数：</strong></p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head text-left"><p>参数名</p></th>
+<th class="head text-left"><p>类型</p></th>
+<th class="head text-left"><p>默认值</p></th>
+<th class="head text-left"><p>说明</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">stance</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">int</span></code></p></td>
+<td class="text-left"><p>-</p></td>
+<td class="text-left"><p>0: 恢复；1: 高站姿；2: 低站姿</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">timeout_ms</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">int</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">0</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">0</span></code>: 异步模式；<code class="docutils literal notranslate"><span class="pre">&gt;</span> <span class="pre">0</span></code>: 同步模式，最大等待时间（毫秒）</p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">handler</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">WriteHandler</span></code></p></td>
+<td class="text-left"><p>空回调</p></td>
+<td class="text-left"><p>异步模式下命令发送结果回调函数；同步模式不使用</p></td>
+</tr>
+</tbody>
+</table>
+<p><strong>返回值：</strong></p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">std::errc::success</span></code>: 操作成功</p></li>
+<li><p>常见失败错误码：</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">std::errc::timed_out</span></code>: 操作超时</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">std::errc::not_connected</span></code>: 未连接</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">std::errc::operation_canceled</span></code>: 操作已取消</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">std::errc::invalid_argument</span></code>: 参数无效</p></li>
+</ul>
+</li>
+</ul>
+<p><strong>注意：</strong><br />
+异步模式：函数返回仅表示命令已发送，发送结果通过回调函数通知<br />
+同步模式：函数返回即表示命令发送结果</p>
+</section>
+</section>
+<hr class="docutils" />
+<section id="id14">
+<h2>数据配置接口<a class="headerlink" href="#id14" title="Link to this heading"></a></h2>
+<section id="setimuconfig-imu">
+<h3>SetImuConfig - 配置IMU<a class="headerlink" href="#setimuconfig-imu" title="Link to this heading"></a></h3>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">std</span><span class="o">::</span><span class="n">error_code</span><span class="w"> </span><span class="nf">SetImuConfig</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">freq</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">timeout_ms</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span>
+<span class="w">                             </span><span class="n">WriteHandler</span><span class="w"> </span><span class="n">handler</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[](</span><span class="k">const</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">error_code</span><span class="o">&amp;</span><span class="p">,</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="kt">size_t</span><span class="p">)</span><span class="w"> </span><span class="p">{})</span>
+</pre></div>
+</div>
+<p><strong>说明：</strong><br />
+配置 IMU 上报频率，默认关闭。</p>
+<p><strong>参数：</strong></p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head text-left"><p>参数名</p></th>
+<th class="head text-left"><p>类型</p></th>
+<th class="head text-left"><p>默认值</p></th>
+<th class="head text-left"><p>说明</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">freq</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">int</span></code></p></td>
+<td class="text-left"><p>-</p></td>
+<td class="text-left"><p>范围 [0, 100]；0 表示关闭上报</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">timeout_ms</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">int</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">0</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">0</span></code>: 异步模式；<code class="docutils literal notranslate"><span class="pre">&gt;</span> <span class="pre">0</span></code>: 同步模式，最大等待时间（毫秒）</p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">handler</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">WriteHandler</span></code></p></td>
+<td class="text-left"><p>空回调</p></td>
+<td class="text-left"><p>异步模式下命令发送结果回调函数；同步模式不使用</p></td>
+</tr>
+</tbody>
+</table>
+<p><strong>返回值：</strong></p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">std::errc::success</span></code>: 操作成功</p></li>
+<li><p>常见失败错误码：</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">std::errc::timed_out</span></code>: 操作超时</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">std::errc::not_connected</span></code>: 未连接</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">std::errc::operation_canceled</span></code>: 操作已取消</p></li>
+</ul>
+</li>
+</ul>
+<p><strong>注意：</strong><br />
+异步模式：函数返回仅表示命令已发送，发送结果通过回调函数通知<br />
+同步模式：函数返回即表示命令发送结果</p>
+</section>
+<hr class="docutils" />
+<section id="setluxconfig">
+<h3>SetLuxConfig - 配置光强值<a class="headerlink" href="#setluxconfig" title="Link to this heading"></a></h3>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">std</span><span class="o">::</span><span class="n">error_code</span><span class="w"> </span><span class="nf">SetLuxConfig</span><span class="p">(</span><span class="kt">bool</span><span class="w"> </span><span class="n">on</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">timeout_ms</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span>
+<span class="w">                             </span><span class="n">WriteHandler</span><span class="w"> </span><span class="n">handler</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[](</span><span class="k">const</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">error_code</span><span class="o">&amp;</span><span class="p">,</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="kt">size_t</span><span class="p">)</span><span class="w"> </span><span class="p">{})</span>
+</pre></div>
+</div>
+<p><strong>说明：</strong><br />
+配置光强值上报开关，默认关闭。配置后光强值以1Hz上报。</p>
+<p><strong>参数：</strong></p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head text-left"><p>参数名</p></th>
+<th class="head text-left"><p>类型</p></th>
+<th class="head text-left"><p>默认值</p></th>
+<th class="head text-left"><p>说明</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">on</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">bool</span></code></p></td>
+<td class="text-left"><p>-</p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">true</span></code>: 开启；<code class="docutils literal notranslate"><span class="pre">false</span></code>: 关闭</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">timeout_ms</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">int</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">0</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">0</span></code>: 异步模式；<code class="docutils literal notranslate"><span class="pre">&gt;</span> <span class="pre">0</span></code>: 同步模式，最大等待时间（毫秒）</p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">handler</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">WriteHandler</span></code></p></td>
+<td class="text-left"><p>空回调</p></td>
+<td class="text-left"><p>异步模式下命令发送结果回调函数；同步模式不使用</p></td>
+</tr>
+</tbody>
+</table>
+<p><strong>返回值：</strong></p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">std::errc::success</span></code>: 操作成功</p></li>
+<li><p>常见失败错误码：</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">std::errc::timed_out</span></code>: 操作超时</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">std::errc::not_connected</span></code>: 未连接</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">std::errc::operation_canceled</span></code>: 操作已取消</p></li>
+</ul>
+</li>
+</ul>
+<p><strong>注意：</strong><br />
+异步模式：函数返回仅表示命令已发送，发送结果通过回调函数通知<br />
+同步模式：函数返回即表示命令发送结果</p>
+</section>
+<hr class="docutils" />
+<section id="setmcconfig">
+<h3>SetMcConfig - 配置运动数据<a class="headerlink" href="#setmcconfig" title="Link to this heading"></a></h3>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">std</span><span class="o">::</span><span class="n">error_code</span><span class="w"> </span><span class="nf">SetMcConfig</span><span class="p">(</span><span class="kt">bool</span><span class="w"> </span><span class="n">on</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">timeout_ms</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span>
+<span class="w">                            </span><span class="n">WriteHandler</span><span class="w"> </span><span class="n">handler</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[](</span><span class="k">const</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">error_code</span><span class="o">&amp;</span><span class="p">,</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="kt">size_t</span><span class="p">)</span><span class="w"> </span><span class="p">{})</span>
+</pre></div>
+</div>
+<p><strong>说明：</strong><br />
+配置运动数据上报开关，默认关闭。配置后运动数据以50Hz上报。</p>
+<p><strong>参数：</strong></p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head text-left"><p>参数名</p></th>
+<th class="head text-left"><p>类型</p></th>
+<th class="head text-left"><p>默认值</p></th>
+<th class="head text-left"><p>说明</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">on</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">bool</span></code></p></td>
+<td class="text-left"><p>-</p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">true</span></code>: 开启；<code class="docutils literal notranslate"><span class="pre">false</span></code>: 关闭</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">timeout_ms</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">int</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">0</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">0</span></code>: 异步模式；<code class="docutils literal notranslate"><span class="pre">&gt;</span> <span class="pre">0</span></code>: 同步模式，最大等待时间（毫秒）</p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">handler</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">WriteHandler</span></code></p></td>
+<td class="text-left"><p>空回调</p></td>
+<td class="text-left"><p>异步模式下命令发送结果回调函数；同步模式不使用</p></td>
+</tr>
+</tbody>
+</table>
+<p><strong>返回值：</strong></p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">std::errc::success</span></code>: 操作成功</p></li>
+<li><p>常见失败错误码：</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">std::errc::timed_out</span></code>: 操作超时</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">std::errc::not_connected</span></code>: 未连接</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">std::errc::operation_canceled</span></code>: 操作已取消</p></li>
+</ul>
+</li>
+</ul>
+<p><strong>注意：</strong><br />
+异步模式：函数返回仅表示命令已发送，发送结果通过回调函数通知<br />
+同步模式：函数返回即表示命令发送结果</p>
+</section>
+<hr class="docutils" />
+<section id="setspeedreportconfig">
+<h3>SetSpeedReportConfig - 配置速度数据<a class="headerlink" href="#setspeedreportconfig" title="Link to this heading"></a></h3>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">std</span><span class="o">::</span><span class="n">error_code</span><span class="w"> </span><span class="nf">SetSpeedReportConfig</span><span class="p">(</span><span class="kt">bool</span><span class="w"> </span><span class="n">on</span><span class="p">,</span><span class="w"> </span><span class="kt">uint32_t</span><span class="w"> </span><span class="n">frequency</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">timeout_ms</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span>
+<span class="w">                            </span><span class="n">WriteHandler</span><span class="w"> </span><span class="n">handler</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[](</span><span class="k">const</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">error_code</span><span class="o">&amp;</span><span class="p">,</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="kt">size_t</span><span class="p">)</span><span class="w"> </span><span class="p">{})</span>
+</pre></div>
+</div>
+<p><strong>Description:</strong><br />
+配置速度数据上报开关，默认关闭。配置完成后，将上报速度数据。</p>
+<p><strong>Parameters:</strong></p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head text-left"><p>Parameter Name</p></th>
+<th class="head text-left"><p>Type</p></th>
+<th class="head text-left"><p>Default Value</p></th>
+<th class="head text-left"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">on</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">bool</span></code></p></td>
+<td class="text-left"><p>-</p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">true</span></code>: 开启; <code class="docutils literal notranslate"><span class="pre">false</span></code>: 关闭</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">frequency</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">uint32_t</span></code></p></td>
+<td class="text-left"><p>-</p></td>
+<td class="text-left"><p>上报频率. [1hz, 50hz]</p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">timeout_ms</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">int</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">0</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">0</span></code>: 异步模式；<code class="docutils literal notranslate"><span class="pre">&gt;</span> <span class="pre">0</span></code>: 同步模式，最大等待时间（毫秒）</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">handler</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">WriteHandler</span></code></p></td>
+<td class="text-left"><p>空回调</p></td>
+<td class="text-left"><p>异步模式下命令发送结果回调函数；同步模式不使用</p></td>
+</tr>
+</tbody>
+</table>
+<p><strong>返回值：</strong></p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">std::errc::success</span></code>: 操作成功</p></li>
+<li><p>常见失败错误码：</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">std::errc::timed_out</span></code>: 操作超时</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">std::errc::not_connected</span></code>: 未连接</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">std::errc::operation_canceled</span></code>: 操作已取消</p></li>
+</ul>
+</li>
+</ul>
+<p><strong>注意：</strong><br />
+异步模式：函数返回仅表示命令已发送，发送结果通过回调函数通知<br />
+同步模式：函数返回即表示命令发送结果</p>
+</section>
+<hr class="docutils" />
+<section id="takecontrol">
+<h3>TakeControl - 获取控制权<a class="headerlink" href="#takecontrol" title="Link to this heading"></a></h3>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">std</span><span class="o">::</span><span class="n">error_code</span><span class="w"> </span><span class="nf">TakeControl</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">timeout_ms</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span>
+<span class="w">                            </span><span class="n">WriteHandler</span><span class="w"> </span><span class="n">handler</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[](</span><span class="k">const</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">error_code</span><span class="o">&amp;</span><span class="p">,</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="kt">size_t</span><span class="p">)</span><span class="w"> </span><span class="p">{})</span>
+</pre></div>
+</div>
+<p><strong>说明：</strong><br />
+获取机器人的控制权。如果当前 APP 在控制，则无法抢占接管。详见 <a class="reference internal" href="3.5SDK%E6%8E%A7%E5%88%B6%E6%9D%83%E5%BD%92%E5%B1%9E.html"><span class="std std-doc">sdk控制权归属</span></a></p>
+<p><strong>参数：</strong></p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head text-left"><p>参数名</p></th>
+<th class="head text-left"><p>类型</p></th>
+<th class="head text-left"><p>默认值</p></th>
+<th class="head text-left"><p>说明</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">timeout_ms</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">int</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">0</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">0</span></code>: 异步模式；<code class="docutils literal notranslate"><span class="pre">&gt;</span> <span class="pre">0</span></code>: 同步模式，最大等待时间（毫秒）</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">handler</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">WriteHandler</span></code></p></td>
+<td class="text-left"><p>空回调</p></td>
+<td class="text-left"><p>异步模式下命令发送结果回调函数；同步模式不使用</p></td>
+</tr>
+</tbody>
+</table>
+<p><strong>返回值：</strong></p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">std::errc::success</span></code>: 操作成功</p></li>
+<li><p>常见失败错误码：</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">std::errc::timed_out</span></code>: 操作超时</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">std::errc::not_connected</span></code>: 未连接</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">std::errc::operation_canceled</span></code>: 操作已取消</p></li>
+</ul>
+</li>
+</ul>
+<p><strong>注意：</strong><br />
+异步模式：函数返回仅表示命令已发送，发送结果通过回调函数通知<br />
+同步模式：函数返回即表示命令发送结果</p>
+</section>
+<hr class="docutils" />
+<section id="releasecontrol">
+<h3>ReleaseControl - 释放控制权<a class="headerlink" href="#releasecontrol" title="Link to this heading"></a></h3>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">std</span><span class="o">::</span><span class="n">error_code</span><span class="w"> </span><span class="nf">ReleaseControl</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">timeout_ms</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span>
+<span class="w">                               </span><span class="n">WriteHandler</span><span class="w"> </span><span class="n">handler</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[](</span><span class="k">const</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">error_code</span><span class="o">&amp;</span><span class="p">,</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="kt">size_t</span><span class="p">)</span><span class="w"> </span><span class="p">{})</span>
+</pre></div>
+</div>
+<p><strong>说明：</strong><br />
+释放机器人的控制权。</p>
+<p><strong>参数：</strong></p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head text-left"><p>参数名</p></th>
+<th class="head text-left"><p>类型</p></th>
+<th class="head text-left"><p>默认值</p></th>
+<th class="head text-left"><p>说明</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">timeout_ms</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">int</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">0</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">0</span></code>: 异步模式；<code class="docutils literal notranslate"><span class="pre">&gt;</span> <span class="pre">0</span></code>: 同步模式，最大等待时间（毫秒）</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">handler</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">WriteHandler</span></code></p></td>
+<td class="text-left"><p>空回调</p></td>
+<td class="text-left"><p>异步模式下命令发送结果回调函数；同步模式不使用</p></td>
+</tr>
+</tbody>
+</table>
+<p><strong>返回值：</strong></p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">std::errc::success</span></code>: 操作成功</p></li>
+<li><p>常见失败错误码：</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">std::errc::timed_out</span></code>: 操作超时</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">std::errc::not_connected</span></code>: 未连接</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">std::errc::operation_canceled</span></code>: 操作已取消</p></li>
+</ul>
+</li>
+</ul>
+<p><strong>注意：</strong><br />
+异步模式：函数返回仅表示命令已发送，发送结果通过回调函数通知<br />
+同步模式：函数返回即表示命令发送结果</p>
+</section>
+<hr class="docutils" />
+<section id="updatecamerabitrate">
+<h3>UpdateCameraBitrate - 更新摄像头码率<a class="headerlink" href="#updatecamerabitrate" title="Link to this heading"></a></h3>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="w">  </span><span class="n">std</span><span class="o">::</span><span class="n">error_code</span><span class="w"> </span><span class="nf">UpdateCameraBitrate</span><span class="p">(</span>
+<span class="w">      </span><span class="n">CameraBitrateCmd</span><span class="w"> </span><span class="n">cmd</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">timeout_ms</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span>
+<span class="w">      </span><span class="n">WriteHandler</span><span class="w"> </span><span class="n">handler</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[](</span><span class="k">const</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">error_code</span><span class="o">&amp;</span><span class="p">,</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="kt">size_t</span><span class="p">)</span><span class="w"> </span><span class="p">{});</span>
+</pre></div>
+</div>
+<p><strong>说明：</strong><br />
+更新摄像头码率。</p>
+<p><strong>参数：</strong></p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head text-left"><p>参数名</p></th>
+<th class="head text-left"><p>类型</p></th>
+<th class="head text-left"><p>默认值</p></th>
+<th class="head text-left"><p>说明</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">cmd</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">CameraBitrateCmd</span></code></p></td>
+<td class="text-left"><p></p></td>
+<td class="text-left"><p>配置具体摄像头的码率</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">timeout_ms</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">int</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">0</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">0</span></code>: 异步模式；<code class="docutils literal notranslate"><span class="pre">&gt;</span> <span class="pre">0</span></code>: 同步模式，最大等待时间（毫秒）</p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">handler</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">WriteHandler</span></code></p></td>
+<td class="text-left"><p>空回调</p></td>
+<td class="text-left"><p>异步模式下命令发送结果回调函数；同步模式不使用</p></td>
+</tr>
+</tbody>
+</table>
+<p><strong>返回值：</strong></p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">std::errc::success</span></code>: 操作成功</p></li>
+<li><p>常见失败错误码：</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">std::errc::timed_out</span></code>: 操作超时</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">std::errc::not_connected</span></code>: 未连接</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">std::errc::operation_canceled</span></code>: 操作已取消</p></li>
+</ul>
+</li>
+</ul>
+<p><strong>注意：</strong><br />
+异步模式：函数返回仅表示命令已发送，发送结果通过回调函数通知<br />
+同步模式：函数返回即表示命令发送结果</p>
+</section>
+</section>
+<hr class="docutils" />
+<section id="id15">
+<h2>版本信息<a class="headerlink" href="#id15" title="Link to this heading"></a></h2>
+<section id="const-std-string-version-const">
+<h3><code class="docutils literal notranslate"><span class="pre">const</span> <span class="pre">std::string&amp;</span> <span class="pre">Version()</span> <span class="pre">const</span></code><a class="headerlink" href="#const-std-string-version-const" title="Link to this heading"></a></h3>
+<p>获取 SDK 版本号字符串。</p>
+</section>
+<hr class="docutils" />
+<section id="const-std-string-protocolversion-const">
+<h3><code class="docutils literal notranslate"><span class="pre">const</span> <span class="pre">std::string&amp;</span> <span class="pre">ProtocolVersion()</span> <span class="pre">const</span></code><a class="headerlink" href="#const-std-string-protocolversion-const" title="Link to this heading"></a></h3>
+<p>获取协议版本号字符串。</p>
+</section>
+<hr class="docutils" />
+<section id="const-std-string-systemversion-const">
+<h3><code class="docutils literal notranslate"><span class="pre">const</span> <span class="pre">std::string&amp;</span> <span class="pre">SystemVersion()</span> <span class="pre">const</span></code><a class="headerlink" href="#const-std-string-systemversion-const" title="Link to this heading"></a></h3>
+<p>获取系统版本号字符串。</p>
+</section>
+</section>
+<hr class="docutils" />
+<section id="id16">
+<h2>示例代码<a class="headerlink" href="#id16" title="Link to this heading"></a></h2>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;robot_sdk/sdk_client.hpp&quot;</span>
+<span class="k">using</span><span class="w"> </span><span class="k">namespace</span><span class="w"> </span><span class="nn">robot_sdk</span><span class="p">;</span>
+
+<span class="kt">int</span><span class="w"> </span><span class="nf">main</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">SDKClient</span><span class="w"> </span><span class="n">client</span><span class="p">([](</span><span class="k">const</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">error_code</span><span class="o">&amp;</span><span class="w"> </span><span class="n">ec</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">ec</span><span class="p">)</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">cerr</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;SDK Error: &quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">ec</span><span class="p">.</span><span class="n">message</span><span class="p">()</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+<span class="w">    </span><span class="p">});</span>
+
+<span class="w">    </span><span class="k">auto</span><span class="w"> </span><span class="n">ec</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">client</span><span class="p">.</span><span class="n">Connect</span><span class="p">(</span><span class="s">&quot;192.168.234.1&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;8082&quot;</span><span class="p">,</span><span class="w"> </span><span class="nb">true</span><span class="p">);</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">ec</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">std</span><span class="o">::</span><span class="n">cerr</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;Connect failed: &quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">ec</span><span class="p">.</span><span class="n">message</span><span class="p">()</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="mi">-1</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="n">client</span><span class="p">.</span><span class="n">StandUp</span><span class="p">(</span><span class="mi">2000</span><span class="p">);</span>
+<span class="w">    </span><span class="n">client</span><span class="p">.</span><span class="n">Move</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mf">0.5</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">);</span>
+<span class="w">    </span><span class="n">client</span><span class="p">.</span><span class="n">Disconnect</span><span class="p">(</span><span class="nb">true</span><span class="p">);</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="页脚">
+        <a href="3.2%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B.html" class="btn btn-neutral float-left" title="3.2 数据类型" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> 上一页</a>
+        <a href="3.4Callback%E5%8F%82%E8%80%83.html" class="btn btn-neutral float-right" title="3.4 Callback参考" accesskey="n" rel="next">下一页 <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; 版权所有 2026, Agibot.</p>
+  </div>
+
+  利用 <a href="https://www.sphinx-doc.org/">Sphinx</a> 构建，使用的 
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">主题</a>
+    由 <a href="https://readthedocs.org">Read the Docs</a> 开发.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
