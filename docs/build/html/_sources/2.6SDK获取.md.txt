@@ -1,0 +1,24 @@
+2.6 SDK获取
+===================
+
+way1：
+-------------------
+
+通过ssh进入机器狗本体，查询对应的版本信息后，将查询到的机器狗固件版本号截图发送售后技术支持团队获取对应的SDK 安装包与示例代码，查询方式如下：
+
+```
+ssh robot@192.168.234.1        #password: bot
+cat /opt/release/version.yaml  #查看rk对应固件版本
+
+ssh robot@192.168.168.100        #password: 1
+cat /opt/release/version.yaml    #查看nx对应固件版本
+```
+
+way2：
+-------------------
+
+通过如下github地址获取
+
+```
+git clone https://github.com/AgibotTech/Agibot_D1_Max.git 
+```

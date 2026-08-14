@@ -1,0 +1,1165 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="zh-CN" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>3.2 数据类型 &mdash; D1_Max V0.1.0 文档</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=5eee55e5"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="_static/translations.js?v=beaddf03"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="索引" href="genindex.html" />
+    <link rel="search" title="搜索" href="search.html" />
+    <link rel="next" title="3.3 SDKClient类接口" href="3.3SDKClient%E7%B1%BB%E6%8E%A5%E5%8F%A3.html" />
+    <link rel="prev" title="3.1 连接配置" href="3.1%E8%BF%9E%E6%8E%A5%E9%85%8D%E7%BD%AE.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            D1_Max
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="搜索文档" aria-label="搜索文档" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="导航菜单">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="%E4%B8%80%E3%80%81%E4%BA%A7%E5%93%81%E4%BB%8B%E7%BB%8D.html">一、产品介绍</a></li>
+<li class="toctree-l1"><a class="reference internal" href="%E4%BA%8C%E3%80%81SDK%E5%BC%80%E5%8F%91%E6%8C%87%E5%8D%97.html">二、SDK开发指南</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="%E4%B8%89%E3%80%81SDK%E5%87%BD%E6%95%B0%E4%BB%8B%E7%BB%8D.html">三、SDK函数介绍</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="3.1%E8%BF%9E%E6%8E%A5%E9%85%8D%E7%BD%AE.html">3.1 连接配置</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">3.2 数据类型</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id2">概述</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id3">命名空间</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id4">传输协议</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#transportprotocol">TransportProtocol</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#id5">故障相关</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#faultcode">FaultCode</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#faultlevel">FaultLevel</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#imu">IMU 数据</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#imudata">ImuData</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#id6">故障数据</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#faultdata">FaultData</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#id7">电源相关</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#powersupplystatus">PowerSupplyStatus</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#batterydata">BatteryData</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#id8">传感器数据</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#luxdata">LuxData</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#id9">机器人状态枚举</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#filllightstatus">FillLightStatus</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#speedlevel">SpeedLevel</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#emergencystatus">EmergencyStatus</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#headdirection">HeadDirection</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#sportmode">SportMode</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#motionstatus">MotionStatus</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#id10">控制相关</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#ctrlsource">CtrlSource</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#controllostinfo">ControlLostInfo</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#controlavailableinfo">ControlAvailableInfo</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#takecontrolack">TakeControlAck</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#releasecontrolack">ReleaseControlAck</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#camerabitratecmd">CameraBitrateCmd</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#camerabitrateack">CameraBitrateAck</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#speed">Speed</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id11">关节温度说明</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#robotstate">RobotState</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#motiondata">MotionData</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#speeddata">SpeedData</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="3.3SDKClient%E7%B1%BB%E6%8E%A5%E5%8F%A3.html">3.3 SDKClient类接口</a></li>
+<li class="toctree-l2"><a class="reference internal" href="3.4Callback%E5%8F%82%E8%80%83.html">3.4 Callback参考</a></li>
+<li class="toctree-l2"><a class="reference internal" href="3.5SDK%E6%8E%A7%E5%88%B6%E6%9D%83%E5%BD%92%E5%B1%9E.html">3.5 SDK控制权归属</a></li>
+<li class="toctree-l2"><a class="reference internal" href="3.6SDK%E5%86%85%E9%83%A8%E8%BF%90%E5%8A%A8%E7%8A%B6%E6%80%81%E6%B5%81%E8%BD%AC.html">3.6 SDK内部运动状态流转</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="%E5%9B%9B%E3%80%81%E4%BC%A0%E6%84%9F%E8%AE%BE%E5%A4%87%E6%95%B0%E6%8D%AE%E8%8E%B7%E5%8F%96.html">四、传感设备数据获取</a></li>
+<li class="toctree-l1"><a class="reference internal" href="%E4%BA%94%E3%80%81%E8%B0%83%E8%AF%95%E6%8C%87%E5%8D%97.html">五、调试指南</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="移动版导航菜单" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">D1_Max</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="页面导航">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="%E4%B8%89%E3%80%81SDK%E5%87%BD%E6%95%B0%E4%BB%8B%E7%BB%8D.html">三、SDK函数介绍</a></li>
+      <li class="breadcrumb-item active">3.2 数据类型</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/3.2数据类型.md.txt" rel="nofollow"> 查看页面源码</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="id1">
+<h1>3.2 数据类型<a class="headerlink" href="#id1" title="Link to this heading"></a></h1>
+<section id="id2">
+<h2>概述<a class="headerlink" href="#id2" title="Link to this heading"></a></h2>
+<p>本文档描述 Robot SDK 中使用的所有数据类型、枚举和结构体定义。</p>
+</section>
+<hr class="docutils" />
+<section id="id3">
+<h2>命名空间<a class="headerlink" href="#id3" title="Link to this heading"></a></h2>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="k">namespace</span><span class="w"> </span><span class="nn">robot_sdk</span>
+</pre></div>
+</div>
+</section>
+<hr class="docutils" />
+<section id="id4">
+<h2>传输协议<a class="headerlink" href="#id4" title="Link to this heading"></a></h2>
+<section id="transportprotocol">
+<h3>TransportProtocol<a class="headerlink" href="#transportprotocol" title="Link to this heading"></a></h3>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="k">enum</span><span class="w"> </span><span class="k">class</span><span class="w"> </span><span class="nc">TransportProtocol</span>
+</pre></div>
+</div>
+<p><strong>说明：</strong><br />
+SDK 支持的传输协议类型。</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head text-left"><p>枚举值</p></th>
+<th class="head text-left"><p>说明</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">WebSocket</span></code></p></td>
+<td class="text-left"><p>WebSocket 协议（默认推荐）</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">Udp</span></code></p></td>
+<td class="text-left"><p>UDP 协议</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+</section>
+<hr class="docutils" />
+<section id="id5">
+<h2>故障相关<a class="headerlink" href="#id5" title="Link to this heading"></a></h2>
+<section id="faultcode">
+<h3>FaultCode<a class="headerlink" href="#faultcode" title="Link to this heading"></a></h3>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="k">enum</span><span class="w"> </span><span class="k">class</span><span class="w"> </span><span class="nc">FaultCode</span>
+</pre></div>
+</div>
+<p><strong>说明：</strong><br />
+机器人系统中可能出现的故障码。
+机器人系统中可能出现的故障码。</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head text-left"><p>枚举值</p></th>
+<th class="head text-left"><p>说明</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">Unknown</span></code></p></td>
+<td class="text-left"><p>异常未知</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">ActuatorDisabled</span></code></p></td>
+<td class="text-left"><p>执行器失能</p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">ActuatorEncoderError</span></code></p></td>
+<td class="text-left"><p>执行器编码器错误</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">ActuatorOffline</span></code></p></td>
+<td class="text-left"><p>执行器掉线</p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">ActuatorOverVoltage</span></code></p></td>
+<td class="text-left"><p>执行器过压</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">ActuatorOverheat</span></code></p></td>
+<td class="text-left"><p>执行器过温</p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">ActuatorTempWarn</span></code></p></td>
+<td class="text-left"><p>执行器过温预警</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">ActuatorTimeout</span></code></p></td>
+<td class="text-left"><p>执行器控制超时</p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">ActuatorUndervolt</span></code></p></td>
+<td class="text-left"><p>执行器欠压</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">PowerControlOverTemp</span></code></p></td>
+<td class="text-left"><p>单电池过温预警</p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">PowerControlPowerEmpty</span></code></p></td>
+<td class="text-left"><p>单电池电量低于10%</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">PowerControlPowerLow</span></code></p></td>
+<td class="text-left"><p>单电池电量低于20%，高于10%</p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">PowerControlOffline</span></code></p></td>
+<td class="text-left"><p>电源控制板MCU连接失败</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">CANBroken</span></code></p></td>
+<td class="text-left"><p>CAN通信异常</p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">RobotRemoteKeepAliveFailure</span></code></p></td>
+<td class="text-left"><p>遥控器断链</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">SystemClockSanityError</span></code></p></td>
+<td class="text-left"><p>系统时间跳变</p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">SystemRobotStatusError</span></code></p></td>
+<td class="text-left"><p>机器人状态异常</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">IMUConnectError</span></code></p></td>
+<td class="text-left"><p>IMU连接异常</p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">IMUDataNotUpdated</span></code></p></td>
+<td class="text-left"><p>IMU数据不更新</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<hr class="docutils" />
+<section id="faultlevel">
+<h3>FaultLevel<a class="headerlink" href="#faultlevel" title="Link to this heading"></a></h3>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="k">enum</span><span class="w"> </span><span class="k">class</span><span class="w"> </span><span class="nc">FaultLevel</span>
+</pre></div>
+</div>
+<p><strong>说明：</strong><br />
+故障等级定义。</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head text-left"><p>枚举值</p></th>
+<th class="head text-left"><p>整数值</p></th>
+<th class="head text-left"><p>说明</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">Unknown</span></code></p></td>
+<td class="text-left"><p>0</p></td>
+<td class="text-left"><p>未知</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">FatalError</span></code></p></td>
+<td class="text-left"><p>1</p></td>
+<td class="text-left"><p>致命错误</p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">Error</span></code></p></td>
+<td class="text-left"><p>2</p></td>
+<td class="text-left"><p>一般错误</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">Warn</span></code></p></td>
+<td class="text-left"><p>3</p></td>
+<td class="text-left"><p>警告</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+</section>
+<hr class="docutils" />
+<section id="imu">
+<h2>IMU 数据<a class="headerlink" href="#imu" title="Link to this heading"></a></h2>
+<section id="imudata">
+<h3>ImuData<a class="headerlink" href="#imudata" title="Link to this heading"></a></h3>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="k">struct</span><span class="w"> </span><span class="nc">ImuData</span>
+</pre></div>
+</div>
+<p><strong>说明：</strong><br />
+IMU（惯性测量单元）数据结构体。</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head text-left"><p>成员</p></th>
+<th class="head text-left"><p>类型</p></th>
+<th class="head text-left"><p>说明</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">acc_x</span></code>, <code class="docutils literal notranslate"><span class="pre">acc_y</span></code>, <code class="docutils literal notranslate"><span class="pre">acc_z</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">float</span></code></p></td>
+<td class="text-left"><p>加速度计三轴数据 (m/s²)</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">gyro_x</span></code>, <code class="docutils literal notranslate"><span class="pre">gyro_y</span></code>, <code class="docutils literal notranslate"><span class="pre">gyro_z</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">float</span></code></p></td>
+<td class="text-left"><p>陀螺仪三轴数据 (rad/s)</p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">quat_x</span></code>, <code class="docutils literal notranslate"><span class="pre">quat_y</span></code>, <code class="docutils literal notranslate"><span class="pre">quat_z</span></code>, <code class="docutils literal notranslate"><span class="pre">quat_w</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">float</span></code></p></td>
+<td class="text-left"><p>四元数</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+</section>
+<hr class="docutils" />
+<section id="id6">
+<h2>故障数据<a class="headerlink" href="#id6" title="Link to this heading"></a></h2>
+<section id="faultdata">
+<h3>FaultData<a class="headerlink" href="#faultdata" title="Link to this heading"></a></h3>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="k">struct</span><span class="w"> </span><span class="nc">FaultData</span>
+</pre></div>
+</div>
+<p><strong>说明：</strong><br />
+故障信息结构体。</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head text-left"><p>成员</p></th>
+<th class="head text-left"><p>类型</p></th>
+<th class="head text-left"><p>说明</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">code</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">FaultCode</span></code></p></td>
+<td class="text-left"><p>故障码</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">level</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">FaultLevel</span></code></p></td>
+<td class="text-left"><p>故障等级</p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">message</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">std::string</span></code></p></td>
+<td class="text-left"><p>故障信息文本</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+</section>
+<hr class="docutils" />
+<section id="id7">
+<h2>电源相关<a class="headerlink" href="#id7" title="Link to this heading"></a></h2>
+<section id="powersupplystatus">
+<h3>PowerSupplyStatus<a class="headerlink" href="#powersupplystatus" title="Link to this heading"></a></h3>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="k">enum</span><span class="w"> </span><span class="k">class</span><span class="w"> </span><span class="nc">PowerSupplyStatus</span>
+</pre></div>
+</div>
+<p><strong>说明：</strong><br />
+电池电源状态枚举。</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head text-left"><p>枚举值</p></th>
+<th class="head text-left"><p>整数值</p></th>
+<th class="head text-left"><p>说明</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">UNKNOWN</span></code></p></td>
+<td class="text-left"><p>0</p></td>
+<td class="text-left"><p>电源状态未知</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">CHARGING</span></code></p></td>
+<td class="text-left"><p>1</p></td>
+<td class="text-left"><p>正在充电</p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">DISCHARGING</span></code></p></td>
+<td class="text-left"><p>2</p></td>
+<td class="text-left"><p>放电中</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">FULL</span></code></p></td>
+<td class="text-left"><p>4</p></td>
+<td class="text-left"><p>已满电</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<hr class="docutils" />
+<section id="batterydata">
+<h3>BatteryData<a class="headerlink" href="#batterydata" title="Link to this heading"></a></h3>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="k">struct</span><span class="w"> </span><span class="nc">BatteryData</span>
+</pre></div>
+</div>
+<p><strong>说明：</strong><br />
+双电池数据结构体。</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head text-left"><p>成员</p></th>
+<th class="head text-left"><p>类型</p></th>
+<th class="head text-left"><p>说明</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">power1</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">float</span></code></p></td>
+<td class="text-left"><p>电池1 电量（百分比 0-100）</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">power2</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">float</span></code></p></td>
+<td class="text-left"><p>电池2 电量（百分比 0-100）</p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">present1</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">bool</span></code></p></td>
+<td class="text-left"><p>电池1 是否在位</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">present2</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">bool</span></code></p></td>
+<td class="text-left"><p>电池2 是否在位</p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">voltage1</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">float</span></code></p></td>
+<td class="text-left"><p>电池1 电压 (V)</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">voltage2</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">float</span></code></p></td>
+<td class="text-left"><p>电池2 电压 (V)</p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">temperature1</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">float</span></code></p></td>
+<td class="text-left"><p>电池1 温度 (°C)</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">temperature2</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">float</span></code></p></td>
+<td class="text-left"><p>电池2 温度 (°C)</p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">current1</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">float</span></code></p></td>
+<td class="text-left"><p>电池1 电流 (A)</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">current2</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">float</span></code></p></td>
+<td class="text-left"><p>电池2 电流 (A)</p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">power_supply_status1</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">PowerSupplyStatus</span></code></p></td>
+<td class="text-left"><p>电池1 电源状态</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">power_supply_status2</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">PowerSupplyStatus</span></code></p></td>
+<td class="text-left"><p>电池2 电源状态</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+</section>
+<hr class="docutils" />
+<section id="id8">
+<h2>传感器数据<a class="headerlink" href="#id8" title="Link to this heading"></a></h2>
+<section id="luxdata">
+<h3>LuxData<a class="headerlink" href="#luxdata" title="Link to this heading"></a></h3>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="k">struct</span><span class="w"> </span><span class="nc">LuxData</span>
+</pre></div>
+</div>
+<p><strong>说明：</strong><br />
+光强传感器数据。</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head text-left"><p>成员</p></th>
+<th class="head text-left"><p>类型</p></th>
+<th class="head text-left"><p>说明</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">lux</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">float</span></code></p></td>
+<td class="text-left"><p>光强值</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+</section>
+<hr class="docutils" />
+<section id="id9">
+<h2>机器人状态枚举<a class="headerlink" href="#id9" title="Link to this heading"></a></h2>
+<section id="filllightstatus">
+<h3>FillLightStatus<a class="headerlink" href="#filllightstatus" title="Link to this heading"></a></h3>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="k">enum</span><span class="w"> </span><span class="k">class</span><span class="w"> </span><span class="nc">FillLightStatus</span>
+</pre></div>
+</div>
+<p><strong>说明：</strong><br />
+补光灯状态枚举。</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head text-left"><p>枚举值</p></th>
+<th class="head text-left"><p>整数值</p></th>
+<th class="head text-left"><p>说明</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">FILL_LIGHT_STATUS_UNKNOWN</span></code></p></td>
+<td class="text-left"><p>0</p></td>
+<td class="text-left"><p>未知状态</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">FILL_LIGHT_STATUS_ON</span></code></p></td>
+<td class="text-left"><p>1</p></td>
+<td class="text-left"><p>补光灯打开</p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">FILL_LIGHT_STATUS_OFF</span></code></p></td>
+<td class="text-left"><p>2</p></td>
+<td class="text-left"><p>补光灯关闭</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<hr class="docutils" />
+<section id="speedlevel">
+<h3>SpeedLevel<a class="headerlink" href="#speedlevel" title="Link to this heading"></a></h3>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="k">enum</span><span class="w"> </span><span class="k">class</span><span class="w"> </span><span class="nc">SpeedLevel</span>
+</pre></div>
+</div>
+<p><strong>说明：</strong><br />
+速度等级枚举，影响 <code class="docutils literal notranslate"><span class="pre">Move</span></code> 命令的速度限制。</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head text-left"><p>枚举值</p></th>
+<th class="head text-left"><p>整数值</p></th>
+<th class="head text-left"><p>说明</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">SPEED_LEVEL_UNKNOWN</span></code></p></td>
+<td class="text-left"><p>0</p></td>
+<td class="text-left"><p>未知</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">SPEED_LEVEL_SLOW</span></code></p></td>
+<td class="text-left"><p>1</p></td>
+<td class="text-left"><p>低速</p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">SPEED_LEVEL_MEDIUM</span></code></p></td>
+<td class="text-left"><p>2</p></td>
+<td class="text-left"><p>中速</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">SPEED_LEVEL_HIGH</span></code></p></td>
+<td class="text-left"><p>3</p></td>
+<td class="text-left"><p>高速</p></td>
+</tr>
+</tbody>
+</table>
+<p><strong>速度限制说明：</strong></p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head text-left"><p>等级</p></th>
+<th class="head text-left"><p>vx (前后)</p></th>
+<th class="head text-left"><p>vy (左右)</p></th>
+<th class="head text-left"><p>vyaw (旋转)</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td class="text-left"><p>低速</p></td>
+<td class="text-left"><p>-0.5 ~ +0.5 m/s</p></td>
+<td class="text-left"><p>-1.0 ~ +1.0 m/s</p></td>
+<td class="text-left"><p>-2.0 ~ +2.0 rad/s</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p>中速</p></td>
+<td class="text-left"><p>0 m/s</p></td>
+<td class="text-left"><p>-2.0 ~ +2.0 m/s</p></td>
+<td class="text-left"><p>-1.5 ~ +1.5 rad/s</p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p>高速</p></td>
+<td class="text-left"><p>0 m/s</p></td>
+<td class="text-left"><p>-3.0 ~ +3.0 m/s</p></td>
+<td class="text-left"><p>-1.0 ~ +1.0 rad/s</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<hr class="docutils" />
+<section id="emergencystatus">
+<h3>EmergencyStatus<a class="headerlink" href="#emergencystatus" title="Link to this heading"></a></h3>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="k">enum</span><span class="w"> </span><span class="k">class</span><span class="w"> </span><span class="nc">EmergencyStatus</span>
+</pre></div>
+</div>
+<p><strong>说明：</strong><br />
+急停状态枚举。</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head text-left"><p>枚举值</p></th>
+<th class="head text-left"><p>整数值</p></th>
+<th class="head text-left"><p>说明</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">EMERGENCY_STATUS_UNKNOWN</span></code></p></td>
+<td class="text-left"><p>0</p></td>
+<td class="text-left"><p>未知</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">EMERGENCY_STATUS_RECOVER</span></code></p></td>
+<td class="text-left"><p>1</p></td>
+<td class="text-left"><p>急停解除</p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">EMERGENCY_STATUS_STOP</span></code></p></td>
+<td class="text-left"><p>2</p></td>
+<td class="text-left"><p>急停触发</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<hr class="docutils" />
+<section id="headdirection">
+<h3>HeadDirection<a class="headerlink" href="#headdirection" title="Link to this heading"></a></h3>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="k">enum</span><span class="w"> </span><span class="k">class</span><span class="w"> </span><span class="nc">HeadDirection</span>
+</pre></div>
+</div>
+<p><strong>说明：</strong><br />
+机器人头尾方向枚举。</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head text-left"><p>枚举值</p></th>
+<th class="head text-left"><p>整数值</p></th>
+<th class="head text-left"><p>说明</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">HEAD_DIRECTION_UNKNOWN</span></code></p></td>
+<td class="text-left"><p>0</p></td>
+<td class="text-left"><p>未知</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">HEAD_DIRECTION_HEAD</span></code></p></td>
+<td class="text-left"><p>1</p></td>
+<td class="text-left"><p>狗头方向为前</p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">HEAD_DIRECTION_TAIL</span></code></p></td>
+<td class="text-left"><p>2</p></td>
+<td class="text-left"><p>狗尾方向为前</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<hr class="docutils" />
+<section id="sportmode">
+<h3>SportMode<a class="headerlink" href="#sportmode" title="Link to this heading"></a></h3>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="k">enum</span><span class="w"> </span><span class="k">class</span><span class="w"> </span><span class="nc">SportMode</span>
+</pre></div>
+</div>
+<p><strong>说明：</strong><br />
+机器人运动模式枚举。</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head text-left"><p>枚举值</p></th>
+<th class="head text-left"><p>整数值</p></th>
+<th class="head text-left"><p>说明</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">SPORT_MODE_UNKNOWN</span></code></p></td>
+<td class="text-left"><p>0</p></td>
+<td class="text-left"><p>未知</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">SPORT_MODE_GENERAL</span></code></p></td>
+<td class="text-left"><p>1</p></td>
+<td class="text-left"><p>通用模式（可移动与一些姿态变换）</p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">SPORT_MODE_IN_PLACE</span></code></p></td>
+<td class="text-left"><p>2</p></td>
+<td class="text-left"><p>原地模式（原地动作）</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">SPORT_MODE_STAIR</span></code></p></td>
+<td class="text-left"><p>3</p></td>
+<td class="text-left"><p>登阶模式（仅支持移动）</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<hr class="docutils" />
+<section id="motionstatus">
+<h3>MotionStatus<a class="headerlink" href="#motionstatus" title="Link to this heading"></a></h3>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="k">enum</span><span class="w"> </span><span class="k">class</span><span class="w"> </span><span class="nc">MotionStatus</span>
+</pre></div>
+</div>
+<p><strong>说明：</strong><br />
+机器人运动状态枚举。</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head text-left"><p>枚举值</p></th>
+<th class="head text-left"><p>整数值</p></th>
+<th class="head text-left"><p>说明</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">MOTION_STATUS_UNKNOWN</span></code></p></td>
+<td class="text-left"><p>0</p></td>
+<td class="text-left"><p>未知</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">MOTION_STATUS_STAND_UP</span></code></p></td>
+<td class="text-left"><p>1</p></td>
+<td class="text-left"><p>站立中</p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">MOTION_STATUS_LIE_DOWN</span></code></p></td>
+<td class="text-left"><p>2</p></td>
+<td class="text-left"><p>卧倒状态</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">MOTION_STATUS_CRAWL</span></code></p></td>
+<td class="text-left"><p>3</p></td>
+<td class="text-left"><p>匍匐状态</p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">MOTION_STATUS_LOCKED</span></code></p></td>
+<td class="text-left"><p>4</p></td>
+<td class="text-left"><p>锁定状态</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">MOTION_STATUS_GENERAL</span></code></p></td>
+<td class="text-left"><p>5</p></td>
+<td class="text-left"><p>通用模式运动状态</p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">MOTION_STATUS_IN_PLACE</span></code></p></td>
+<td class="text-left"><p>6</p></td>
+<td class="text-left"><p>原地模式运动状态</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">MOTION_STATUS_STAIR</span></code></p></td>
+<td class="text-left"><p>7</p></td>
+<td class="text-left"><p>登阶模式运动状态</p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">MOTION_STATUS_CLIMB</span></code></p></td>
+<td class="text-left"><p>8</p></td>
+<td class="text-left"><p>爬高台状态</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">MOTION_STATUS_SLIM</span></code></p></td>
+<td class="text-left"><p>9</p></td>
+<td class="text-left"><p>瘦身状态</p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">MOTION_STATUS_GAIT</span></code></p></td>
+<td class="text-left"><p>10</p></td>
+<td class="text-left"><p>步态状态</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+</section>
+<hr class="docutils" />
+<section id="id10">
+<h2>控制相关<a class="headerlink" href="#id10" title="Link to this heading"></a></h2>
+<section id="ctrlsource">
+<h3>CtrlSource<a class="headerlink" href="#ctrlsource" title="Link to this heading"></a></h3>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="k">enum</span><span class="w"> </span><span class="k">class</span><span class="w"> </span><span class="nc">CtrlSource</span>
+</pre></div>
+</div>
+<p><strong>说明：</strong><br />
+机器人控制来源枚举。</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head text-left"><p>枚举值</p></th>
+<th class="head text-left"><p>整数值</p></th>
+<th class="head text-left"><p>说明</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">CTRL_SOURCE_UNKNOWN</span></code></p></td>
+<td class="text-left"><p>0</p></td>
+<td class="text-left"><p>未知</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">CTRL_SOURCE_APP</span></code></p></td>
+<td class="text-left"><p>1</p></td>
+<td class="text-left"><p>APP 控制</p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">CTRL_SOURCE_SDK</span></code></p></td>
+<td class="text-left"><p>2</p></td>
+<td class="text-left"><p>SDK 控制</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">CTRL_SOURCE_OTHER</span></code></p></td>
+<td class="text-left"><p>3</p></td>
+<td class="text-left"><p>其他控制</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<hr class="docutils" />
+<section id="controllostinfo">
+<h3>ControlLostInfo<a class="headerlink" href="#controllostinfo" title="Link to this heading"></a></h3>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="k">struct</span><span class="w"> </span><span class="nc">ControlLostInfo</span>
+</pre></div>
+</div>
+<p><strong>说明：</strong><br />
+控制权丢失信息结构体。</p>
+</section>
+<hr class="docutils" />
+<section id="controlavailableinfo">
+<h3>ControlAvailableInfo<a class="headerlink" href="#controlavailableinfo" title="Link to this heading"></a></h3>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="k">struct</span><span class="w"> </span><span class="nc">ControlAvailableInfo</span>
+</pre></div>
+</div>
+<p><strong>说明：</strong><br />
+控制权可用信息结构体。</p>
+</section>
+<hr class="docutils" />
+<section id="takecontrolack">
+<h3>TakeControlAck<a class="headerlink" href="#takecontrolack" title="Link to this heading"></a></h3>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="k">struct</span><span class="w"> </span><span class="nc">TakeControlAck</span>
+</pre></div>
+</div>
+<p><strong>说明：</strong><br />
+获取控制权命令应答信息。</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head text-left"><p>成员</p></th>
+<th class="head text-left"><p>类型</p></th>
+<th class="head text-left"><p>说明</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">error_code</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">uint32_t</span></code></p></td>
+<td class="text-left"><p>错误码（0 表示成功，非 0 表示失败）</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">reason</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">std::string</span></code></p></td>
+<td class="text-left"><p>失败原因描述</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<hr class="docutils" />
+<section id="releasecontrolack">
+<h3>ReleaseControlAck<a class="headerlink" href="#releasecontrolack" title="Link to this heading"></a></h3>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="k">struct</span><span class="w"> </span><span class="nc">ReleaseControlAck</span>
+</pre></div>
+</div>
+<p><strong>说明：</strong><br />
+释放控制权命令应答信息。</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head text-left"><p>成员</p></th>
+<th class="head text-left"><p>类型</p></th>
+<th class="head text-left"><p>说明</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">error_code</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">uint32_t</span></code></p></td>
+<td class="text-left"><p>错误码（0 表示成功，非 0 表示失败）</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">reason</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">std::string</span></code></p></td>
+<td class="text-left"><p>失败原因描述</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<hr class="docutils" />
+<section id="camerabitratecmd">
+<h3>CameraBitrateCmd<a class="headerlink" href="#camerabitratecmd" title="Link to this heading"></a></h3>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="k">struct</span><span class="w"> </span><span class="nc">CameraBitrateCmd</span>
+</pre></div>
+</div>
+<p><strong>说明：</strong><br />
+摄像头码率配置参数。</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head text-left"><p>成员</p></th>
+<th class="head text-left"><p>类型</p></th>
+<th class="head text-left"><p>说明</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">camera_name</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">std::string</span></code></p></td>
+<td class="text-left"><p>摄像头名称:前摄 &quot;camera_front&quot;，后摄 &quot;camera_back&quot;</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">camera_bps</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">uint32_t</span></code></p></td>
+<td class="text-left"><p>摄像头码率，单位bps(bit/s)，范围50000-100000000</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<hr class="docutils" />
+<section id="camerabitrateack">
+<h3>CameraBitrateAck<a class="headerlink" href="#camerabitrateack" title="Link to this heading"></a></h3>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="k">struct</span><span class="w"> </span><span class="nc">CameraBitrateAck</span>
+</pre></div>
+</div>
+<p><strong>说明：</strong><br />
+摄像头码率配置参数。</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head text-left"><p>成员</p></th>
+<th class="head text-left"><p>类型</p></th>
+<th class="head text-left"><p>说明</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">camera_name</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">std::string</span></code></p></td>
+<td class="text-left"><p>摄像头名称:前摄 &quot;camera_front&quot;，后摄 &quot;camera_back&quot;</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">camera_bps</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">uint32_t</span></code></p></td>
+<td class="text-left"><p>摄像头码率，单位bps(bit/s)，范围50000-100000000</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<hr class="docutils" />
+<section id="speed">
+<h3>Speed<a class="headerlink" href="#speed" title="Link to this heading"></a></h3>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="k">struct</span><span class="w"> </span><span class="nc">Speed</span>
+</pre></div>
+</div>
+<p><strong>说明：</strong><br />
+机器人当前速度信息。</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head text-left"><p>成员</p></th>
+<th class="head text-left"><p>类型</p></th>
+<th class="head text-left"><p>说明</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">line</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">double</span></code></p></td>
+<td class="text-left"><p>前进/后退速度 (m/s)</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">translation</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">double</span></code></p></td>
+<td class="text-left"><p>左右平移速度 (m/s)</p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">angle</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">double</span></code></p></td>
+<td class="text-left"><p>转向角速度 (rad/s)</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<hr class="docutils" />
+<section id="id11">
+<h3>关节温度说明<a class="headerlink" href="#id11" title="Link to this heading"></a></h3>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">std</span><span class="o">::</span><span class="n">unordered_map</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="p">,</span><span class="w"> </span><span class="kt">double</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+<p><strong>说明：</strong><br />
+机器人关节名字与关节温度信息映射表。</p>
+<p>轮足关节名字如下表</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head text-left"><p>名字</p></th>
+<th class="head text-left"><p>说明</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">fl1</span></code>, <code class="docutils literal notranslate"><span class="pre">fl2</span></code>, <code class="docutils literal notranslate"><span class="pre">fl3</span></code>, <code class="docutils literal notranslate"><span class="pre">fl4</span></code></p></td>
+<td class="text-left"><p>左前腿 1-4 号关节</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">fr1</span></code>, <code class="docutils literal notranslate"><span class="pre">fr2</span></code>, <code class="docutils literal notranslate"><span class="pre">fr3</span></code>, <code class="docutils literal notranslate"><span class="pre">fr4</span></code></p></td>
+<td class="text-left"><p>右前腿 1-4 号关节</p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">bl1</span></code>, <code class="docutils literal notranslate"><span class="pre">bl2</span></code>, <code class="docutils literal notranslate"><span class="pre">bl3</span></code>, <code class="docutils literal notranslate"><span class="pre">bl4</span></code></p></td>
+<td class="text-left"><p>左后腿 1-4 号关节</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">br1</span></code>, <code class="docutils literal notranslate"><span class="pre">br2</span></code>, <code class="docutils literal notranslate"><span class="pre">br3</span></code>, <code class="docutils literal notranslate"><span class="pre">br4</span></code></p></td>
+<td class="text-left"><p>右后腿 1-4 号关节</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<hr class="docutils" />
+<section id="robotstate">
+<h3>RobotState<a class="headerlink" href="#robotstate" title="Link to this heading"></a></h3>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="k">struct</span><span class="w"> </span><span class="nc">RobotState</span>
+</pre></div>
+</div>
+<p><strong>说明：</strong><br />
+机器人综合状态信息。</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head text-left"><p>成员</p></th>
+<th class="head text-left"><p>类型</p></th>
+<th class="head text-left"><p>说明</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">head_angle</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">double</span></code></p></td>
+<td class="text-left"><p>头部角度 (rad)</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">front_fill_light</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">FillLightStatus</span></code></p></td>
+<td class="text-left"><p>前补光灯状态</p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">back_fill_light</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">FillLightStatus</span></code></p></td>
+<td class="text-left"><p>后补光灯状态</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">auto_mode_light</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">bool</span></code></p></td>
+<td class="text-left"><p>是否为自动灯光模式</p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">speed_level</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">SpeedLevel</span></code></p></td>
+<td class="text-left"><p>当前速度等级</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">software_emergency_status</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">EmergencyStatus</span></code></p></td>
+<td class="text-left"><p>软件急停状态</p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">hardware_emergency_status</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">EmergencyStatus</span></code></p></td>
+<td class="text-left"><p>硬件急停状态</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">head_direction</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">HeadDirection</span></code></p></td>
+<td class="text-left"><p>当前头尾方向</p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">motion_status</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">MotionStatus</span></code></p></td>
+<td class="text-left"><p>当前运动状态</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">battery</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">BatteryData</span></code></p></td>
+<td class="text-left"><p>电池信息</p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">speed</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">Speed</span></code></p></td>
+<td class="text-left"><p>当前速度</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">mile_data</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">float</span></code></p></td>
+<td class="text-left"><p>里程累积数据 (m)</p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">joint_temps</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">std::unordered_map&lt;std::string,</span> <span class="pre">double&gt;</span></code></p></td>
+<td class="text-left"><p>关节温度&lt;关节名称,关节温度&gt; 单位：°C</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">sport_mode</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">SportMode</span></code></p></td>
+<td class="text-left"><p>运动模式</p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">control_source</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">CtrlSource</span></code></p></td>
+<td class="text-left"><p>控制来源</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<hr class="docutils" />
+<section id="motiondata">
+<h3>MotionData<a class="headerlink" href="#motiondata" title="Link to this heading"></a></h3>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="k">struct</span><span class="w"> </span><span class="nc">MotionData</span>
+</pre></div>
+</div>
+<p><strong>说明：</strong><br />
+运动控制详细数据信息。</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head text-left"><p>成员</p></th>
+<th class="head text-left"><p>类型</p></th>
+<th class="head text-left"><p>说明</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">quat[4]</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">float</span></code></p></td>
+<td class="text-left"><p>四元数 [w, x, y, z]</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">v_world[3]</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">float</span></code></p></td>
+<td class="text-left"><p>世界坐标系下速度 [x, y, z] (m/s)</p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">position[3]</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">float</span></code></p></td>
+<td class="text-left"><p>世界坐标系下位置 [x, y, z] (m)</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">omega_world[3]</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">float</span></code></p></td>
+<td class="text-left"><p>世界坐标系角速度 [x, y, z] (rad/s)</p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">v_body[3]</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">float</span></code></p></td>
+<td class="text-left"><p>自身坐标系下速度 [x, y, z] (m/s)</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">omega_body[3]</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">float</span></code></p></td>
+<td class="text-left"><p>自身坐标系下角速度 [x, y, z] (rad/s)</p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">time_stamp</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">uint64_t</span></code></p></td>
+<td class="text-left"><p>时间戳 (ns)</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="speeddata">
+<h3>SpeedData<a class="headerlink" href="#speeddata" title="Link to this heading"></a></h3>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="k">struct</span><span class="w"> </span><span class="nc">SpeedData</span>
+</pre></div>
+</div>
+<p><strong>说明：</strong><br />
+速度信息说明。</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head text-left"><p>成员</p></th>
+<th class="head text-left"><p>类型</p></th>
+<th class="head text-left"><p>说明</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">x</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">float</span></code></p></td>
+<td class="text-left"><p>前后速度 (m/s)</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">y</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">float</span></code></p></td>
+<td class="text-left"><p>左右平移速度 (m/s)</p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">yaw</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">float</span></code></p></td>
+<td class="text-left"><p>旋转角速度 (rad/s)</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="页脚">
+        <a href="3.1%E8%BF%9E%E6%8E%A5%E9%85%8D%E7%BD%AE.html" class="btn btn-neutral float-left" title="3.1 连接配置" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> 上一页</a>
+        <a href="3.3SDKClient%E7%B1%BB%E6%8E%A5%E5%8F%A3.html" class="btn btn-neutral float-right" title="3.3 SDKClient类接口" accesskey="n" rel="next">下一页 <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; 版权所有 2026, Agibot.</p>
+  </div>
+
+  利用 <a href="https://www.sphinx-doc.org/">Sphinx</a> 构建，使用的 
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">主题</a>
+    由 <a href="https://readthedocs.org">Read the Docs</a> 开发.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

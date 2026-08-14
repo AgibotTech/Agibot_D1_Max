@@ -1,0 +1,150 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="zh-CN" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>4.1 视频流数据 &mdash; D1_Max V0.1.0 文档</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=5eee55e5"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="_static/translations.js?v=beaddf03"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="索引" href="genindex.html" />
+    <link rel="search" title="搜索" href="search.html" />
+    <link rel="next" title="4.2 激光雷达数据" href="4.2%E6%BF%80%E5%85%89%E9%9B%B7%E8%BE%BE%E6%95%B0%E6%8D%AE.html" />
+    <link rel="prev" title="四、传感设备数据获取" href="%E5%9B%9B%E3%80%81%E4%BC%A0%E6%84%9F%E8%AE%BE%E5%A4%87%E6%95%B0%E6%8D%AE%E8%8E%B7%E5%8F%96.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            D1_Max
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="搜索文档" aria-label="搜索文档" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="导航菜单">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="%E4%B8%80%E3%80%81%E4%BA%A7%E5%93%81%E4%BB%8B%E7%BB%8D.html">一、产品介绍</a></li>
+<li class="toctree-l1"><a class="reference internal" href="%E4%BA%8C%E3%80%81SDK%E5%BC%80%E5%8F%91%E6%8C%87%E5%8D%97.html">二、SDK开发指南</a></li>
+<li class="toctree-l1"><a class="reference internal" href="%E4%B8%89%E3%80%81SDK%E5%87%BD%E6%95%B0%E4%BB%8B%E7%BB%8D.html">三、SDK函数介绍</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="%E5%9B%9B%E3%80%81%E4%BC%A0%E6%84%9F%E8%AE%BE%E5%A4%87%E6%95%B0%E6%8D%AE%E8%8E%B7%E5%8F%96.html">四、传感设备数据获取</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">4.1 视频流数据</a></li>
+<li class="toctree-l2"><a class="reference internal" href="4.2%E6%BF%80%E5%85%89%E9%9B%B7%E8%BE%BE%E6%95%B0%E6%8D%AE.html">4.2 激光雷达数据</a></li>
+<li class="toctree-l2"><a class="reference internal" href="4.3%E8%B6%85%E5%A3%B0%E6%B3%A2%E9%9B%B7%E8%BE%BE%E6%95%B0%E6%8D%AE.html">4.3 超声波雷达数据</a></li>
+<li class="toctree-l2"><a class="reference internal" href="4.4RTK%E6%95%B0%E6%8D%AE.html">4.4 RTK数据</a></li>
+<li class="toctree-l2"><a class="reference internal" href="4.5IMU%E6%95%B0%E6%8D%AE.html">4.5 IMU数据</a></li>
+<li class="toctree-l2"><a class="reference internal" href="4.6%E7%9B%B8%E6%9C%BA%E6%95%B0%E6%8D%AE.html">4.6 相机数据</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="%E4%BA%94%E3%80%81%E8%B0%83%E8%AF%95%E6%8C%87%E5%8D%97.html">五、调试指南</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="移动版导航菜单" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">D1_Max</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="页面导航">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="%E5%9B%9B%E3%80%81%E4%BC%A0%E6%84%9F%E8%AE%BE%E5%A4%87%E6%95%B0%E6%8D%AE%E8%8E%B7%E5%8F%96.html">四、传感设备数据获取</a></li>
+      <li class="breadcrumb-item active">4.1 视频流数据</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/4.1视频流数据.md.txt" rel="nofollow"> 查看页面源码</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="id1">
+<h1>4.1 视频流数据<a class="headerlink" href="#id1" title="Link to this heading"></a></h1>
+<p>前后广角相机的视频分别以Gstreamer方式推流到以下URL:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>前置摄像头： rtsp://192.168.234.1:8554/front
+后置摄像头： rtsp://192.168.234.1:8554/back
+</pre></div>
+</div>
+<p>默认会在遥控器侧拉流显示实时画面，可通过 VLC 或者 ffplay 进行预览和调用，例如：<br></p>
+<ul class="simple">
+<li><p><strong>case1:在 windows 电脑连接四足机器人 wifi，可通过 VLC 软件进行视频流数据查看：</strong></p>
+<ul>
+<li><p>step1:打开 vlc，点击&quot;媒体--&gt;打开网络串流&quot;
+<img alt="图片" src="_images/VLC_Step1.png" /></p></li>
+<li><p>step2:输入设备推流地址：
+<code class="docutils literal notranslate"><span class="pre">rtsp://192.168.234.1:8554/front</span></code><br>
+<img alt="图片" src="_images/VLC_Step2.png" /></p></li>
+<li><p>step3:预览画面<br>
+<img alt="图片" src="_images/VLC_Step3.png" /></p></li>
+</ul>
+</li>
+<li><p><strong>case2:ubuntu 电脑连接四足机器人 wifi，在终端中输入以下指令进行视频流获取：</strong></p></li>
+</ul>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ffplay</span> <span class="n">rtsp</span><span class="p">:</span><span class="o">//</span><span class="mf">192.168.234.1</span><span class="p">:</span><span class="mi">8554</span><span class="o">/</span><span class="n">front</span>
+<span class="n">ffplay</span> <span class="n">rtsp</span><span class="p">:</span><span class="o">//</span><span class="mf">192.168.234.1</span><span class="p">:</span><span class="mi">8554</span><span class="o">/</span><span class="n">back</span>
+</pre></div>
+</div>
+<p>注意：若以低延迟获取视频流数据，可按如下方法获取：</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>gst-launch-1.0 rtspsrc location=rtsp://192.168.234.1:8554/front latency=0 ! 1rtph264depay ! h264parse ! avdec_h264 ! videoconvert ! videoscale ! video/x-raw,width=1280,height=720 ! autovideosink
+</pre></div>
+</div>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="页脚">
+        <a href="%E5%9B%9B%E3%80%81%E4%BC%A0%E6%84%9F%E8%AE%BE%E5%A4%87%E6%95%B0%E6%8D%AE%E8%8E%B7%E5%8F%96.html" class="btn btn-neutral float-left" title="四、传感设备数据获取" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> 上一页</a>
+        <a href="4.2%E6%BF%80%E5%85%89%E9%9B%B7%E8%BE%BE%E6%95%B0%E6%8D%AE.html" class="btn btn-neutral float-right" title="4.2 激光雷达数据" accesskey="n" rel="next">下一页 <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; 版权所有 2026, Agibot.</p>
+  </div>
+
+  利用 <a href="https://www.sphinx-doc.org/">Sphinx</a> 构建，使用的 
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">主题</a>
+    由 <a href="https://readthedocs.org">Read the Docs</a> 开发.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
