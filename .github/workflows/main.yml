@@ -33,7 +33,8 @@ jobs:
           # 如果你有其他依赖（如 sphinx-autobuild），在这里添加
           pip install sphinx-autobuild
           pip install sphinx myst-parser
-          pip install sphinx sphinx_tippy
+          pip install sphinx_tippy 
+          pip install sphinx_multiversion
           
       
       # 步骤4：构建文档
