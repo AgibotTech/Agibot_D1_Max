@@ -1,0 +1,401 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="zh-CN" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>3.4 Callback参考 &mdash; D1_Max V0.1.0 文档</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=95c83b7e" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=599f233c"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="_static/translations.js?v=beaddf03"></script>
+      <script src="_static/design-tabs.js?v=f930bc37"></script>
+      <script defer="defer" src="https://unpkg.com/@popperjs/core@2"></script>
+      <script defer="defer" src="https://unpkg.com/tippy.js@6"></script>
+      <script defer="defer" src="_static/tippy/3.4Callback参考.ed940a10-692c-4922-a184-5a71e0b4b2f3.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="索引" href="genindex.html" />
+    <link rel="search" title="搜索" href="search.html" />
+    <link rel="next" title="3.5 SDK控制权归属" href="3.5SDK%E6%8E%A7%E5%88%B6%E6%9D%83%E5%BD%92%E5%B1%9E.html" />
+    <link rel="prev" title="3.3 SDKClient类接口" href="3.3SDKClient%E7%B1%BB%E6%8E%A5%E5%8F%A3.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            D1_Max
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="搜索文档" aria-label="搜索文档" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="导航菜单">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="%E4%B8%80%E3%80%81%E4%BA%A7%E5%93%81%E4%BB%8B%E7%BB%8D.html">一、产品介绍</a></li>
+<li class="toctree-l1"><a class="reference internal" href="%E4%BA%8C%E3%80%81SDK%E5%BC%80%E5%8F%91%E6%8C%87%E5%8D%97.html">二、SDK开发指南</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="%E4%B8%89%E3%80%81SDK%E5%87%BD%E6%95%B0%E4%BB%8B%E7%BB%8D.html">三、SDK函数介绍</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="3.1%E8%BF%9E%E6%8E%A5%E9%85%8D%E7%BD%AE.html">3.1 连接配置</a></li>
+<li class="toctree-l2"><a class="reference internal" href="3.2%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B.html">3.2 数据类型</a></li>
+<li class="toctree-l2"><a class="reference internal" href="3.3SDKClient%E7%B1%BB%E6%8E%A5%E5%8F%A3.html">3.3 SDKClient类接口</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">3.4 Callback参考</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id1">接口概览</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#idatacallback">IDataCallback</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id2">定义</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id3">回调列表</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#icontrolcallback">IControlCallback</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id4">定义</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id5">回调列表</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#id6">实现示例</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id7">注意事项</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="3.5SDK%E6%8E%A7%E5%88%B6%E6%9D%83%E5%BD%92%E5%B1%9E.html">3.5 SDK控制权归属</a></li>
+<li class="toctree-l2"><a class="reference internal" href="3.6SDK%E5%86%85%E9%83%A8%E8%BF%90%E5%8A%A8%E7%8A%B6%E6%80%81%E6%B5%81%E8%BD%AC.html">3.6 SDK内部运动状态流转</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="%E5%9B%9B%E3%80%81%E4%BC%A0%E6%84%9F%E8%AE%BE%E5%A4%87%E6%95%B0%E6%8D%AE%E8%8E%B7%E5%8F%96.html">四、传感设备数据获取</a></li>
+<li class="toctree-l1"><a class="reference internal" href="%E4%BA%94%E3%80%81%E8%B0%83%E8%AF%95%E6%8C%87%E5%8D%97.html">五、调试指南</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="移动版导航菜单" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">D1_Max</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="页面导航">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="%E4%B8%89%E3%80%81SDK%E5%87%BD%E6%95%B0%E4%BB%8B%E7%BB%8D.html">三、SDK函数介绍</a></li>
+      <li class="breadcrumb-item active">3.4 Callback参考</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="callback">
+<h1>3.4 Callback参考<a class="headerlink" href="#callback" title="Link to this heading"></a></h1>
+<p>本文档定义了机器人 SDK 中的数据回调与控制命令回调接口。<br />
+命名空间：<code class="docutils literal notranslate"><span class="pre">robot_sdk</span></code></p>
+<hr class="docutils" />
+<section id="id1">
+<h2>接口概览<a class="headerlink" href="#id1" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">IDataCallback</span></code>：数据上报回调接口</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">IControlCallback</span></code>：控制命令回调接口（非阻塞模式）</p></li>
+</ul>
+</section>
+<hr class="docutils" />
+<section id="idatacallback">
+<h2>IDataCallback<a class="headerlink" href="#idatacallback" title="Link to this heading"></a></h2>
+<p>用户需根据需要实现此接口以接收来自机器人系统的数据。</p>
+<blockquote>
+<div><p>⚠️ 回调函数必须<strong>轻量级</strong>，不能执行耗时操作。<br />
+在回调函数中仅建议进行数据复制、校验等快速操作。<br />
+若需执行耗时任务（如数据库写入、文件I/O、复杂计算、网络发送等），请在回调函数内部<strong>将数据复制到独立线程或线程池中</strong>处理。</p>
+</div></blockquote>
+<section id="id2">
+<h3>定义<a class="headerlink" href="#id2" title="Link to this heading"></a></h3>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">ROBOT_EXPORT_API</span><span class="w"> </span><span class="n">IDataCallback</span><span class="w"> </span><span class="p">{</span>
+<span class="w"> </span><span class="k">public</span><span class="o">:</span>
+<span class="w">  </span><span class="k">virtual</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="n">OnImuData</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="n">ImuData</span><span class="o">&amp;</span><span class="w"> </span><span class="n">data</span><span class="p">)</span><span class="w"> </span><span class="p">{}</span>
+<span class="w">  </span><span class="k">virtual</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="n">OnLuxData</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="n">LuxData</span><span class="o">&amp;</span><span class="w"> </span><span class="n">data</span><span class="p">)</span><span class="w"> </span><span class="p">{}</span>
+<span class="w">  </span><span class="k">virtual</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="n">OnMcData</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="n">MotionData</span><span class="o">&amp;</span><span class="w"> </span><span class="n">data</span><span class="p">)</span><span class="w"> </span><span class="p">{}</span>
+<span class="w">  </span><span class="k">virtual</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="n">OnSpeedData</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="n">SpeedData</span><span class="o">&amp;</span><span class="w"> </span><span class="n">data</span><span class="p">)</span><span class="w"> </span><span class="p">{}</span>
+<span class="w">  </span><span class="k">virtual</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="n">OnRobotStateData</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="n">RobotState</span><span class="o">&amp;</span><span class="w"> </span><span class="n">data</span><span class="p">)</span><span class="w"> </span><span class="p">{}</span>
+<span class="w">  </span><span class="k">virtual</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="n">OnFaultData</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="n">FaultDatas</span><span class="o">&amp;</span><span class="w"> </span><span class="n">data</span><span class="p">)</span><span class="w"> </span><span class="p">{}</span>
+<span class="w">  </span><span class="k">virtual</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="n">OnControlLost</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="n">ControlLostInfo</span><span class="o">&amp;</span><span class="w"> </span><span class="n">info</span><span class="p">)</span><span class="w"> </span><span class="p">{}</span>
+<span class="w">  </span><span class="k">virtual</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="n">OnControlAvailable</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="n">ControlAvailableInfo</span><span class="o">&amp;</span><span class="w"> </span><span class="n">info</span><span class="p">)</span><span class="w"> </span><span class="p">{}</span>
+
+<span class="w">  </span><span class="k">virtual</span><span class="w"> </span><span class="o">~</span><span class="n">IDataCallback</span><span class="p">()</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">default</span><span class="p">;</span>
+<span class="p">};</span>
+</pre></div>
+</div>
+</section>
+<hr class="docutils" />
+<section id="id3">
+<h3>回调列表<a class="headerlink" href="#id3" title="Link to this heading"></a></h3>
+<section id="onimudata">
+<h4>🧭 <code class="docutils literal notranslate"><span class="pre">OnImuData</span></code><a class="headerlink" href="#onimudata" title="Link to this heading"></a></h4>
+<ul class="simple">
+<li><p><strong>描述</strong>：IMU 数据回调（配置后定频上报）</p></li>
+<li><p><strong>参数</strong>：<code class="docutils literal notranslate"><span class="pre">const</span> <span class="pre">ImuData&amp;</span> <span class="pre">data</span></code> — IMU 数据结构</p></li>
+<li><p><strong>调用频率</strong>：按配置频率上报</p></li>
+</ul>
+</section>
+<section id="onluxdata">
+<h4>💡 <code class="docutils literal notranslate"><span class="pre">OnLuxData</span></code><a class="headerlink" href="#onluxdata" title="Link to this heading"></a></h4>
+<ul class="simple">
+<li><p><strong>描述</strong>：光照强度数据回调（配置后定频 1Hz 上报）</p></li>
+<li><p><strong>参数</strong>：<code class="docutils literal notranslate"><span class="pre">const</span> <span class="pre">LuxData&amp;</span> <span class="pre">data</span></code> — 光照强度数据结构</p></li>
+</ul>
+</section>
+<section id="onmcdata">
+<h4>🤖 <code class="docutils literal notranslate"><span class="pre">OnMcData</span></code><a class="headerlink" href="#onmcdata" title="Link to this heading"></a></h4>
+<ul class="simple">
+<li><p><strong>描述</strong>：机器人运动数据回调（配置后定频 50Hz 上报）</p></li>
+<li><p><strong>参数</strong>：<code class="docutils literal notranslate"><span class="pre">const</span> <span class="pre">MotionData&amp;</span> <span class="pre">data</span></code> — 运动数据结构</p></li>
+</ul>
+</section>
+<section id="onspeeddata">
+<h4>🤖 <code class="docutils literal notranslate"><span class="pre">OnSpeedData</span></code><a class="headerlink" href="#onspeeddata" title="Link to this heading"></a></h4>
+<ul class="simple">
+<li><p><strong>描述</strong>：机器人速度数据回调</p></li>
+<li><p><strong>参数</strong>：<code class="docutils literal notranslate"><span class="pre">const</span> <span class="pre">SpeedData&amp;</span> <span class="pre">data</span></code> — 速度数据结构</p></li>
+</ul>
+</section>
+<section id="onrobotstatedata">
+<h4>🤖 <code class="docutils literal notranslate"><span class="pre">OnRobotStateData</span></code><a class="headerlink" href="#onrobotstatedata" title="Link to this heading"></a></h4>
+<ul class="simple">
+<li><p><strong>描述</strong>：机器人状态数据回调（1Hz 主动上报）</p></li>
+<li><p><strong>参数</strong>：<code class="docutils literal notranslate"><span class="pre">const</span> <span class="pre">RobotState&amp;</span> <span class="pre">data</span></code> — 机器人状态结构</p></li>
+</ul>
+</section>
+<section id="onfaultdata">
+<h4>⚠️ <code class="docutils literal notranslate"><span class="pre">OnFaultData</span></code><a class="headerlink" href="#onfaultdata" title="Link to this heading"></a></h4>
+<ul class="simple">
+<li><p><strong>描述</strong>：故障信息数据回调（发生故障时主动上报）</p></li>
+<li><p><strong>参数</strong>：<code class="docutils literal notranslate"><span class="pre">const</span> <span class="pre">FaultDatas&amp;</span> <span class="pre">data</span></code> — 故障数据集合</p></li>
+</ul>
+</section>
+<section id="oncontrollost">
+<h4>🔓 <code class="docutils literal notranslate"><span class="pre">OnControlLost</span></code><a class="headerlink" href="#oncontrollost" title="Link to this heading"></a></h4>
+<ul class="simple">
+<li><p><strong>描述</strong>：控制权丢失回调</p></li>
+<li><p><strong>参数</strong>：<code class="docutils literal notranslate"><span class="pre">const</span> <span class="pre">ControlLostInfo&amp;</span> <span class="pre">info</span></code> — 控制权丢失信息</p></li>
+</ul>
+</section>
+<section id="oncontrolavailable">
+<h4>🔒 <code class="docutils literal notranslate"><span class="pre">OnControlAvailable</span></code><a class="headerlink" href="#oncontrolavailable" title="Link to this heading"></a></h4>
+<ul class="simple">
+<li><p><strong>描述</strong>：控制权可用回调</p></li>
+<li><p><strong>参数</strong>：<code class="docutils literal notranslate"><span class="pre">const</span> <span class="pre">ControlAvailableInfo&amp;</span> <span class="pre">info</span></code> — 控制权可用信息</p></li>
+</ul>
+</section>
+</section>
+</section>
+<hr class="docutils" />
+<section id="icontrolcallback">
+<h2>IControlCallback<a class="headerlink" href="#icontrolcallback" title="Link to this heading"></a></h2>
+<p>该接口用于接收机器人确认“已收到”控制命令的回调。<br />
+仅在<strong>非阻塞模式</strong>下使用。</p>
+<section id="id4">
+<h3>定义<a class="headerlink" href="#id4" title="Link to this heading"></a></h3>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">ROBOT_EXPORT_API</span><span class="w"> </span><span class="n">IControlCallback</span><span class="w"> </span><span class="p">{</span>
+<span class="w"> </span><span class="k">public</span><span class="o">:</span>
+<span class="w">  </span><span class="k">virtual</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="n">OnSoftEmergencyStop</span><span class="p">(</span><span class="kt">bool</span><span class="w"> </span><span class="n">on</span><span class="p">)</span><span class="w"> </span><span class="p">{}</span>
+<span class="w">  </span><span class="k">virtual</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="n">OnStandUp</span><span class="p">()</span><span class="w"> </span><span class="p">{}</span>
+<span class="w">  </span><span class="k">virtual</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="n">OnLieDown</span><span class="p">()</span><span class="w"> </span><span class="p">{}</span>
+<span class="w">  </span><span class="k">virtual</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="n">OnCrawl</span><span class="p">()</span><span class="w"> </span><span class="p">{}</span>
+<span class="w">  </span><span class="k">virtual</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="n">OnClimb</span><span class="p">()</span><span class="w"> </span><span class="p">{}</span>
+<span class="w">  </span><span class="k">virtual</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="n">OnSlim</span><span class="p">()</span><span class="w"> </span><span class="p">{}</span>
+<span class="w">  </span><span class="k">virtual</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="n">OnGait</span><span class="p">()</span><span class="w"> </span><span class="p">{}</span>
+<span class="w">  </span><span class="k">virtual</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="n">OnReverseHeadTail</span><span class="p">()</span><span class="w"> </span><span class="p">{}</span>
+<span class="w">  </span><span class="k">virtual</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="n">OnMode</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">mode</span><span class="p">)</span><span class="w"> </span><span class="p">{}</span>
+<span class="w">  </span><span class="k">virtual</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="n">OnSpeed</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">speed_level</span><span class="p">)</span><span class="w"> </span><span class="p">{}</span>
+<span class="w">  </span><span class="k">virtual</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="n">OnLocked</span><span class="p">()</span><span class="w"> </span><span class="p">{}</span>
+<span class="w">  </span><span class="k">virtual</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="n">OnFrontLight</span><span class="p">(</span><span class="kt">bool</span><span class="w"> </span><span class="n">on</span><span class="p">)</span><span class="w"> </span><span class="p">{}</span>
+<span class="w">  </span><span class="k">virtual</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="n">OnBackLight</span><span class="p">(</span><span class="kt">bool</span><span class="w"> </span><span class="n">on</span><span class="p">)</span><span class="w"> </span><span class="p">{}</span>
+<span class="w">  </span><span class="k">virtual</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="n">OnAutoModeLight</span><span class="p">(</span><span class="kt">bool</span><span class="w"> </span><span class="n">on</span><span class="p">)</span><span class="w"> </span><span class="p">{}</span>
+<span class="w">  </span><span class="k">virtual</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="n">OnLuxConfig</span><span class="p">(</span><span class="kt">bool</span><span class="w"> </span><span class="n">on</span><span class="p">)</span><span class="w"> </span><span class="p">{}</span>
+<span class="w">  </span><span class="k">virtual</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="n">OnImuConfig</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">freq</span><span class="p">)</span><span class="w"> </span><span class="p">{}</span>
+<span class="w">  </span><span class="k">virtual</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="n">OnMcConfig</span><span class="p">(</span><span class="kt">bool</span><span class="w"> </span><span class="n">on</span><span class="p">)</span><span class="w"> </span><span class="p">{}</span>
+<span class="w">  </span><span class="k">virtual</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="n">OnSpeedReportConfig</span><span class="p">(</span><span class="kt">bool</span><span class="w"> </span><span class="n">on</span><span class="p">,</span><span class="w"> </span><span class="kt">uint32_t</span><span class="w"> </span><span class="n">frequency</span><span class="p">)</span><span class="w"> </span><span class="p">{}</span>
+<span class="w">  </span><span class="k">virtual</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="n">OnTakeControlAck</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="n">TakeControlAck</span><span class="o">&amp;</span><span class="w"> </span><span class="n">ack</span><span class="p">)</span><span class="w"> </span><span class="p">{}</span>
+<span class="w">  </span><span class="k">virtual</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="n">OnReleaseControlAck</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="n">ReleaseControlAck</span><span class="o">&amp;</span><span class="w"> </span><span class="n">ack</span><span class="p">)</span><span class="w"> </span><span class="p">{}</span>
+<span class="w">  </span><span class="k">virtual</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="n">OnUpdateCameraBitrateAck</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="n">CameraBitrateAck</span><span class="o">&amp;</span><span class="w"> </span><span class="n">ack</span><span class="p">)</span><span class="w"> </span><span class="p">{}</span>
+
+<span class="w">  </span><span class="k">virtual</span><span class="w"> </span><span class="o">~</span><span class="n">IControlCallback</span><span class="p">()</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">default</span><span class="p">;</span>
+<span class="p">};</span>
+</pre></div>
+</div>
+</section>
+<hr class="docutils" />
+<section id="id5">
+<h3>回调列表<a class="headerlink" href="#id5" title="Link to this heading"></a></h3>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>回调函数</p></th>
+<th class="head"><p>说明</p></th>
+<th class="head"><p>参数</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">OnSoftEmergencyStop(bool</span> <span class="pre">on)</span></code></p></td>
+<td><p>已收到急停命令</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">on</span> <span class="pre">=</span> <span class="pre">true</span></code> 开启急停；<code class="docutils literal notranslate"><span class="pre">on</span> <span class="pre">=</span> <span class="pre">false</span></code> 关闭急停</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">OnStandUp()</span></code></p></td>
+<td><p>已收到站立命令</p></td>
+<td><p>—</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">OnLieDown()</span></code></p></td>
+<td><p>已收到卧倒命令</p></td>
+<td><p>—</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">OnCrawl()</span></code></p></td>
+<td><p>已收到匍匐命令</p></td>
+<td><p>—</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">OnClimb()</span></code></p></td>
+<td><p>已收到爬高台命令</p></td>
+<td><p>—</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">OnSlim()</span></code></p></td>
+<td><p>已收到瘦身命令</p></td>
+<td><p>—</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">OnGait()</span></code></p></td>
+<td><p>已收到步态命令</p></td>
+<td><p>—</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">OnReverseHeadTail()</span></code></p></td>
+<td><p>已收到调转头尾命令</p></td>
+<td><p>—</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">OnMode(int</span> <span class="pre">mode)</span></code></p></td>
+<td><p>已收到模式切换命令</p></td>
+<td><p>模式编号</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">OnSpeed(int</span> <span class="pre">speed_level)</span></code></p></td>
+<td><p>已收到速度切换命令</p></td>
+<td><p>速度档位</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">OnLocked()</span></code></p></td>
+<td><p>已收到锁定命令</p></td>
+<td><p>—</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">OnFrontLight(bool</span> <span class="pre">on)</span></code></p></td>
+<td><p>已收到前补光灯命令</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">true</span></code> 开启，<code class="docutils literal notranslate"><span class="pre">false</span></code> 关闭</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">OnBackLight(bool</span> <span class="pre">on)</span></code></p></td>
+<td><p>已收到后补光灯命令</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">true</span></code> 开启，<code class="docutils literal notranslate"><span class="pre">false</span></code> 关闭</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">OnAutoModeLight(bool</span> <span class="pre">on)</span></code></p></td>
+<td><p>已收到自动补光灯模式命令</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">true</span></code> 开启，<code class="docutils literal notranslate"><span class="pre">false</span></code> 关闭</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">OnLuxConfig(bool</span> <span class="pre">on)</span></code></p></td>
+<td><p>已收到光强值配置命令</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">true</span></code> 开启，<code class="docutils literal notranslate"><span class="pre">false</span></code> 关闭</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">OnImuConfig(int</span> <span class="pre">freq)</span></code></p></td>
+<td><p>已收到 IMU 配置命令</p></td>
+<td><p>频率值</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">OnMcConfig(bool</span> <span class="pre">on)</span></code></p></td>
+<td><p>已收到运动数据配置命令</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">true</span></code> 开启，<code class="docutils literal notranslate"><span class="pre">false</span></code> 关闭</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">OnSpeedReportConfig(bool</span> <span class="pre">on,</span> <span class="pre">uint32_t</span> <span class="pre">frequency)</span></code></p></td>
+<td><p>已收到速度数据配置命令</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">true</span></code> 开启，<code class="docutils literal notranslate"><span class="pre">false</span></code> 关闭；<code class="docutils literal notranslate"><span class="pre">frequency</span></code> 频率值</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">OnTakeControlAck(const</span> <span class="pre">TakeControlAck&amp;</span> <span class="pre">ack)</span></code></p></td>
+<td><p>已收到获取控制权命令应答</p></td>
+<td><p>应答信息</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">OnReleaseControlAck(const</span> <span class="pre">ReleaseControlAck&amp;</span> <span class="pre">ack)</span></code></p></td>
+<td><p>已收到释放控制权命令应答</p></td>
+<td><p>应答信息</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">OnUpdateCameraBitrateAck(const</span> <span class="pre">CameraBitrateAck&amp;</span> <span class="pre">ack)</span></code></p></td>
+<td><p>已收到码率更新命令</p></td>
+<td><p>应答信息，更新后的码率</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+</section>
+<hr class="docutils" />
+<section id="id6">
+<h2>实现示例<a class="headerlink" href="#id6" title="Link to this heading"></a></h2>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;robot_sdk/sdk_callback.hpp&quot;</span>
+
+<span class="k">class</span><span class="w"> </span><span class="nc">MyDataCallback</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="k">public</span><span class="w"> </span><span class="n">robot_sdk</span><span class="o">::</span><span class="n">IDataCallback</span><span class="w"> </span><span class="p">{</span>
+<span class="w"> </span><span class="k">public</span><span class="o">:</span>
+<span class="w">  </span><span class="kt">void</span><span class="w"> </span><span class="n">OnImuData</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="n">ImuData</span><span class="o">&amp;</span><span class="w"> </span><span class="n">data</span><span class="p">)</span><span class="w"> </span><span class="k">override</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="c1">// 轻量处理，例如缓存</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">};</span>
+
+<span class="k">class</span><span class="w"> </span><span class="nc">MyControlCallback</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="k">public</span><span class="w"> </span><span class="n">robot_sdk</span><span class="o">::</span><span class="n">IControlCallback</span><span class="w"> </span><span class="p">{</span>
+<span class="w"> </span><span class="k">public</span><span class="o">:</span>
+<span class="w">  </span><span class="kt">void</span><span class="w"> </span><span class="n">OnStandUp</span><span class="p">()</span><span class="w"> </span><span class="k">override</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="c1">// 收到站立命令应答</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">};</span>
+</pre></div>
+</div>
+</section>
+<hr class="docutils" />
+<section id="id7">
+<h2>注意事项<a class="headerlink" href="#id7" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p>不要在回调中执行耗时任务。</p></li>
+<li><p>若需要耗时处理，请在回调中将数据复制并投递至独立线程。</p></li>
+</ul>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="页脚">
+        <a href="3.3SDKClient%E7%B1%BB%E6%8E%A5%E5%8F%A3.html" class="btn btn-neutral float-left" title="3.3 SDKClient类接口" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> 上一页</a>
+        <a href="3.5SDK%E6%8E%A7%E5%88%B6%E6%9D%83%E5%BD%92%E5%B1%9E.html" class="btn btn-neutral float-right" title="3.5 SDK控制权归属" accesskey="n" rel="next">下一页 <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; 版权所有 2026, Agibot。</p>
+  </div>
+
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -1,0 +1,22 @@
+4.3 超声波雷达数据
+======================
+
+4.3.1 ROS2接口定义
+----------------------
+
+| topic | msg | 字段类型 | 字段 | 字段释义 | 初始值 | 数值范围 | 发送周期 |
+|-------|-----|---------|-----|---------|-----|--------|---------|
+| 左侧超声波雷达：/uss_driver/uss_left/range<br>右侧超声波雷达：/uss_driver/uss_right/range | sensor_msgs::msg::Range | std_msgs/Header | header | ROS2 标准MSG帧头 | | | 10hz |
+| | | uint8_t | radiation_type | 传感器类型。枚举值：0 超声波 1 红外线 | 0 | 0-1 | |
+| | | float | field_of_view | 传感器视场角（弧度），通常为测距锥形区域的角度 | 0 | 当前固定为0 | |
+| | | float | min_range | 传感器可测量最小距离（米） | 0 | 当前固定为0 | |
+| | | float | max_range | 传感器可测量最大距离（米） | 0 | 当前固定为0 | |
+| | | float | range | 当前实际测得距离（米） | 0 | 0-4米 | |
+
+4.3.2 获取超声波雷达数据
+----------------------
+
+```
+ros2 topic echo /uss_driver/uss_left/range --once
+ros2 topic echo /uss_driver/uss_right/range --once
+```

@@ -1,0 +1,10 @@
+5.6 设备连接外部wifi
+======================
+
+```
+ssh robot@192.168.234.1     #登录到rk中
+wpa_passphrase <WIFI热点名称> <WIFI热点密码> > /tmp/wifi.conf
+sudo wpa_supplicant -B -i wlan0 -c /tmp/wifi.conf
+```
+
+![图片](images/Connect_to_External_WiFi.png)

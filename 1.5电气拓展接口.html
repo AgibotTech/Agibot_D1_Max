@@ -1,0 +1,453 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="zh-CN" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>1.5 电气拓展接口 &mdash; D1_Max V0.1.0 文档</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=95c83b7e" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=599f233c"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="_static/translations.js?v=beaddf03"></script>
+      <script src="_static/design-tabs.js?v=f930bc37"></script>
+      <script defer="defer" src="https://unpkg.com/@popperjs/core@2"></script>
+      <script defer="defer" src="https://unpkg.com/tippy.js@6"></script>
+      <script defer="defer" src="_static/tippy/1.5电气拓展接口.cc54aec5-0ab0-4d81-a571-1084128d2d6c.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="索引" href="genindex.html" />
+    <link rel="search" title="搜索" href="search.html" />
+    <link rel="next" title="1.6 D1 Max硬件架构图" href="1.6D1_Max%E7%A1%AC%E4%BB%B6%E6%9E%B6%E6%9E%84%E5%9B%BE.html" />
+    <link rel="prev" title="1.4 载荷上装" href="1.4%E8%BD%BD%E8%8D%B7%E4%B8%8A%E8%A3%85.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            D1_Max
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="搜索文档" aria-label="搜索文档" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="导航菜单">
+              <ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="%E4%B8%80%E3%80%81%E4%BA%A7%E5%93%81%E4%BB%8B%E7%BB%8D.html">一、产品介绍</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="1.1%E4%BA%A7%E5%93%81%E6%A6%82%E8%BF%B0.html">1.1 产品概述</a></li>
+<li class="toctree-l2"><a class="reference internal" href="1.2%E4%BA%A7%E5%93%81%E6%B8%85%E5%8D%95.html">1.2 产品清单</a></li>
+<li class="toctree-l2"><a class="reference internal" href="1.3%E4%BA%A7%E5%93%81%E5%8F%82%E6%95%B0.html">1.3 产品参数</a></li>
+<li class="toctree-l2"><a class="reference internal" href="1.4%E8%BD%BD%E8%8D%B7%E4%B8%8A%E8%A3%85.html">1.4 载荷上装</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">1.5 电气拓展接口</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#v-10a">1.5.1 电源口48V(10A)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#v-20a">1.5.2 电源口24V(20A)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#v">1.5.3 网口(24V)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id2">1.5.4 网口(12V)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id3">1.5.5 串口</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#usb">1.5.6 USB口</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="1.6D1_Max%E7%A1%AC%E4%BB%B6%E6%9E%B6%E6%9E%84%E5%9B%BE.html">1.6 D1 Max硬件架构图</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="%E4%BA%8C%E3%80%81SDK%E5%BC%80%E5%8F%91%E6%8C%87%E5%8D%97.html">二、SDK开发指南</a></li>
+<li class="toctree-l1"><a class="reference internal" href="%E4%B8%89%E3%80%81SDK%E5%87%BD%E6%95%B0%E4%BB%8B%E7%BB%8D.html">三、SDK函数介绍</a></li>
+<li class="toctree-l1"><a class="reference internal" href="%E5%9B%9B%E3%80%81%E4%BC%A0%E6%84%9F%E8%AE%BE%E5%A4%87%E6%95%B0%E6%8D%AE%E8%8E%B7%E5%8F%96.html">四、传感设备数据获取</a></li>
+<li class="toctree-l1"><a class="reference internal" href="%E4%BA%94%E3%80%81%E8%B0%83%E8%AF%95%E6%8C%87%E5%8D%97.html">五、调试指南</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="移动版导航菜单" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">D1_Max</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="页面导航">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="%E4%B8%80%E3%80%81%E4%BA%A7%E5%93%81%E4%BB%8B%E7%BB%8D.html">一、产品介绍</a></li>
+      <li class="breadcrumb-item active">1.5 电气拓展接口</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="id1">
+<h1>1.5 电气拓展接口<a class="headerlink" href="#id1" title="Link to this heading"></a></h1>
+<p><img alt="image" src="_images/Electrical_Expansion_Interface.png" /></p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>序号</p></th>
+<th class="head"><p>接口名称</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>1</p></td>
+<td><p>48V(10A)</p></td>
+</tr>
+<tr class="row-odd"><td><p>2</p></td>
+<td><p>24V(20A)</p></td>
+</tr>
+<tr class="row-even"><td><p>3</p></td>
+<td><p>24V(3A)+网口</p></td>
+</tr>
+<tr class="row-odd"><td><p>4</p></td>
+<td><p>12V(5A)+网口</p></td>
+</tr>
+<tr class="row-even"><td><p>5</p></td>
+<td><p>串口（RS232 x1、RS485 x1、SBUS x2、PPS x1）</p></td>
+</tr>
+<tr class="row-odd"><td><p>6、7</p></td>
+<td><p>USB3.0（5V、1A）</p></td>
+</tr>
+<tr class="row-even"><td><p>8</p></td>
+<td><p>RTK天线接口</p></td>
+</tr>
+<tr class="row-odd"><td><p>9</p></td>
+<td><p>拓展仓按键</p></td>
+</tr>
+</tbody>
+</table>
+<ul class="simple">
+<li><p>所有供电接口的供电总功率在 480W 以内；</p></li>
+<li><p>有航插头配备防护盖，以确保 IP67，不用的航插头务必盖好防护盖；</p></li>
+<li><p>扩展仓按键用于控制扩展接口的供电，在进行上装接线时，务必先关闭扩展仓的电源。</p></li>
+</ul>
+<p><strong>航插扩展功能接口说明：</strong></p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>设备名称</p></th>
+<th class="head"><p>设备路径</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>RS232</p></td>
+<td><p>/dev/ttyCH9344USB4</p></td>
+</tr>
+<tr class="row-odd"><td><p>RS485</p></td>
+<td><p>/dev/ttyCH9344USB5</p></td>
+</tr>
+<tr class="row-even"><td><p>SBUS1</p></td>
+<td><p>/dev/ttyCH9344USB2</p></td>
+</tr>
+<tr class="row-odd"><td><p>SBUS2</p></td>
+<td><p>/dev/ttyCH9344USB3</p></td>
+</tr>
+</tbody>
+</table>
+<section id="v-10a">
+<h2>1.5.1 电源口48V(10A)<a class="headerlink" href="#v-10a" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p>航插母头</p></li>
+</ul>
+<p><img alt="image" src="_images/Female_Aviation_Connector1.png" /></p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>航插名称</p></th>
+<th class="head"><p>48V 10A</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>板端航插型号</p></td>
+<td><p>M12-S4S-GPFM16-135-CS24044</p></td>
+</tr>
+<tr class="row-odd"><td><p>线序 1(棕)</p></td>
+<td><p>GND</p></td>
+</tr>
+<tr class="row-even"><td><p>线序 2(红)</p></td>
+<td><p>48V</p></td>
+</tr>
+<tr class="row-odd"><td><p>线序 3(蓝)</p></td>
+<td><p>48V</p></td>
+</tr>
+<tr class="row-even"><td><p>线序 4(黄绿)</p></td>
+<td><p>GND</p></td>
+</tr>
+</tbody>
+</table>
+<ul class="simple">
+<li><p>对插线束</p></li>
+</ul>
+<p><img alt="image" src="_images/Mating_Cable_Harness1.png" /></p>
+</section>
+<section id="v-20a">
+<h2>1.5.2 电源口24V(20A)<a class="headerlink" href="#v-20a" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p>航插母头</p></li>
+</ul>
+<p><img alt="image" src="_images/Female_Aviation_Connector2.png" /></p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>航插名称</p></th>
+<th class="head"><p>24V 20A</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>板端航插型号</p></td>
+<td><p>M12-S4S-GPFM16-135-CS24044</p></td>
+</tr>
+<tr class="row-odd"><td><p>线序 1(棕)</p></td>
+<td><p>GND</p></td>
+</tr>
+<tr class="row-even"><td><p>线序 2(红)</p></td>
+<td><p>24V</p></td>
+</tr>
+<tr class="row-odd"><td><p>线序 3(蓝)</p></td>
+<td><p>24V</p></td>
+</tr>
+<tr class="row-even"><td><p>线序 4(黄绿)</p></td>
+<td><p>GND</p></td>
+</tr>
+</tbody>
+</table>
+<ul class="simple">
+<li><p>对插线束</p></li>
+</ul>
+<p><img alt="image" src="_images/Mating_Cable_Harness2.png" /></p>
+</section>
+<section id="v">
+<h2>1.5.3 网口(24V)<a class="headerlink" href="#v" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p>航插母头</p></li>
+</ul>
+<p><img alt="image" src="_images/Female_Aviation_Connector3.png" /></p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>航插名称</p></th>
+<th class="head"><p>网口+24V</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>板端航插型号</p></td>
+<td><p>M12-P12A-GPFM12</p></td>
+</tr>
+<tr class="row-odd"><td><p>线序 1(棕)</p></td>
+<td><p>GND</p></td>
+</tr>
+<tr class="row-even"><td><p>线序 2(蓝)</p></td>
+<td><p>24V</p></td>
+</tr>
+<tr class="row-odd"><td><p>线序 3(白)</p></td>
+<td><p>24V</p></td>
+</tr>
+<tr class="row-even"><td><p>线序 4(绿)</p></td>
+<td><p>网口A+</p></td>
+</tr>
+<tr class="row-odd"><td><p>线序 5(粉)</p></td>
+<td><p>网口A-</p></td>
+</tr>
+<tr class="row-even"><td><p>线序 6(黄)</p></td>
+<td><p>网口B+</p></td>
+</tr>
+<tr class="row-odd"><td><p>线序 7(黑)</p></td>
+<td><p>网口B-</p></td>
+</tr>
+<tr class="row-even"><td><p>线序 8(灰)</p></td>
+<td><p>网口C+</p></td>
+</tr>
+<tr class="row-odd"><td><p>线序 9(红)</p></td>
+<td><p>网口C-</p></td>
+</tr>
+<tr class="row-even"><td><p>线序 10(紫)</p></td>
+<td><p>GND</p></td>
+</tr>
+<tr class="row-odd"><td><p>线序 11(橙)</p></td>
+<td><p>网口D+</p></td>
+</tr>
+<tr class="row-even"><td><p>线序 12(浅绿)</p></td>
+<td><p>网口D-</p></td>
+</tr>
+</tbody>
+</table>
+<ul class="simple">
+<li><p>对插线束</p></li>
+</ul>
+<p><img alt="image" src="_images/Mating_Cable_Harness3.png" /></p>
+</section>
+<section id="id2">
+<h2>1.5.4 网口(12V)<a class="headerlink" href="#id2" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p>航插母头</p></li>
+</ul>
+<p><img alt="image" src="_images/Female_Aviation_Connector4.png" /></p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>航插名称</p></th>
+<th class="head"><p>网口+12V</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>板端航插型号</p></td>
+<td><p>M12-P12A-GPFM12</p></td>
+</tr>
+<tr class="row-odd"><td><p>线序 1(棕)</p></td>
+<td><p>GND</p></td>
+</tr>
+<tr class="row-even"><td><p>线序 2(蓝)</p></td>
+<td><p>12V</p></td>
+</tr>
+<tr class="row-odd"><td><p>线序 3(白)</p></td>
+<td><p>12V</p></td>
+</tr>
+<tr class="row-even"><td><p>线序 4(绿)</p></td>
+<td><p>网口A+</p></td>
+</tr>
+<tr class="row-odd"><td><p>线序 5(粉)</p></td>
+<td><p>网口A-</p></td>
+</tr>
+<tr class="row-even"><td><p>线序 6(黄)</p></td>
+<td><p>网口B+</p></td>
+</tr>
+<tr class="row-odd"><td><p>线序 7(黑)</p></td>
+<td><p>网口B-</p></td>
+</tr>
+<tr class="row-even"><td><p>线序 8(灰)</p></td>
+<td><p>网口C+</p></td>
+</tr>
+<tr class="row-odd"><td><p>线序 9(红)</p></td>
+<td><p>网口C-</p></td>
+</tr>
+<tr class="row-even"><td><p>线序 10(紫)</p></td>
+<td><p>GND</p></td>
+</tr>
+<tr class="row-odd"><td><p>线序 11(橙)</p></td>
+<td><p>网口D+</p></td>
+</tr>
+<tr class="row-even"><td><p>线序 12(浅绿)</p></td>
+<td><p>网口D-</p></td>
+</tr>
+</tbody>
+</table>
+<ul class="simple">
+<li><p>对插线束</p></li>
+</ul>
+<p><img alt="image" src="_images/Mating_Cable_Harness4.png" /></p>
+</section>
+<section id="id3">
+<h2>1.5.5 串口<a class="headerlink" href="#id3" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p>航插母头</p></li>
+</ul>
+<p><img alt="image" src="_images/Female_Aviation_Connector5.png" /></p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>航插名称</p></th>
+<th class="head"><p>串口（RS232、RS845、SBUS*2、PPS）</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>板端航插型号</p></td>
+<td><p>M12-P8A-GPFM12</p></td>
+</tr>
+<tr class="row-odd"><td><p>线序 1(白)</p></td>
+<td><p>PPS</p></td>
+</tr>
+<tr class="row-even"><td><p>线序 2(棕)</p></td>
+<td><p>SBUS1</p></td>
+</tr>
+<tr class="row-odd"><td><p>线序 3(绿)</p></td>
+<td><p>SBUS2</p></td>
+</tr>
+<tr class="row-even"><td><p>线序 4(黄)</p></td>
+<td><p>RS485A</p></td>
+</tr>
+<tr class="row-odd"><td><p>线序 5(灰)</p></td>
+<td><p>RS485B</p></td>
+</tr>
+<tr class="row-even"><td><p>线序 6(粉)</p></td>
+<td><p>RS232_TX</p></td>
+</tr>
+<tr class="row-odd"><td><p>线序 7(蓝)</p></td>
+<td><p>RS232_RX</p></td>
+</tr>
+<tr class="row-even"><td><p>线序 8(红)</p></td>
+<td><p>GND</p></td>
+</tr>
+</tbody>
+</table>
+<ul class="simple">
+<li><p>对插线束</p></li>
+</ul>
+<p><img alt="image" src="_images/Mating_Cable_Harness5.png" /></p>
+</section>
+<section id="usb">
+<h2>1.5.6 USB口<a class="headerlink" href="#usb" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p>航插母头</p></li>
+</ul>
+<p><img alt="image" src="_images/Female_Aviation_Connector6.png" /></p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>航插名称</p></th>
+<th class="head"><p>USB3.0+5V  两个</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>板端航插型号</p></td>
+<td><p>E10B-FT3-PPF</p></td>
+</tr>
+<tr class="row-odd"><td><p>线序定义</p></td>
+<td><p>无</p></td>
+</tr>
+</tbody>
+</table>
+<ul class="simple">
+<li><p>对插线束</p></li>
+</ul>
+<p><img alt="image" src="_images/Mating_Cable_Harness6.png" /></p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="页脚">
+        <a href="1.4%E8%BD%BD%E8%8D%B7%E4%B8%8A%E8%A3%85.html" class="btn btn-neutral float-left" title="1.4 载荷上装" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> 上一页</a>
+        <a href="1.6D1_Max%E7%A1%AC%E4%BB%B6%E6%9E%B6%E6%9E%84%E5%9B%BE.html" class="btn btn-neutral float-right" title="1.6 D1 Max硬件架构图" accesskey="n" rel="next">下一页 <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; 版权所有 2026, Agibot。</p>
+  </div>
+
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
